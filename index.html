@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, user-scalable=yes">
+<html>
+<head profile="http://www.w3.org/2005/10/profile">
+  <link rel="icon"
+    type="image/png"
+    href="http://mollietaylor.com/favicon.png">
+  <title>leaflet-google-sheets</title>
+
+  <!-- Leaflet -->
+  <link rel="stylesheet" href="plugins/leaflet/leaflet.css" />
+  <!--[if lte IE 8]>
+      <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.ie.css" />
+  <![endif]-->
+  <script src="plugins/leaflet/leaflet.js"></script>
+
+  <!-- leaflet-providers -->
+  <script src="plugins/leaflet-providers/leaflet-providers.js"></script>
+
+  <!-- Tabletop -->
+  <script src="plugins/tabletop/src/tabletop.js"></script>
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="plugins/font-awesome-4.5.0/css/font-awesome.min.css">
+
+  <!-- Awesome Markers -->
+  <link rel="stylesheet" type="text/css" href="plugins/awesome-markers/leaflet.awesome-markers.css">
+  <script type="text/javascript" src="plugins/awesome-markers/leaflet.awesome-markers.min.js"></script>
+
+  <!-- Markercluster -->
+  <link rel="stylesheet" href="plugins/Leaflet.markercluster/MarkerCluster.css">
+  <link rel="stylesheet" href="plugins/Leaflet.markercluster/MarkerCluster.Default.css">
+  <script type="text/javascript" src="plugins/Leaflet.markercluster/leaflet.markercluster-src.js"></script>
+
+  <style type="text/css">
+    html, body{
+      padding: 0;
+      margin: 0 auto;
+      height: 100%;
+      width: 100%;
+    }
+
+    #map {
+      width: 100%;
+      height: 100%;
+    }
+
+    .intro-popup .leaflet-popup-tip-container {
+      width: 0;
+      height: 0;
+    }
+  </style>
+</head>
+<body>
+
+<div id="map"></div>
+
+<script type="text/javascript">
+  var map = L.map('map', {
+    attributionControl: false
+  }).setView([41.76,-72.69], 11);
+</script>
+<script type="text/javascript" src="constants.js"></script>
+<script type="text/javascript" src="map.js"></script>
+
+</body>
+</html>
