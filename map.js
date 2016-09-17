@@ -94,18 +94,96 @@ window.onload = function () {
       }).addTo(map);
     }
 
-    L.control.zoom({position: decideBetween('_zoomPos', 'topleft')}).addTo(map);
-
     centerAndZoomMap(group);
+  }
+
+  function mapPolygons(polygons) {
+
+    var divisors = documentSettings[constants._bucketDivisors].split(',');
+    var colors = documentSettings[constants._bucketColors].split(',');
+
+    var isNumerical = false;
+
+    if (divisors.length == 0 || colors.length == 0
+     || divisors.length != colors.length) {
+      divisors = [0, 0.2, 0.4, 0.6, 0.8];
+      colors = ['#FDEBE8', '#F8C0B5', '#F39583', '#EE6A50', '#DD4940'];
+    }
+
+    if (!isNaN(parseFloat(divisors[0]))) {
+      isNumerical = true;
+      for (i = 0; i < divisors.length; i++) {
+        divisors[i] = parseFloat(divisors[i]);
+      }
+    }
+
+    function onEachFeature(feature, layer) {
+      var info = '';
+      for (i in polygons) {
+        info += polygons[i]['Property Name'];
+        info += ': <b>' + feature.properties[polygons[i].Property] + '</b><br>';
+      }
+      layer.bindPopup(info);
+    }
+
+    function style(feature) {
+      return {
+        weight: 2,
+        opacity: 1,
+        color: 'white',
+        dashArray: '3',
+        fillOpacity: 0.7,
+        fillColor: getColor(feature.properties[documentSettings[constants._bucketProp]])
+      };
+    }
+
+    function getColor(d) {
+      var i = 0;
+
+      if (isNumerical) {
+        i = colors.length - 1;
+        while (d < divisors[i]) i--;
+      } else {
+        for (i = 0; i < colors.length - 1; i++) {
+          if (d == divisors[i]) break;
+        }
+      }
+
+      return colors[i];
+    }
+
+    var legend = L.control({position: decideBetween('_legendPosition', 'bottomright')});
+    legend.onAdd = function (map) {
+      var div = L.DomUtil.create('div', 'info legend leaflet-control'),
+        labels = [],
+        from, to;
+      for (var i = 0; i < divisors.length; i++) {
+        from = divisors[i];
+        to = divisors[i + 1];
+
+        labels.push(
+          '<i style="background:' + getColor(from) + '"></i> ' +
+          from + ((to && isNumerical) ? '&ndash;' + to : (isNumerical) ? '+' : ''));
+      }
+      div.innerHTML = labels.join('<br>');
+      return div;
+    };
+    legend.addTo(map);
+
+    $.getJSON(documentSettings[constants._geojsonURL], function(data) {
+      geoJsonLayer = L.geoJson(data, {
+        style: style,
+        onEachFeature: onEachFeature
+      }).addTo(map);
+    });
+
+    $('<h6>' + documentSettings[constants._legendTitle] + '</h6>').insertBefore('.legend > i:first');
 
   }
 
   // reformulate documentSettings as a dictionary, e.g.
   // {"webpageTitle": "Leaflet Boilerplate", "infoPopupText": "Stuff"}
   function createDocumentSettings(settings) {
-
-    documentSettings = {};
-
     for (var i in settings) {
       var setting = settings[i];
       documentSettings[setting.Setting] = setting.Customization;
@@ -130,11 +208,16 @@ window.onload = function () {
 
   function onTabletopLoad() {
     createDocumentSettings(tabletop.sheets(constants.informationSheetName).elements);
-    addBaseMap();
     document.title = documentSettings[constants._pageTitle];
+    addBaseMap();
+
     var points = tabletop.sheets(constants.pointsSheetName).elements;
+    var polygons = tabletop.sheets(constants.polygonsSheetName).elements;
     var layers = determineLayers(points);
     mapPoints(points, layers);
+    mapPolygons(polygons);
+
+    L.control.zoom({position: decideBetween('_zoomPos', 'topleft')}).addTo(map);
 
     $('<h6>' + documentSettings[constants._pointsTitle] + '</h6>').insertBefore('.leaflet-control-layers-base');
   }
