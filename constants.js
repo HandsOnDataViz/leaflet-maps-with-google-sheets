@@ -1,5 +1,20 @@
 var constants = {
 	googleDocID: '1BaAENFyC4w78tiLAQ8UU0YD4DJwDiQnpUMTo6Pb_pSA',
-	informationSheetName: 'Information',
-	pointsSheetName: 'Points'
+	informationSheetName: 'Options',
+	pointsSheetName: 'Points',
+  polygonsSheetName: 'Polygons',
+
+  _pageTitle: 'Webpage Title:',
+  _infoPopupText: 'Info Popup Text:',
+  _initZoom: 'Initial Zoom:',
+  _initLat: 'Initial Center Latitude:',
+  _initLon: 'Initial Center Longitude:',
+  _markercluster: 'Markercluster:',
+  _tileProvider: 'Tile Provider:',
+  _authorName: 'Your Name:',
+  _authorEmail: 'Your Email:',
+  _pointsTitle: 'Points - Layers Group Title:',
+  _attrPos: 'Map Attribution Position:',
+  _layersPos: 'Map Layers Control Position:',
+  _zoomPos: 'Map Zoom Control Position:',
 };

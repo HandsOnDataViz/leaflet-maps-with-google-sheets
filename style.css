@@ -1,0 +1,22 @@
+html,
+body {
+  padding: 0;
+  margin: 0 auto;
+  height: 100%;
+  width: 100%;
+}
+
+#map {
+  width: 100vw;
+  height: 100vh;
+}
+
+h6 {
+  margin: 0 0 2px 0;
+  font-size: 1.2em;
+}
+
+.intro-popup .leaflet-popup-tip-container {
+  width: 0;
+  height: 0;
+}

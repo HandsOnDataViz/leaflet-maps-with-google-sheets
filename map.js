@@ -16,9 +16,9 @@ window.onload = function () {
     var mapZoom = 0;
 
     // center and zoom map based on points or to user-specified zoom and center
-    if (documentSettings["Initial Center Latitude:"] !== '' && documentSettings["Initial Center Longitude:"] !== '') {
+    if (documentSettings[constants._initLat] !== '' && documentSettings[constants._initLon] !== '') {
       // center and zoom
-      mapCenter = L.latLng(documentSettings["Initial Center Latitude:"], documentSettings["Initial Center Longitude:"]);
+      mapCenter = L.latLng(documentSettings[constants._initLat], documentSettings[constants._initLon]);
       map.setView(mapCenter);
     } else {
       var groupBounds = points.getBounds();
@@ -26,15 +26,15 @@ window.onload = function () {
       mapCenter = groupBounds.getCenter();
     }
 
-    if (documentSettings["Initial Zoom:"] !== '') {
-      mapZoom = parseInt(documentSettings["Initial Zoom:"]);
+    if (documentSettings[constants._initZoom] !== '') {
+      mapZoom = parseInt(documentSettings[constants._initZoom]);
     }
 
     map.setView(mapCenter, mapZoom);
 
     // once map is recentered, open popup in center of map
-    if (documentSettings["Info Popup Text:"] !== '') {
-      initInfoPopup(documentSettings["Info Popup Text:"], mapCenter);
+    if (documentSettings[constants._infoPopupText] !== '') {
+      initInfoPopup(documentSettings[constants._infoPopupText], mapCenter);
     };
   }
 
@@ -69,9 +69,12 @@ window.onload = function () {
     // check that map has loaded before adding points to it?
     for (var i in points) {
       var point = points[i];
-      if (point.Latitude !== "" && point.Longitude !== "") {
+      if (point.Latitude !== '' && point.Longitude !== '') {
         var marker = L.marker([point.Latitude, point.Longitude], {
-          icon: createMarkerIcon(point['Marker Icon'], 'fa', point['Marker Color'].toLowerCase(), point['Marker Icon Color'])
+          icon: createMarkerIcon(point['Marker Icon'],
+                'fa',
+                point['Marker Color'].toLowerCase(),
+                point['Marker Icon Color'])
         }).bindPopup("<b>" + point["Title"] + "</b><br>" + point["Description"]);
         if (layers !== undefined && layers.length !== 1) {
           marker.addTo(layers[point.Layer]);
@@ -86,9 +89,13 @@ window.onload = function () {
       clusterMarkers(group);
     } else {
       L.control.layers(null, layers, {
-        collapsed: false
+        collapsed: false,
+        position: decideBetween('_layersPos', 'topleft')
       }).addTo(map);
     }
+
+    L.control.zoom({position: decideBetween('_zoomPos', 'topleft')}).addTo(map);
+
     centerAndZoomMap(group);
 
   }
@@ -107,7 +114,7 @@ window.onload = function () {
 
   function clusterMarkers(group) {
     // cluster markers, or don't
-    if (documentSettings["Markercluster:"] === 'on') {
+    if (documentSettings[constants._markercluster] === 'on') {
         var cluster = L.markerClusterGroup({
             polygonOptions: {
                 opacity: 0.3,
@@ -124,10 +131,12 @@ window.onload = function () {
   function onTabletopLoad() {
     createDocumentSettings(tabletop.sheets(constants.informationSheetName).elements);
     addBaseMap();
-    document.title = documentSettings["Webpage Title:"];
+    document.title = documentSettings[constants._pageTitle];
     var points = tabletop.sheets(constants.pointsSheetName).elements;
     var layers = determineLayers(points);
     mapPoints(points, layers);
+
+    $('<h6>' + documentSettings[constants._pointsTitle] + '</h6>').insertBefore('.leaflet-control-layers-base');
   }
 
   var tabletop = Tabletop.init( { key: constants.googleDocID, // from constants.js
@@ -142,19 +151,34 @@ window.onload = function () {
   }
 
   function addBaseMap() {
-    var basemap = documentSettings["Tile Provider:"] === '' ? 'Stamen.TonerLite' : documentSettings["Tile Provider:"];
+    var basemap = decideBetween('_tileProvider', 'Stamen.TonerLite');
 
     L.tileLayer.provider(basemap, {
       maxZoom: 18
     }).addTo(map);
 
     L.control.attribution({
-      position: 'bottomleft'
+      position: decideBetween('_attrPos', 'bottomright')
     }).addTo(map);
 
-    var attributionHTML = document.getElementsByClassName("leaflet-control-attribution")[0].innerHTML;
-    var mapCreatorAttribution = documentSettings["Your Name:"] === '' ? '' : 'Map data: ' + documentSettings["Your Name:"] + '<br>';
-    attributionHTML = mapCreatorAttribution + '<a href="http://mapsfor.us/">Mapsfor.us</a> created by <a href="http://www.codeforatlanta.org/">Code for Atlanta</a><br>' + attributionHTML;
-    document.getElementsByClassName("leaflet-control-attribution")[0].innerHTML = attributionHTML;
+    var attributionHTML = $('.leaflet-control-attribution')[0].innerHTML;
+    var mapCreatorAttribution = '';
+
+    if (documentSettings[constants._authorName] && documentSettings[constants._authorEmail]) {
+      mapCreatorAttribution = 'Map data: <a href="mailto:' + documentSettings[constants._authorEmail];
+      mapCreatorAttribution += '">' + documentSettings[constants._authorName] + '</a><br>';
+    } else if (documentSettings[constants._authorName]) {
+      mapCreatorAttribution = 'Map data: ' + documentSettings[constants._authorName] + '<br>';
+    }
+
+    $('.leaflet-control-attribution')[0].innerHTML = mapCreatorAttribution + attributionHTML;
   }
+
+  function decideBetween(opt, def) {
+    if (!documentSettings[constants[opt]] || documentSettings[constants[opt]] === '') {
+      return def;
+    }
+    return documentSettings[constants[opt]];
+  }
+
 };
