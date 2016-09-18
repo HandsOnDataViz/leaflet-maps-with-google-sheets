@@ -1,0 +1,170 @@
+name,pop2010,land-sq-miles-2010,density-number,density-text
+Union,854,28.8,29.7,low
+Cornwall,1420,46.06,30.8,low
+Canaan,1234,32.91,37.5,low
+Norfolk,1709,45.32,37.7,low
+Colebrook,1485,31.53,47.1,low
+Sharon,2782,58.77,47.3,low
+Warren,1461,26.31,55.5,low
+Eastford,1749,28.92,60.5,low
+Kent,2979,48.55,61.4,low
+Hartland,2114,33.08,63.9,low
+Salisbury,3741,57.24,65.4,low
+Voluntown,2603,38.96,66.8,low
+Goshen,2976,43.63,68.2,low
+Hampton,1863,25.09,74.2,low
+Lyme,2406,31.84,75.6,low
+Roxbury,2262,26.3,86,low
+Scotland,1726,18.63,92.6,low
+Washington,3578,38.07,94,low
+North Stonington,5297,54.25,97.6,low
+Franklin,1922,19.49,98.6,low
+Barkhamsted,3799,36.25,104.8,low
+Bridgewater,1727,16.4,105.3,low
+Pomfret,4247,40.33,105.3,low
+Ashford,4317,38.76,111.4,low
+Chaplin,2305,19.43,118.6,low
+Canterbury,5132,39.94,128.5,low
+Woodstock,7964,60.65,131.3,low
+Bozrah,2627,19.96,131.6,low
+Lebanon,7308,54.1,135.1,low
+Morris,2388,17.35,137.7,low
+Sterling,3830,27.22,140.7,low
+Salem,4151,28.92,143.5,low
+Litchfield,8466,56.1,150.9,low
+Preston,4726,30.82,153.4,low
+Sherman,3581,21.89,163.6,low
+East Haddam,9126,54.25,168.2,low
+North Canaan,3315,19.47,170.3,low
+Willington,6041,33.29,181.4,low
+Harwinton,5642,30.79,183.2,low
+Killingworth,6525,35.33,184.7,low
+Bethlehem,3607,19.38,186.2,low
+New Hartford,6970,37.04,188.2,low
+Haddam,8346,43.94,190,low
+Thompson,9458,46.9,201.7,low
+Stafford,12087,58.04,208.3,low
+Andover,3303,15.45,213.8,low
+Sprague,2984,13.25,225.2,low
+Chester,3994,16.05,248.8,low
+Columbia,5485,21.37,256.6,low
+Hebron,9686,36.94,262.2,low
+Bethany,5563,21.13,263.3,low
+Lisbon,4338,16.29,266.3,low
+Easton,7490,27.42,273.2,low
+Woodbury,9975,36.4,274,low
+Marlborough,6404,23.35,274.2,low
+Granby,11282,40.68,277.3,low
+Brooklyn,8210,29.09,282.2,low
+Redding,9158,31.5,290.7,low
+East Granby,5148,17.56,293.1,low
+Durham,7388,23.66,312.3,low
+Burlington,9301,29.74,312.7,low
+Colchester,16068,48.98,328,low
+Old Lyme,7603,23.02,330.3,low
+Coventry,12435,37.57,331,low
+Deep River,4629,13.51,342.5,low
+Griswold,11951,34.71,344.3,low
+Bolton,4980,14.41,345.7,low
+Winchester,11242,32.51,345.8,low
+Middlefield,4425,12.65,349.8,low
+Killingly,17370,48.31,359.6,low
+East Hampton,12959,35.65,363.5,low
+Plainfield,15405,42.36,363.7,low
+Suffield,15735,42.26,372.3,low
+Tolland,15052,39.63,379.8,low
+Oxford,12683,32.74,387.4,low
+Ledyard,15051,38.22,393.8,low
+Somers,11444,28.37,403.4,medium
+Portland,9508,23.35,407.2,medium
+Canton,10292,24.59,418.6,medium
+East Windsor,11162,26.25,425.2,medium
+Middlebury,7575,17.75,426.7,medium
+Westbrook,6938,15.78,439.6,medium
+New Milford,28142,61.57,457.1,medium
+Ellington,15602,34.06,458.1,medium
+Montville,19571,41.95,466.5,medium
+Putnam,9584,20.3,472,medium
+Guilford,22375,47.12,474.9,medium
+Woodbridge,8990,18.81,477.9,medium
+Newtown,27560,57.66,478,medium
+Stonington,18545,38.66,479.7,medium
+Madison,18269,36.15,505.4,medium
+Southbury,19904,38.99,510.5,medium
+Weston,10179,19.8,514.1,medium
+Plymouth,12243,21.89,559.2,medium
+East Lyme,19159,34,563.6,medium
+North Branford,14407,24.76,581.9,medium
+Mansfield,26543,44.6,595.1,medium
+Waterford,19517,32.77,595.6,medium
+Beacon Falls,6049,9.67,625.7,medium
+Essex,6683,10.4,642.4,medium
+Thomaston,7887,11.97,659,medium
+Prospect,9405,14.23,661.1,medium
+Glastonbury,34427,51.27,671.5,medium
+Wilton,18062,26.8,673.8,medium
+New Fairfield,13881,20.44,679,medium
+Old Saybrook,10242,15.04,680.8,medium
+Simsbury,23511,33.92,693.1,medium
+Ridgefield,24638,34.52,713.8,medium
+Monroe,19479,26.07,747.1,medium
+Berlin,19866,26.32,754.7,medium
+Watertown,22514,29.01,776.2,medium
+Avon,18098,23.15,781.6,medium
+Bloomfield,20486,26.09,785.3,medium
+Orange,13956,17.18,812.3,medium
+Wolcott,16680,20.43,816.3,medium
+Clinton,13260,16.21,818.2,medium
+Brookfield,16452,19.77,832,medium
+Cheshire,29261,33.07,884.8,medium
+New Canaan,19738,22.19,889.3,medium
+Farmington,25340,28.02,904.5,medium
+Torrington,36383,39.75,915.2,medium
+South Windsor,25709,28.06,916.1,medium
+Windham,25268,26.97,936.8,medium
+Windsor,29044,29.5,984.4,medium
+Bethel,18584,16.89,1100.4,medium
+Cromwell,14005,12.45,1124.7,medium
+Seymour,16540,14.52,1139.3,medium
+North Haven,24093,20.84,1156.1,medium
+Wallingford,45135,39.04,1156.1,medium
+Middletown,47648,41.02,1161.6,medium
+Southington,43069,35.91,1199.3,medium
+Branford,28026,21.83,1283.6,medium
+Greenwich,61171,47.62,1284.5,medium
+Shelton,39559,30.63,1291.7,medium
+Groton,40115,31.03,1292.7,medium
+Westport,26391,19.96,1322.3,medium
+Enfield,44654,33.27,1342.2,medium
+Windsor Locks,12498,9.02,1385,medium
+Norwich,40493,28.06,1443,medium
+Rocky Hill,19709,13.45,1464.9,medium
+Trumbull,36018,23.32,1544.3,medium
+Darien,20732,12.66,1638.2,medium
+Vernon,29179,17.7,1648.6,medium
+Plainville,17716,9.71,1824.4,medium
+Hamden,60960,32.65,1867.3,medium
+Danbury,80893,41.89,1931,medium
+Naugatuck,31862,16.31,1953.8,medium
+Fairfield,59404,29.9,1986.6,medium
+Manchester,58241,27.4,2125.4,high
+Wethersfield,26668,12.31,2166.3,high
+Bristol,60477,26.41,2289.8,high
+Newington,30562,13.14,2325.7,high
+East Haven,29257,12.3,2377.7,high
+Milford,52759,22.18,2379.2,high
+Derby,12902,5.06,2552.1,high
+Meriden,60868,23.79,2558.2,high
+East Hartford,51252,18,2847.9,high
+West Hartford,63268,21.84,2897.3,high
+Stratford,51384,17.48,2939.4,high
+Ansonia,19249,6.02,3198.1,high
+Stamford,122643,37.64,3258.4,high
+Norwalk,85603,22.86,3744.7,high
+Waterbury,110366,28.52,3869.9,high
+New London,27620,5.62,4918.7,high
+West Haven,55564,10.75,5170.3,high
+New Britain,73206,13.39,5466,high
+New Haven,129779,18.68,6948,high
+Hartford,124775,17.38,7178.9,high
+Bridgeport,144229,15.97,9029.1,high
