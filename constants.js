@@ -31,5 +31,6 @@ var constants = {
   _legendTitle: 'Legend Title:',
   _legendPosition: 'Map Polygons Legend Position:',
   _mapSearch: 'Map Search:',
+  _mapSearchPos: 'Map Search Position:',
   _colorScheme: 'Use ColorBrewer Palette:'
 };

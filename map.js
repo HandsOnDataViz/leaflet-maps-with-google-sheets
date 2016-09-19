@@ -309,8 +309,17 @@ window.onload = function () {
       $('input:radio[name="prop"][value="0"]').click();
     }
 
+    // Add search
+    if (documentSettings[constants._mapSearch] == 'on') {
+      L.control.geocoder('mapzen-VBmxRzC', {
+        position: decideBetween('_mapSearchPos', 'topright'),
+        focus: true,
+      }).addTo(map);
+    }
+
     // Add zoom control
     L.control.zoom({position: decideBetween('_zoomPos', 'topleft')}).addTo(map);
+
   }
 
 
