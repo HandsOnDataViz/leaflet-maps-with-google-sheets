@@ -25,9 +25,11 @@ var constants = {
   _zoomPos: 'Map Zoom Control Position:',
   _geojsonURL: 'GeoJSON URL:',
   _bucketProp: 'Split into buckets by prop:',
+  _bucketPropName: 'Prop Name:',
   _bucketDivisors: 'Bucket Divisors:',
   _bucketColors: 'Bucket Colors:',
   _legendTitle: 'Legend Title:',
   _legendPosition: 'Map Polygons Legend Position:',
   _mapSearch: 'Map Search:',
+  _colorScheme: 'Use ColorBrewer Palette:'
 };

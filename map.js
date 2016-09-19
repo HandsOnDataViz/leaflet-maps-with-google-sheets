@@ -94,103 +94,173 @@ window.onload = function () {
       }).addTo(map);
     }
 
+    $('<h6>' + documentSettings[constants._pointsTitle] + '</h6>').insertBefore('.leaflet-control-layers-base');
     centerAndZoomMap(group);
+
   }
 
   // Store bucket info for Polygons
-  var divisors = [];
-  var colors = [];
+  var prop = [];  // an array of bucket properties
+  var propName = [];  // nice human names of prop
+  var divisors = [];  // sets of divisors
+  var colors = [];  // sets of colors
+  var isNumerical = []; // array of true/false values
+  var geoJsonLayer;
+  var polygonLayer;
+  var polygons;
 
   function processPolygons(polygons) {
+    prop = documentSettings[constants._bucketProp].split(' ').join('').split(';');
+    propName = documentSettings[constants._bucketPropName].split(';');
+    divisors = documentSettings[constants._bucketDivisors].split(' ').join('').split(';');
+    colors = documentSettings[constants._bucketColors].split(' ').join('').split(';');
 
-    divisors = documentSettings[constants._bucketDivisors].replace(' ', '').split(',');
-    colors = documentSettings[constants._bucketColors].replace(' ', '').split(',');
-
-    var isNumerical = false;
-
-    if (divisors.length == 0) {
-      alert('Error in Polygons: The number of divisors should be > 0');
-      return; // Stop here
-    } else if (divisors.length != colors.length) {
-      alert('Error in Polygons: The number of divisors should match the number of colors');
-      return; // Stop here
-    } else if (colors.length == 0) {
-      // If no colors specified, generate the colors
-      //
-      //
-      //
-    }
-
-    if (!isNaN(parseFloat(divisors[0]))) {
-      isNumerical = true;
-      for (i = 0; i < divisors.length; i++) {
-        divisors[i] = parseFloat(divisors[i]);
-      }
-    }
-
-    function onEachFeature(feature, layer) {
-      var info = '';
-      for (i in polygons) {
-        info += polygons[i][constants.polygonsPropName];
-        info += ': <b>' + feature.properties[polygons[i][constants.polygonsProp]] + '</b><br>';
-      }
-      layer.bindPopup(info);
-    }
-
-    function style(feature) {
-      return {
-        weight: 2,
-        opacity: 1,
-        color: 'white',
-        dashArray: '3',
-        fillOpacity: 0.7,
-        fillColor: getColor(feature.properties[documentSettings[constants._bucketProp]])
-      };
-    }
-
-    function getColor(d) {
-      var i = 0;
-
-      if (isNumerical) {
-        i = colors.length - 1;
-        while (d < divisors[i]) i--;
+    for (i = 0; i < divisors.length; i++) {
+      divisors[i] = divisors[i].split(' ').join('').split(',');
+      if (!colors[i]) {
+        colors[i] = [];
       } else {
-        for (i = 0; i < colors.length - 1; i++) {
-          if (d == divisors[i]) break;
+        colors[i] = colors[i].split(' ').join('').split(',');
+        if (colors[i][0] == '') {
+          colors[i] = [];
         }
       }
+    }
 
-      return colors[i];
+    console.log(divisors, colors);
+
+    for (i = 0; i < divisors.length; i++) {
+      console.log(divisors[i], colors[i]);
+      if (divisors[i].length == 0) {
+        alert('Error in Polygons: The number of divisors should be > 0');
+        return; // Stop here
+      } else if (colors[i].length == 0) {
+        // If no colors specified, generate the colors
+        colors[i] = palette(decideBetween('_colorScheme', 'tol-sq'), divisors[i].length);
+        for (j = 0; j < colors[i].length; j++) {
+          colors[i][j] = '#' + colors[i][j];
+        }
+      } else if (divisors[i].length != colors[i].length) {
+        alert('Error in Polygons: The number of divisors should match the number of colors');
+        return; // Stop here
+      }
+    }
+
+    // For each set of divisors, decide whether textual or numerical
+    for (i = 0; i < divisors.length; i++) {
+      if (!isNaN(parseFloat(divisors[i][0]))) {
+        isNumerical[i] = true;
+        for (j = 0; j < divisors[i].length; j++) {
+          divisors[i][j] = parseFloat(divisors[i][j]);
+        }
+      } else {
+        isNumerical[i] = false;
+      }
     }
 
     var legend = L.control({position: decideBetween('_legendPosition', 'bottomright')});
     legend.onAdd = function (map) {
-      var div = L.DomUtil.create('div', 'info legend con'),
-        labels = [],
-        from, to;
-      for (var i = 0; i < divisors.length; i++) {
-        from = divisors[i];
-        to = divisors[i + 1];
+      var content = '<h6>' + documentSettings[constants._legendTitle] + '</h6><form>';
 
-        labels.push(
-          '<i style="background:' + getColor(from) + '"></i> ' +
-          from + ((to && isNumerical) ? '&ndash;' + to : (isNumerical) ? '+' : ''));
+      for (i = 0; i < prop.length; i++) {
+        content += '<input type="radio" name="prop" value="';
+        content += i + '"> ' + propName[i] + '<br>';
       }
-      div.innerHTML = labels.join('<br>');
+
+      content += '<input type="radio" name="prop" value="-1"> Off</form><div class="legend-scale">';
+
+      var div = L.DomUtil.create('div', 'info legend');
+      div.innerHTML = content;
+      div.innerHTML += '</div>';
       return div;
     };
     legend.addTo(map);
+  }
 
-    $.getJSON(documentSettings[constants._geojsonURL], function(data) {
-      geoJsonLayer = L.geoJson(data, {
-        style: style,
-        onEachFeature: onEachFeature
-      }).addTo(map);
-    });
 
-    $('<h6>' + documentSettings[constants._legendTitle] + '</h6>').insertBefore('.legend > i:first');
+  function style(feature) {
+    return {
+      weight: 2,
+      opacity: 1,
+      color: 'white',
+      dashArray: '3',
+      fillOpacity: 0.7,
+      fillColor: getColor(feature.properties[prop[polygonLayer]])
+    };
+  }
+
+
+  function getColor(d) {
+    var i;
+
+    if (isNumerical[polygonLayer]) {
+      i = colors[polygonLayer].length - 1;
+      while (d < divisors[polygonLayer][i]) i--;
+    } else {
+      for (i = 0; i < colors[polygonLayer].length - 1; i++) {
+        if (d == divisors[polygonLayer][i]) break;
+      }
+    }
+
+    return colors[polygonLayer][i];
+  }
+
+
+  function onEachFeature(feature, layer) {
+    var info = '';
+    for (i in polygons) {
+      info += polygons[i][constants.polygonsPropName];
+      info += ': <b>' + feature.properties[polygons[i][constants.polygonsProp]] + '</b><br>';
+    }
+    layer.bindPopup(info);
+  }
+
+
+  function updatePolygons(p) {
+    if (p == '-1') {
+      $('.legend-scale').hide();
+      map.removeLayer(geoJsonLayer);
+      return;
+    }
+
+    polygonLayer = p;
+
+    if (!geoJsonLayer) {
+      // Load the very first time
+      $.getJSON(documentSettings[constants._geojsonURL], function(data) {
+        geoJsonLayer = L.geoJson(data, {
+          style: style,
+          onEachFeature: onEachFeature
+        }).addTo(map);
+      });
+    } else if (!map.hasLayer(geoJsonLayer)) {
+      // Load every time after 'Off'
+      geoJsonLayer.addTo(map);
+      geoJsonLayer.setStyle(style);
+    } else {
+      // Just update colors
+      geoJsonLayer.setStyle(style);
+    }
+
+    $('.legend-scale').html('');
+
+    var labels = [];
+    var from, to;
+
+    for (var i = 0; i < divisors[p].length; i++) {
+      from = divisors[p][i];
+      to = divisors[p][i + 1];
+
+      labels.push(
+        '<i style="background:' + getColor(from) + '"></i> ' +
+        from + ((to && isNumerical[p]) ? '&ndash;' + to : (isNumerical[p]) ? '+' : ''));
+    }
+
+    $('.legend-scale').html(labels.join('<br>'));
+    $('.legend-scale').show();
 
   }
+
 
   // reformulate documentSettings as a dictionary, e.g.
   // {"webpageTitle": "Leaflet Boilerplate", "infoPopupText": "Stuff"}
@@ -200,6 +270,7 @@ window.onload = function () {
       documentSettings[setting.Setting] = setting.Customization;
     }
   }
+
 
   function clusterMarkers(group) {
     // cluster markers, or don't
@@ -217,30 +288,35 @@ window.onload = function () {
     }
   }
 
+
   function onTabletopLoad() {
     createDocumentSettings(tabletop.sheets(constants.informationSheetName).elements);
     document.title = documentSettings[constants._pageTitle];
     addBaseMap();
 
     var points = tabletop.sheets(constants.pointsSheetName).elements;
-    var polygons = tabletop.sheets(constants.polygonsSheetName).elements;
+    polygons = tabletop.sheets(constants.polygonsSheetName).elements;
     var layers = determineLayers(points);
 
     mapPoints(points, layers);
 
     if (documentSettings[constants._geojsonURL]) {
       processPolygons(polygons);
-      showPolygons(0);
+      $('input:radio[name="prop"]').change(function() {
+        updatePolygons($(this).val());
+      });
+      $('input:radio[name="prop"][value="0"]').click();
     }
 
+    // Add zoom control
     L.control.zoom({position: decideBetween('_zoomPos', 'topleft')}).addTo(map);
-
-    $('<h6>' + documentSettings[constants._pointsTitle] + '</h6>').insertBefore('.leaflet-control-layers-base');
   }
+
 
   var tabletop = Tabletop.init( { key: constants.googleDocID, // from constants.js
     callback: function(data, tabletop) { onTabletopLoad() }
   });
+
 
   function initInfoPopup(info, coordinates) {
     L.popup({className: 'intro-popup'})
@@ -248,6 +324,7 @@ window.onload = function () {
       .setContent(info)
       .openOn(map);
   }
+
 
   function addBaseMap() {
     var basemap = decideBetween('_tileProvider', 'Stamen.TonerLite');
@@ -272,6 +349,7 @@ window.onload = function () {
 
     $('.leaflet-control-attribution')[0].innerHTML = mapCreatorAttribution + attributionHTML;
   }
+
 
   // Returns the value of option named opt from constants.js
   // or def if option is either not set or does not exist
