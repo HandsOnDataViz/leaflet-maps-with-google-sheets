@@ -75,7 +75,9 @@ window.onload = function () {
                 'fa',
                 point['Marker Color'].toLowerCase(),
                 point['Marker Icon Color'])
-        }).bindPopup("<b>" + point["Title"] + "</b><br>" + point["Description"]);
+        }).bindPopup("<b>" + point['Title'] + '</b><br>' +
+          (point['Image'] ? ('<img src="' + point['Image'] + '"><br>') : '') +
+          point['Description']);
         if (layers !== undefined && layers.length !== 1) {
           marker.addTo(layers[point.Layer]);
         }
@@ -96,7 +98,6 @@ window.onload = function () {
 
     $('<h6>' + documentSettings[constants._pointsTitle] + '</h6>').insertBefore('.leaflet-control-layers-base');
     centerAndZoomMap(group);
-
   }
 
   // Store bucket info for Polygons
