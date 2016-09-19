@@ -97,17 +97,28 @@ window.onload = function () {
     centerAndZoomMap(group);
   }
 
-  function mapPolygons(polygons) {
+  // Store bucket info for Polygons
+  var divisors = [];
+  var colors = [];
 
-    var divisors = documentSettings[constants._bucketDivisors].split(',');
-    var colors = documentSettings[constants._bucketColors].split(',');
+  function processPolygons(polygons) {
+
+    divisors = documentSettings[constants._bucketDivisors].replace(' ', '').split(',');
+    colors = documentSettings[constants._bucketColors].replace(' ', '').split(',');
 
     var isNumerical = false;
 
-    if (divisors.length == 0 || colors.length == 0
-     || divisors.length != colors.length) {
-      divisors = [0, 0.2, 0.4, 0.6, 0.8];
-      colors = ['#FDEBE8', '#F8C0B5', '#F39583', '#EE6A50', '#DD4940'];
+    if (divisors.length == 0) {
+      alert('Error in Polygons: The number of divisors should be > 0');
+      return; // Stop here
+    } else if (divisors.length != colors.length) {
+      alert('Error in Polygons: The number of divisors should match the number of colors');
+      return; // Stop here
+    } else if (colors.length == 0) {
+      // If no colors specified, generate the colors
+      //
+      //
+      //
     }
 
     if (!isNaN(parseFloat(divisors[0]))) {
@@ -120,8 +131,8 @@ window.onload = function () {
     function onEachFeature(feature, layer) {
       var info = '';
       for (i in polygons) {
-        info += polygons[i]['Property Name'];
-        info += ': <b>' + feature.properties[polygons[i].Property] + '</b><br>';
+        info += polygons[i][constants.polygonsPropName];
+        info += ': <b>' + feature.properties[polygons[i][constants.polygonsProp]] + '</b><br>';
       }
       layer.bindPopup(info);
     }
@@ -154,7 +165,7 @@ window.onload = function () {
 
     var legend = L.control({position: decideBetween('_legendPosition', 'bottomright')});
     legend.onAdd = function (map) {
-      var div = L.DomUtil.create('div', 'info legend leaflet-control'),
+      var div = L.DomUtil.create('div', 'info legend con'),
         labels = [],
         from, to;
       for (var i = 0; i < divisors.length; i++) {
@@ -214,8 +225,13 @@ window.onload = function () {
     var points = tabletop.sheets(constants.pointsSheetName).elements;
     var polygons = tabletop.sheets(constants.polygonsSheetName).elements;
     var layers = determineLayers(points);
+
     mapPoints(points, layers);
-    mapPolygons(polygons);
+
+    if (documentSettings[constants._geojsonURL]) {
+      processPolygons(polygons);
+      showPolygons(0);
+    }
 
     L.control.zoom({position: decideBetween('_zoomPos', 'topleft')}).addTo(map);
 
@@ -257,6 +273,10 @@ window.onload = function () {
     $('.leaflet-control-attribution')[0].innerHTML = mapCreatorAttribution + attributionHTML;
   }
 
+  // Returns the value of option named opt from constants.js
+  // or def if option is either not set or does not exist
+  // Both arguments are strings
+  // e.g. decideBetween('_authorName', 'No Author')
   function decideBetween(opt, def) {
     if (!documentSettings[constants[opt]] || documentSettings[constants[opt]] === '') {
       return def;
