@@ -7,7 +7,7 @@ var constants = {
   polygonsSheetName: 'Polygons',
   // Columns
   polygonsProp: 'Property',
-  polygonsPropName: 'Property Name',
+  polygonsPropName: 'Property Alias',
   // Options
   _pageTitle: 'Webpage Title:',
   _displayTitle: 'Display Title on the Map:',
@@ -24,13 +24,14 @@ var constants = {
   _layersPos: 'Map Layers Control Position:',
   _zoomPos: 'Map Zoom Control Position:',
   _geojsonURL: 'GeoJSON URL:',
-  _bucketProp: 'Split into buckets by prop:',
-  _bucketPropName: 'Prop Name:',
+  _bucketProp: 'Properties to Display:',
+  _bucketPropName: 'Property Aliases:',
   _bucketDivisors: 'Bucket Divisors:',
   _bucketColors: 'Bucket Colors:',
   _legendTitle: 'Legend Title:',
   _legendPosition: 'Map Polygons Legend Position:',
   _mapSearch: 'Map Search:',
   _mapSearchPos: 'Map Search Position:',
-  _colorScheme: 'Use ColorBrewer Palette:'
+  _colorScheme: 'Use ColorBrewer Palette:',
+  _polygonDisplayImages: 'Display Images When Available:'
 };

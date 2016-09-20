@@ -113,7 +113,19 @@ window.onload = function () {
   function processPolygons(polygons) {
     prop = documentSettings[constants._bucketProp].split(' ').join('').split(';');
     propName = documentSettings[constants._bucketPropName].split(';');
+
+    if (prop.length != propName.length) {
+      alert('Error in Polygons: The number of properties and their aliases has to match');
+      return;
+    }
+
     divisors = documentSettings[constants._bucketDivisors].split(' ').join('').split(';');
+
+    if (divisors.length != prop.length) {
+      alert('Error in Polygons: The number of sets of divisors has to match the number of properties');
+      return;
+    }
+
     colors = documentSettings[constants._bucketColors].split(' ').join('').split(';');
 
     for (i = 0; i < divisors.length; i++) {
@@ -122,16 +134,10 @@ window.onload = function () {
         colors[i] = [];
       } else {
         colors[i] = colors[i].split(' ').join('').split(',');
-        if (colors[i][0] == '') {
-          colors[i] = [];
-        }
       }
     }
 
-    console.log(divisors, colors);
-
     for (i = 0; i < divisors.length; i++) {
-      console.log(divisors[i], colors[i]);
       if (divisors[i].length == 0) {
         alert('Error in Polygons: The number of divisors should be > 0');
         return; // Stop here
@@ -209,9 +215,18 @@ window.onload = function () {
 
   function onEachFeature(feature, layer) {
     var info = '';
+    var imgUrl = '';
     for (i in polygons) {
       info += polygons[i][constants.polygonsPropName];
       info += ': <b>' + feature.properties[polygons[i][constants.polygonsProp]] + '</b><br>';
+    }
+
+    if (documentSettings[constants._polygonDisplayImages] == 'on') {
+      imgUrl = feature.properties[polygons[i]['img']];
+      // Attach image if url exists
+      if (imgUrl) {
+        info += '<img src="' + imgUrl + '">';
+      }
     }
     layer.bindPopup(info);
   }
@@ -342,7 +357,7 @@ window.onload = function () {
       }
     }
   }
-  
+
 
   function initInfoPopup(info, coordinates) {
     L.popup({className: 'intro-popup'})
