@@ -336,6 +336,10 @@ window.onload = function () {
     L.control.zoom({position: decideBetween('_zoomPos', 'topleft')}).addTo(map);
 
     addTitle();
+
+    // Show map and hide the loader
+    $('#map').css('visibility', 'visible');
+    $('.loader').hide();
   }
 
   var tabletop = Tabletop.init( { key: constants.googleDocID, // from constants.js
@@ -381,11 +385,14 @@ window.onload = function () {
     var attributionHTML = $('.leaflet-control-attribution')[0].innerHTML;
     var mapCreatorAttribution = '';
 
-    if (documentSettings[constants._authorName] && documentSettings[constants._authorEmail]) {
-      mapCreatorAttribution = 'Map data: <a href="mailto:' + documentSettings[constants._authorEmail];
-      mapCreatorAttribution += '">' + documentSettings[constants._authorName] + '</a><br>';
-    } else if (documentSettings[constants._authorName]) {
-      mapCreatorAttribution = 'Map data: ' + documentSettings[constants._authorName] + '<br>';
+    var name = documentSettings[constants._authorName];
+    var email = documentSettings[constants._authorEmail]
+
+    if (name && email) {
+      mapCreatorAttribution = 'Map data: <a href="mailto:' + email;
+      mapCreatorAttribution += '">' + name + '</a><br>';
+    } else if (name) {
+      mapCreatorAttribution = 'Map data: ' + name + '<br>';
     }
 
     $('.leaflet-control-attribution')[0].innerHTML = mapCreatorAttribution + attributionHTML;
