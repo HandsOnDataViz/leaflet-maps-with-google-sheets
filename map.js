@@ -312,21 +312,37 @@ window.onload = function () {
     // Add search
     if (documentSettings[constants._mapSearch] == 'on') {
       L.control.geocoder('mapzen-VBmxRzC', {
-        position: decideBetween('_mapSearchPos', 'topright'),
         focus: true,
+        position: decideBetween('_mapSearchPos', 'topright')
       }).addTo(map);
     }
 
     // Add zoom control
     L.control.zoom({position: decideBetween('_zoomPos', 'topleft')}).addTo(map);
 
+    addTitle();
   }
-
 
   var tabletop = Tabletop.init( { key: constants.googleDocID, // from constants.js
     callback: function(data, tabletop) { onTabletopLoad() }
   });
 
+
+  function addTitle() {
+    var title = documentSettings[constants._pageTitle];
+    var dispTitle = documentSettings[constants._displayTitle];
+
+    if (dispTitle !== 'off') {
+      if (dispTitle == 'on map') {
+        $('div.leaflet-left.leaflet-top').prepend('<h3>' + title + '</h3>');
+      } else if (dispTitle == 'in points box') {
+        $('.leaflet-control-layers-list').prepend('<h3>' + title + '</h3>');
+      } else if (dispTitle == 'in polygons box') {
+        $('.legend').prepend('<h3>' + title + '</h3>');
+      }
+    }
+  }
+  
 
   function initInfoPopup(info, coordinates) {
     L.popup({className: 'intro-popup'})
