@@ -332,6 +332,15 @@ window.onload = function () {
       }).addTo(map);
     }
 
+    // Add location control
+    if (documentSettings[constants._locateControlPos] !== 'off') {
+      var locationControl = L.control.locate({
+        keepCurrentZoomLevel: true,
+        returnToPrevBounds: true,
+        position: decideBetween('_locateControlPos', 'topright')
+      }).addTo(map);
+    }
+
     // Add zoom control
     L.control.zoom({position: decideBetween('_zoomPos', 'topleft')}).addTo(map);
 
@@ -383,19 +392,25 @@ window.onload = function () {
     }).addTo(map);
 
     var attributionHTML = $('.leaflet-control-attribution')[0].innerHTML;
-    var mapCreatorAttribution = '';
+
+    var credit = 'View <a href="https://docs.google.com/spreadsheets/d/'
+      + constants.googleDocID + '" target="_blank">data</a>';
 
     var name = documentSettings[constants._authorName];
-    var email = documentSettings[constants._authorEmail]
+    var url = documentSettings[constants._authorURL];
 
-    if (name && email) {
-      mapCreatorAttribution = 'Map data: <a href="mailto:' + email;
-      mapCreatorAttribution += '">' + name + '</a><br>';
+    if (name && url) {
+      if (url.indexOf('@') > 0) { url = 'mailto:' + url; }
+      credit += ' by <a href="' + url + '">' + name + '</a> | ';
     } else if (name) {
-      mapCreatorAttribution = 'Map data: ' + name + '<br>';
+      credit += ' by ' + name + ' | ';
+    } else {
+      credit += ' | ';
     }
 
-    $('.leaflet-control-attribution')[0].innerHTML = mapCreatorAttribution + attributionHTML;
+    credit += 'View <a href="' + documentSettings[constants._githubRepo] + '">code</a> with ';
+
+    $('.leaflet-control-attribution')[0].innerHTML = credit + attributionHTML;
   }
 
 

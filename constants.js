@@ -17,8 +17,9 @@ var constants = {
   _initLon: 'Initial Center Longitude:',
   _markercluster: 'Markercluster:',
   _tileProvider: 'Tile Provider:',
-  _authorName: 'Your Name:',
-  _authorEmail: 'Your Email:',
+  _authorName: 'Author Name:',
+  _authorURL: 'Author Email or Website:',
+  _githubRepo: 'Author GitHub Repo Link:',
   _pointsTitle: 'Layers Box Title:',
   _attrPos: 'Map Attribution Position:',
   _layersPos: 'Map Layers Control Position:',
@@ -33,5 +34,6 @@ var constants = {
   _mapSearch: 'Map Search:',
   _mapSearchPos: 'Map Search Position:',
   _colorScheme: 'Use ColorBrewer Palette:',
-  _polygonDisplayImages: 'Display Images When Available:'
+  _polygonDisplayImages: 'Display Images When Available:',
+  _locateControlPos: 'Locate Control Position:'
 };

@@ -6,7 +6,7 @@
 
 <head profile="http://www.w3.org/2005/10/profile">
   <link rel="icon" type="image/png" href="http://mollietaylor.com/favicon.png">
-  <title>leaflet-google-sheets</title>
+  <title>Loading the map...</title>
 
   <!-- Leaflet -->
   <link rel="stylesheet" href="plugins/leaflet/leaflet.css" />
@@ -37,8 +37,13 @@
   <link rel="stylesheet" href="plugins/Leaflet.markercluster/MarkerCluster.Default.css">
   <script type="text/javascript" src="plugins/Leaflet.markercluster/leaflet.markercluster-src.js"></script>
 
+  <!-- Mapzen Search -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet-geocoder-mapzen/1.4.1/leaflet-geocoder-mapzen.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-geocoder-mapzen/1.4.1/leaflet-geocoder-mapzen.js"></script>
+
+  <!-- Current Location Control -->
+  <link rel="stylesheet" href="https://domoritz.github.io/leaflet-locatecontrol/dist/L.Control.Locate.min.css" />
+  <script src="https://ilyankou.github.io/leaflet-locatecontrol/src/L.Control.Locate.js" charset="utf-8"></script>
 
   <link rel="stylesheet" type="text/css" href="style.css">
 
@@ -46,7 +51,7 @@
 
 <body>
 
-  <div class="loader">Loader...</div>
+  <div class="loader">Loading...</div>
   <div id="map"></div>
 
   <script type="text/javascript">

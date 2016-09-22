@@ -2,7 +2,10 @@
 Leaflet point map from Google Sheets using MapsFor.Us code
 
 ## Credit and license
-https://github.com/codeforatlanta/mapsforus
+[mapsfor.us](https://github.com/codeforatlanta/mapsforus)
+[palette.js](https://github.com/google/palette.js)
+[Single Elements CSS Spinner](https://github.com/lukehaas/css-loaders)
+[Leaflet.Locate](https://github.com/domoritz/leaflet-locatecontrol)
 
 ## my demo
 http://jackdougherty.github.io/leaflet-google-sheets/index.html
