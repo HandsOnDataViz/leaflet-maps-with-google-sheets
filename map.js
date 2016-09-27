@@ -107,7 +107,7 @@ window.onload = function () {
   var colors = [];  // sets of colors
   var isNumerical = []; // array of true/false values
   var geoJsonLayer;
-  var polygonLayer;
+  var polygonLayer; // represents the number of radio button (properties switch)
   var polygons;
 
   function processPolygons(polygons) {
@@ -326,9 +326,24 @@ window.onload = function () {
 
     // Add search
     if (documentSettings[constants._mapSearch] == 'on') {
+      var b = decideBetween('_searchBounds', '').split(')').join('').split('(').join('');
+      var SW, NE;
+
+      if (b) {
+        b = b.split(',');
+        SW = L.latLng(parseFloat(b[0]), parseFloat(b[1]));
+        NE = L.latLng(parseFloat(b[2]), parseFloat(b[3]));
+      }
+
       L.control.geocoder('mapzen-VBmxRzC', {
         focus: true,
-        position: decideBetween('_mapSearchPos', 'topright')
+        position: decideBetween('_mapSearchPos', 'topright'),
+        bounds: (SW && NE) ? L.latLngBounds(SW, NE) : false,
+        zoom: decideBetween('_searchZoom', 12),
+        circle: true,
+        circleRadius: decideBetween('_searchCircleRadius', 1),
+        autocomplete: false,
+        searchInsteadAutocomplete: true,
       }).addTo(map);
     }
 

@@ -31,9 +31,12 @@ var constants = {
   _bucketColors: 'Bucket Colors:',
   _legendTitle: 'Legend Title:',
   _legendPosition: 'Map Polygons Legend Position:',
-  _mapSearch: 'Map Search:',
-  _mapSearchPos: 'Map Search Position:',
+  _mapSearch: 'Map Search On/Off:',
+  _mapSearchPos: 'Map Search Control Position:',
+  _searchCircleRadius: 'Search Circle Radius:',
+  _searchZoom: 'Search Preferred Zoom:',
+  _searchBounds: 'Search Bounds:',
   _colorScheme: 'Use ColorBrewer Palette:',
   _polygonDisplayImages: 'Display Images When Available:',
-  _locateControlPos: 'Locate Control Position:'
+  _locateControlPos: 'Locate Control Position:',
 };
