@@ -1,4 +1,4 @@
-# leaflet-google-sheets
+# leaflet-map-google-sheets
 Generate a map from Google spreadsheet data
 
 # Demo
