@@ -366,7 +366,7 @@ window.onload = function () {
     $('.loader').hide();
   }
 
-  var tabletop = Tabletop.init( { key: constants.googleDocID, // from constants.js
+  var tabletop = Tabletop.init( { key: googleDocID, // from constants.js
     callback: function(data, tabletop) { onTabletopLoad() }
   });
 
@@ -409,7 +409,7 @@ window.onload = function () {
     var attributionHTML = $('.leaflet-control-attribution')[0].innerHTML;
 
     var credit = 'View <a href="https://docs.google.com/spreadsheets/d/'
-      + constants.googleDocID + '" target="_blank">data</a>';
+      + googleDocID + '" target="_blank">data</a>';
 
     var name = documentSettings[constants._authorName];
     var url = documentSettings[constants._authorURL];

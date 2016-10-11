@@ -1,6 +1,4 @@
 var constants = {
-  // Google Document ID
-	googleDocID: '1BaAENFyC4w78tiLAQ8UU0YD4DJwDiQnpUMTo6Pb_pSA',
   // Tabs
 	informationSheetName: 'Options',
 	pointsSheetName: 'Points',
