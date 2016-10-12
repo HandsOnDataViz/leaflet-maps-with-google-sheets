@@ -1,5 +1,5 @@
 # leaflet-map-google-sheets
-Create a Leaflet point and polygon map from a Google Sheets template
+Create a customized point/polygon map in open-source Leaflet code from a Google Sheets template
 
 **BETA** version – share feedback in [Issues](https://github.com/JackDougherty/leaflet-map-google-sheets/issues)
 
@@ -75,7 +75,7 @@ https://docs.google.com/spreadsheets/d/1BaAENFyC4w78tiLAQ8UU0YD4DJwDiQnpUMTo6Pb_
 
 ## Credits (and licenses)
 Created by [Ilya Ilyankou](https://github.com/ilyankou) and Jack Dougherty, using a Google Sheets template, with these open-source components:
-- mapsfor.us (2016) https://github.com/codeforatlanta/mapsforus (BSD-3-Clause)
+- Code for Atlanta mapsfor.us (2016) https://github.com/codeforatlanta/mapsforus (BSD-3-Clause)
 - Leaflet v1.0.1 https://github.com/Leaflet/Leaflet (BSD-2-Clause)
 - jQuery v3.1.0 https://jquery.org (MIT)
 - leaflet-providers (v1.1.15) https://github.com/leaflet-extras/leaflet-providers (BSD-2-Clause)
@@ -85,6 +85,6 @@ Created by [Ilya Ilyankou](https://github.com/ilyankou) and Jack Dougherty, usin
 - Font Awesome (current version via CDN) https://cdn.fontawesome.com (MIT, SIL OFL 1.1)
 - Leaflet.awesome-markers (v2.0.2) https://github.com/lvoogdt/Leaflet.awesome-markers (MIT)
 - Single Element CSS Spinner (31 May 2016) https://github.com/lukehaas/css-loaders (MIT)
-- Tabletop (CHECK version) https://github.com/jsoma/tabletop (MIT)
+- Tabletop.js, gives spreadsheets legs, by returning Google Sheets data in JSON format (v1.4.3) https://github.com/jsoma/tabletop (MIT)
 - Google Colour Palette Generator (2015) https://github.com/google/palette.js (MIT)
 - Google Sheets Geocoding Macro (2016) https://github.com/nuket/google-sheets-geocoding-macro (no license)
