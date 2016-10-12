@@ -1,5 +1,5 @@
 # leaflet-map-google-sheets
-Create a Leaflet point and polygon map from a Google Sheets template
+Create a customized point/polygon map in open-source Leaflet code from a Google Sheets template
 
 **BETA** version – share feedback in [Issues](https://github.com/JackDougherty/leaflet-map-google-sheets/issues)
 
@@ -75,7 +75,7 @@ https://docs.google.com/spreadsheets/d/1BaAENFyC4w78tiLAQ8UU0YD4DJwDiQnpUMTo6Pb_
 
 ## Credits (and licenses)
 Created by [Ilya Ilyankou](https://github.com/ilyankou) and Jack Dougherty, using a Google Sheets template, with these open-source components:
-- mapsfor.us (2016) https://github.com/codeforatlanta/mapsforus (BSD-3-Clause)
+- Code for Atlanta mapsfor.us (2016) https://github.com/codeforatlanta/mapsforus (BSD-3-Clause)
 - Leaflet v1.0.1 https://github.com/Leaflet/Leaflet (BSD-2-Clause)
 - jQuery v3.1.0 https://jquery.org (MIT)
 - leaflet-providers (v1.1.15) https://github.com/leaflet-extras/leaflet-providers (BSD-2-Clause)
