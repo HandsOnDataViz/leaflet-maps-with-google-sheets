@@ -79,7 +79,7 @@ Created by [Ilya Ilyankou](https://github.com/ilyankou) and Jack Dougherty, usin
 - Leaflet v1.0.1 https://github.com/Leaflet/Leaflet (BSD-2-Clause)
 - jQuery v3.1.0 https://jquery.org (MIT)
 - leaflet-providers (v1.1.15) https://github.com/leaflet-extras/leaflet-providers (BSD-2-Clause)
-- Mapzen leaflet-geocoder (customized v1.7.1; requires API key) https://github.com/mapzen/leaflet-geocoder (MIT)
+- Mapzen leaflet-geocoder (customized version) https://github.com/ilyankou/leaflet-geocoder (based on v1.7.1, with API key) https://github.com/mapzen/leaflet-geocoder (MIT)
 - leaflet-locatecontrol (v0.55.0) https://github.com/domoritz/leaflet-locatecontrol (MIT)
 - Leaflet.markercluster (CHECK version) https://github.com/Leaflet/Leaflet.markercluster (MIT)
 - Font Awesome (current version via CDN) https://cdn.fontawesome.com (MIT, SIL OFL 1.1)
