@@ -360,6 +360,7 @@ window.onload = function () {
     L.control.zoom({position: decideBetween('_zoomPos', 'topleft')}).addTo(map);
 
     addTitle();
+    changeAttribution();
 
     // Show map and hide the loader
     $('#map').css('visibility', 'visible');
@@ -395,17 +396,7 @@ window.onload = function () {
   }
 
 
-  function addBaseMap() {
-    var basemap = decideBetween('_tileProvider', 'Stamen.TonerLite');
-
-    L.tileLayer.provider(basemap, {
-      maxZoom: 18
-    }).addTo(map);
-
-    L.control.attribution({
-      position: decideBetween('_attrPos', 'bottomright')
-    }).addTo(map);
-
+  function changeAttribution() {
     var attributionHTML = $('.leaflet-control-attribution')[0].innerHTML;
 
     var credit = 'View <a href="https://docs.google.com/spreadsheets/d/'
@@ -426,6 +417,19 @@ window.onload = function () {
     credit += 'View <a href="' + documentSettings[constants._githubRepo] + '">code</a> with ';
 
     $('.leaflet-control-attribution')[0].innerHTML = credit + attributionHTML;
+  }
+
+
+  function addBaseMap() {
+    var basemap = decideBetween('_tileProvider', 'Stamen.TonerLite');
+
+    L.tileLayer.provider(basemap, {
+      maxZoom: 18
+    }).addTo(map);
+
+    L.control.attribution({
+      position: decideBetween('_attrPos', 'bottomright')
+    }).addTo(map);
   }
 
 
