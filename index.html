@@ -1,18 +1,22 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, user-scalable=yes">
+
 <html>
+
 <head profile="http://www.w3.org/2005/10/profile">
-  <link rel="icon"
-    type="image/png"
-    href="http://mollietaylor.com/favicon.png">
-  <title>leaflet-google-sheets</title>
+  <link rel="icon" type="image/png" href="http://mollietaylor.com/favicon.png">
+  <title>Loading the map...</title>
 
   <!-- Leaflet -->
   <link rel="stylesheet" href="plugins/leaflet/leaflet.css" />
   <!--[if lte IE 8]>
       <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.ie.css" />
   <![endif]-->
+  <script src="https://code.jquery.com/jquery-3.1.0.min.js"
+    integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s="
+    crossorigin="anonymous"></script>
+
   <script src="plugins/leaflet/leaflet.js"></script>
 
   <!-- leaflet-providers -->
@@ -33,36 +37,33 @@
   <link rel="stylesheet" href="plugins/Leaflet.markercluster/MarkerCluster.Default.css">
   <script type="text/javascript" src="plugins/Leaflet.markercluster/leaflet.markercluster-src.js"></script>
 
-  <style type="text/css">
-    html, body{
-      padding: 0;
-      margin: 0 auto;
-      height: 100%;
-      width: 100%;
-    }
+  <!-- Mapzen Search -->
+  <link rel="stylesheet" href="plugins/leaflet-geocoder/leaflet-geocoder-mapzen.css">
+  <script src="plugins/leaflet-geocoder/leaflet-geocoder-mapzen.js"></script>
 
-    #map {
-      width: 100%;
-      height: 100%;
-    }
+  <!-- Locate Control -->
+  <link rel="stylesheet" href="plugins/leaflet-locatecontrol/L.Control.Locate.min.css">
+  <script src="plugins/leaflet-locatecontrol/L.Control.Locate.js" charset="utf-8"></script>
+  <link rel="stylesheet" type="text/css" href="style.css">
 
-    .intro-popup .leaflet-popup-tip-container {
-      width: 0;
-      height: 0;
-    }
-  </style>
 </head>
+
 <body>
 
-<div id="map"></div>
+  <div class="loader">Loading...</div>
+  <div id="map"></div>
 
-<script type="text/javascript">
-  var map = L.map('map', {
-    attributionControl: false
-  }).setView([41.76,-72.69], 11);
-</script>
-<script type="text/javascript" src="constants.js"></script>
-<script type="text/javascript" src="map.js"></script>
+  <script type="text/javascript">
+    var map = L.map('map', {
+      attributionControl: false,
+      zoomControl: false
+    }).setView([41.76,-72.69], 11);
+  </script>
+
+  <script type="text/javascript" src="googleDocID.js"></script>
+  <script type="text/javascript" src="plugins/constants.js"></script>
+  <script type="text/javascript" src="plugins/palette.js"></script>
+  <script type="text/javascript" src="plugins/map.js"></script>
 
 </body>
 </html>
