@@ -11,17 +11,15 @@ Create a Leaflet point and polygon map from a Google Sheets template
 - Leaflet Map https://ilyankou.github.io/leaflet-map-google-sheets/index.html
 - Google Sheet template https://docs.google.com/spreadsheets/d/1BaAENFyC4w78tiLAQ8UU0YD4DJwDiQnpUMTo6Pb_pSA/edit#gid=164271551
 
-## Create you own map
+## Create your own map
 
-Quick directions for now -- with illustrations to come soon
-
-Create and host your own map on the public web, add your point and/or polygon data, and customize its appearance.
+Design and host your own map on the public web, add your point and/or polygon data, and customize its appearance. *Quick directions for now -- with illustrations to come soon*
 
 These steps require that you sign up and log into a:
 - free GitHub account (https://github.com/) to edit two lines of open-source code
 - free Google Drive account (https://drive.google.com) to copy and edit the Google Sheets template
 
-#### Fork/copy this code repository and publish with GitHub Pages
+#### A) Fork/copy this code repository and publish with GitHub Pages
 - Click the Fork button, in the upper-right corner of this code repository, to create a copy of the code in your account.
 - Reminder to fix later: if you have already created a fork of this repo, for your second version you will need to (rename original? clone or download?)
 - Your new repository will have a web address in this format: https://github.com/USERNAME/leaflet-map-google-sheets
@@ -36,7 +34,7 @@ These steps require that you sign up and log into a:
 - Go back to your GitHub repo home page. The new link you pasted to your default map should appear in the lower half of this page. Test it.
 - Reminder to fix later: need to remove the dev branch from this public repo to avoid confusing newcomers.
 
-#### Make a copy and publish the Google Sheets template
+#### B) Make a copy and publish the Google Sheets template
 - Your live web map currently displays data from the *default* Google Sheet template. To insert your own data, you will need to make a copy and edit one line of code in your GitHub repository.
 - In your GitHub repo home page, click on the [Google Sheet template link]( https://docs.google.com/spreadsheets/d/1ZxvU8eGyuN9M8GxTU9acKVJv70iC3px_m3EVFsOHN9g/edit#gid=0).
 - Make sure that you are logged into your Google Drive account, and select File > Make a Copy. Insert a new name to associate it with your new map data, and save it in a folder where you can find it again later, then click OK.
@@ -53,7 +51,7 @@ https://docs.google.com/spreadsheets/d/1BaAENFyC4w78tiLAQ8UU0YD4DJwDiQnpUMTo6Pb_
 - Replace the default Google Sheet ID by pasting your own from above. Do not erase the quote marks.
 - Scroll down and click the green Commit Changes button to save your edits.
 
-#### Add your point and/or polygon data and customize your map
+#### C) Add your point and/or polygon data and customize your map
 - Go back to your live web map, which now displays data from your new Google Sheet. Keep both open in separate browser tabs or windows. When you make changes to your Google Sheet, click the refresh button in the live map to update the display.
 - The Google Sheet contains three tabs (labeled at the bottom): Options, Points, Polygons.
 - In the Options tab, type in your map title, use drop-downs to select map background, and so forth.
