@@ -63,7 +63,8 @@ https://docs.google.com/spreadsheets/d/1BaAENFyC4w78tiLAQ8UU0YD4DJwDiQnpUMTo6Pb_
 - Bug testing
 - Create better default point and polygon data that shows some meaning (Hartford area schools?)
 - Rethink and revise labels and hints in Google Sheet, and modify contants.js to match
-- Freeze the Settings column in Google Sheet to avoid accidental renaming?
+- Review Basemap Tiles validated choices based on https://leaflet-extras.github.io/leaflet-providers/preview/
+- In Google Sheets, can you Protect a column from accidental editing in a way that continues when someone does File > Make a Copy?
 - Create favicon and insert in index.html
 ```
   <head>
