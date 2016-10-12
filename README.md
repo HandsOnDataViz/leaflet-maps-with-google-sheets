@@ -70,6 +70,11 @@ https://docs.google.com/spreadsheets/d/1BaAENFyC4w78tiLAQ8UU0YD4DJwDiQnpUMTo6Pb_
 - Create better default point and polygon data that shows some meaning (Hartford area schools?)
 - Rethink and revise labels and hints in Google Sheet, and modify contants.js to match
 - Freeze the Settings column in Google Sheet to avoid accidental renaming?
+- Create favicon and insert in index.html
+```
+  <head>
+  <link rel="icon" type="image/png" href="src/favicon.png">
+```
 - Create an alternative Google Sheets Macro to “Geocode Address from US Census API” with two extra columns for match quality; See http://www.census.gov/geo/maps-data/data/geocoder.html and click Documentation to read about this API
 - Create option for more advanced users to save the contents of their finalized Google Sheet as three CSV files (Options, Points, Polygons), to be uploaded into GitHub repo, for a longer-term stable version of the map that is not tied to a dynamic Google Sheet
 
@@ -78,11 +83,12 @@ https://docs.google.com/spreadsheets/d/1BaAENFyC4w78tiLAQ8UU0YD4DJwDiQnpUMTo6Pb_
 Created by [Ilya Ilyankou](https://github.com/ilyankou) and Jack Dougherty, using a Google Sheets template, with these open-source components:
 - mapsfor.us (2016) https://github.com/codeforatlanta/mapsforus (BSD-3-Clause)
 - Leaflet v1.0.1 https://github.com/Leaflet/Leaflet (BSD-2-Clause)
+- jQuery v3.1.0 https://jquery.org (MIT)
 - leaflet-providers (CHECK version) https://github.com/leaflet-extras/leaflet-providers (BSD-2-Clause)
 - Mapzen leaflet-geocoder (customized v1.7.1; requires API key) https://github.com/mapzen/leaflet-geocoder (MIT)
 - leaflet-locatecontrol (CHECK version)https://github.com/domoritz/leaflet-locatecontrol (MIT)
 - Leaflet.markercluster (CHECK version) https://github.com/Leaflet/Leaflet.markercluster (MIT)
-- Font Awesome (CHECK version) https://github.com/FortAwesome/Font-Awesome (MIT, SIL OFL 1.1)
+- Font Awesome (v4.5.0) https://github.com/FortAwesome/Font-Awesome (MIT, SIL OFL 1.1)
 - Leaflet.awesome-markers (CHECK version) https://github.com/lvoogdt/Leaflet.awesome-markers (MIT)
 - Single Element CSS Spinner (31 May 2016) https://github.com/lukehaas/css-loaders (MIT)
 - Tabletop (CHECK version) https://github.com/jsoma/tabletop (MIT)

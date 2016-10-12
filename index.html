@@ -4,8 +4,7 @@
 
 <html>
 
-<head profile="http://www.w3.org/2005/10/profile">
-  <link rel="icon" type="image/png" href="http://mollietaylor.com/favicon.png">
+<head>
   <title>Loading the map...</title>
 
   <!-- Leaflet -->
@@ -57,7 +56,7 @@
     var map = L.map('map', {
       attributionControl: false,
       zoomControl: false
-    }).setView([41.76,-72.69], 11);
+    }).setView([41.76,-72.69], 11); // default center is overridden by Google Sheet options and points
   </script>
 
   <script type="text/javascript" src="googleDocID.js"></script>
