@@ -1,15 +1,11 @@
 # leaflet-map-google-sheets
 Create a Leaflet point and polygon map from a Google Sheets template
 
-**BETA** version -- share feedback in [Issues](https://github.com/JackDougherty/leaflet-map-google-sheets/issues)
+**BETA** version – share feedback in [Issues](https://github.com/JackDougherty/leaflet-map-google-sheets/issues)
 
 ## Jack's Demo
 - Leaflet Map https://jackdougherty.github.io/leaflet-map-google-sheets/index.html
 - Google Sheet template https://docs.google.com/spreadsheets/d/1ZxvU8eGyuN9M8GxTU9acKVJv70iC3px_m3EVFsOHN9g/edit#gid=0
-
-## Ilya's Demo
-- Leaflet Map https://ilyankou.github.io/leaflet-map-google-sheets/index.html
-- Google Sheet template https://docs.google.com/spreadsheets/d/1BaAENFyC4w78tiLAQ8UU0YD4DJwDiQnpUMTo6Pb_pSA/edit#gid=164271551
 
 ## Create your own map
 
