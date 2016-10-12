@@ -1,23 +1,25 @@
 var constants = {
-  // Tabs
-	informationSheetName: 'Options',
+  // Sheets or Tabs
+	optionsSheetName: 'Options',
 	pointsSheetName: 'Points',
   polygonsSheetName: 'Polygons',
   // Columns
-  polygonsProp: 'Property',
-  polygonsPropName: 'Property Alias',
+  polygonsProp: 'Polygon GeoJSON Property',
+  polygonsPropName: 'Display Label',
   // Options
-  _pageTitle: 'Webpage Title:',
-  _displayTitle: 'Display Title on the Map:',
-  _infoPopupText: 'Info Popup Text:',
+  _pageTitle: 'Page Title',
+  _displayTitle: 'Display Title',
+	_authorName: 'Author Name',
+	_authorURL: 'Author Email or Website',
+	_githubRepo: 'Author GitHub Repo',
+	_tileProvider: 'Basemap Tiles',
+	_markercluster: 'Markercluster',
+  _infoPopupText: 'Intro Popup Text',
   _initZoom: 'Initial Zoom:',
   _initLat: 'Initial Center Latitude:',
   _initLon: 'Initial Center Longitude:',
-  _markercluster: 'Markercluster:',
-  _tileProvider: 'Tile Provider:',
-  _authorName: 'Author Name:',
-  _authorURL: 'Author Email or Website:',
-  _githubRepo: 'Author GitHub Repo Link:',
+
+
   _pointsTitle: 'Layers Box Title:',
   _attrPos: 'Map Attribution Position:',
   _layersPos: 'Map Layers Control Position:',

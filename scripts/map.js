@@ -283,7 +283,7 @@ window.onload = function () {
   function createDocumentSettings(settings) {
     for (var i in settings) {
       var setting = settings[i];
-      documentSettings[setting.Setting] = setting.Customization;
+      documentSettings[setting.Setting] = setting.Customize;
     }
   }
 
@@ -306,7 +306,7 @@ window.onload = function () {
 
 
   function onTabletopLoad() {
-    createDocumentSettings(tabletop.sheets(constants.informationSheetName).elements);
+    createDocumentSettings(tabletop.sheets(constants.optionsSheetName).elements);
     document.title = documentSettings[constants._pageTitle];
     addBaseMap();
 
