@@ -85,6 +85,6 @@ Created by [Ilya Ilyankou](https://github.com/ilyankou) and Jack Dougherty, usin
 - Font Awesome (current version via CDN) https://cdn.fontawesome.com (MIT, SIL OFL 1.1)
 - Leaflet.awesome-markers (v2.0.2) https://github.com/lvoogdt/Leaflet.awesome-markers (MIT)
 - Single Element CSS Spinner (31 May 2016) https://github.com/lukehaas/css-loaders (MIT)
-- Tabletop (CHECK version) https://github.com/jsoma/tabletop (MIT)
+- Tabletop.js, gives spreadsheets legs, by returning Google Sheets data in JSON format (v1.4.3) https://github.com/jsoma/tabletop (MIT)
 - Google Colour Palette Generator (2015) https://github.com/google/palette.js (MIT)
 - Google Sheets Geocoding Macro (2016) https://github.com/nuket/google-sheets-geocoding-macro (no license)
