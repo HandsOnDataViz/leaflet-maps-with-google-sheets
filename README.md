@@ -1,21 +1,20 @@
-# leaflet-map-google-sheets
-Customize your point-and-polygon Leaflet map from a linked Google Sheets template.
-
-Features:
-- friendly easy-to-learn map tool with flexibility for more advanced users
-- modify options in Google Sheets, and host your map on GitHub Pages
-- display points with marker icons, images, and layer controls
-- color-code polygons with automatic numeric or text legends
-- searchable map with customizable radius and boundaries
-- responsive design for both small and large devices
+# Leaflet maps with Google Sheets
+Create Leaflet maps with a linked Google Sheets template.
+- friendly and easy-to-learn searchable map tool with flexibility for advanced users
+- create clickable point maps with marker icons, images, and layer controls
+- design color-coded polygon maps with dynamic numeric or text legends
+- search the map with customizable 
+- upload and geocode address data and set options in Google Sheets
+- host your polygon data and live map on GitHub Pages
+- responsive web design for both small and large devices
 - built entirely with open-source code, and no usage limits
 
 ## Demo
-- Leaflet Map https://jackdougherty.github.io/leaflet-map-google-sheets/index.html
+- Leaflet Map https://jackdougherty.github.io/leaflet-maps-with-google-sheets/index.html
 - Google Sheet template https://docs.google.com/spreadsheets/d/1ZxvU8eGyuN9M8GxTU9acKVJv70iC3px_m3EVFsOHN9g/edit#gid=0
 
 ## BETA version
-- Report bugs and see TO DO items in [Issues](https://github.com/JackDougherty/leaflet-map-google-sheets/issues)
+- Report bugs and see TO DO items in [Issues](https://github.com/JackDougherty/leaflet-maps-with-google-sheets/issues)
 
 ## Create your own map
 
@@ -28,10 +27,10 @@ These steps require that you sign up and log into a:
 #### A) Fork/copy this code repository and publish with GitHub Pages
 - Click the Fork button, in the upper-right corner of this code repository, to create a copy of the code in your account.
 - Reminder to fix later: if you have already created a fork of this repo, for your second version you will need to (rename original? clone or download?)
-- Your new repository will have a web address in this format: https://github.com/USERNAME/leaflet-map-google-sheets
+- Your new repository will have a web address in this format: https://github.com/USERNAME/leaflet-maps-with-google-sheets
 - Click the Settings button, in the upper-right section of your new repository.
 - On the Settings page, scroll down to the GitHub Pages section, select Source > master branch, and click Save.
-- GitHub Pages has published the *default* map from your code repository as a live public web page, which you can view by clicking on the link displayed after "Your site is published at...". It will appear in this format: https://USERNAME.github.io/leaflet-map-google-sheets/
+- GitHub Pages has published the *default* map from your code repository as a live public web page, which you can view by clicking on the link displayed after "Your site is published at...". It will appear in this format: https://USERNAME.github.io/leaflet-maps-with-google-sheets/
 - Copy the link to your live web page above.
 - Go back to your GitHub code repository home page.
 - Click on the README.md file. To edit this file, click the pencil symbol in the upper-right.
