@@ -1,11 +1,21 @@
 # leaflet-map-google-sheets
-Create a customized point/polygon map in open-source Leaflet code from a Google Sheets template
+Customize your point-and-polygon Leaflet map from a linked Google Sheets template.
 
-**BETA** version – share feedback in [Issues](https://github.com/JackDougherty/leaflet-map-google-sheets/issues)
+Features:
+- friendly easy-to-learn map tool with flexibility for more advanced users
+- modify options in Google Sheets, and host your map on GitHub Pages
+- display points with marker icons, images, and layer controls
+- color-code polygons with automatic numeric or text legends
+- searchable map with customizable radius and boundaries
+- responsive design for both small and large devices
+- built entirely with open-source code, and no usage limits
 
-## Jack's Demo
+## Demo
 - Leaflet Map https://jackdougherty.github.io/leaflet-map-google-sheets/index.html
 - Google Sheet template https://docs.google.com/spreadsheets/d/1ZxvU8eGyuN9M8GxTU9acKVJv70iC3px_m3EVFsOHN9g/edit#gid=0
+
+## BETA version
+- Report bugs and see TO DO items in [Issues](https://github.com/JackDougherty/leaflet-map-google-sheets/issues)
 
 ## Create your own map
 
@@ -56,23 +66,9 @@ https://docs.google.com/spreadsheets/d/1BaAENFyC4w78tiLAQ8UU0YD4DJwDiQnpUMTo6Pb_
   - Group related points into Categories that you can define, which will appear as layers on the map.
 - In the Polygons tab... TO DO: explain how polygon data must be prepared in GeoJSON format and uploaded into your GitHub repo (see example: ct-towns-density.geojson); refer to http://DataVizForAll.org tutorials on how to prepare your polygon data
   - find polygon data
+  - refer to tutorial on how GeoJSON data is organized by "properties" -- refer to book and include this exercise: Open your GeoJSON polygon map file with http://geojson.io or http://mapshaper.org to view property categories (such as "name") and values for each item
   - if needed, convert polygon data from shapefile or KML format into GeoJSON format with http://geojson.io
   - if needed, edit polygon data and join/merge tables of new data with http://mapshaper.org
-
-## TO DO
-- Bug testing
-- Create better default point and polygon data that shows some meaning (Hartford area schools?)
-- Rethink and revise labels and hints in Google Sheet, and modify contants.js to match
-- Review Basemap Tiles validated choices based on https://leaflet-extras.github.io/leaflet-providers/preview/
-- In Google Sheets, can you Protect a column from accidental editing in a way that continues when someone does File > Make a Copy?
-- Create favicon and insert in index.html
-```
-  <head>
-  <link rel="icon" type="image/png" href="src/favicon.png">
-```
-- Create an alternative Google Sheets Macro to “Geocode Address from US Census API” with two extra columns for match quality; See http://www.census.gov/geo/maps-data/data/geocoder.html and click Documentation to read about this API
-- Create option for more advanced users to save the contents of their finalized Google Sheet as three CSV files (Options, Points, Polygons), to be uploaded into GitHub repo, for a longer-term stable version of the map that is not tied to a dynamic Google Sheet
-
 
 ## Credits (and licenses)
 Created by [Ilya Ilyankou](https://github.com/ilyankou) and Jack Dougherty, using a Google Sheets template, with these open-source components:
