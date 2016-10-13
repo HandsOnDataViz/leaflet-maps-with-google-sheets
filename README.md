@@ -26,10 +26,16 @@ These steps require that you sign up and log into a:
 #### A) Fork/copy this code repository and publish with GitHub Pages
 - Click the Fork button, in the upper-right corner of this code repository, to create a copy of the code in your account.
 - Reminder to fix later: if you have already created a fork of this repo, for your second version you will need to (rename original? clone or download?)
-- Your new repository will have a web address in this format: https://github.com/USERNAME/leaflet-maps-with-google-sheets
+- Your new repository will have a web address in this format: 
+```
+https://github.com/USERNAME/leaflet-maps-with-google-sheets
+```
 - Click the Settings button, in the upper-right section of your new repository.
 - On the Settings page, scroll down to the GitHub Pages section, select Source > master branch, and click Save.
-- GitHub Pages has published the *default* map from your code repository as a live public web page, which you can view by clicking on the link displayed after "Your site is published at...". It will appear in this format: https://USERNAME.github.io/leaflet-maps-with-google-sheets/
+- GitHub Pages has published the *default* map from your code repository as a live public web page, which you can view by clicking on the link displayed after "Your site is published at...". It will appear in this format: 
+```
+https://USERNAME.github.io/leaflet-maps-with-google-sheets/
+```
 - Copy the link to your live web page above.
 - Go back to your GitHub code repository home page.
 - Click on the README.md file. To edit this file, click the pencil symbol in the upper-right.
