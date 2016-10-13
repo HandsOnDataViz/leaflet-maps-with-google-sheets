@@ -12,7 +12,7 @@ var constants = {
   _displayTitle: 'Display Title',
 	_authorName: 'Author Name',
 	_authorURL: 'Author Email or Website',
-	_githubRepo: 'Author GitHub Repo',
+	_githubRepo: 'Author GitHub Repo Link',
 	// Map Settings
 	_tileProvider: 'Basemap Tiles',
 	_markercluster: 'Markercluster',
