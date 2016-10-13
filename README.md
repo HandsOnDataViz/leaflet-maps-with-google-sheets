@@ -1,11 +1,10 @@
-# Leaflet maps with Google Sheets
+# Leaflet Maps with Google Sheets
 Create Leaflet maps with a linked Google Sheets template.
 - friendly and easy-to-learn searchable map tool with flexibility for advanced users
 - create clickable point maps with marker icons, images, and layer controls
 - design color-coded polygon maps with dynamic numeric or text legends
-- search the map with customizable 
-- upload and geocode address data and set options in Google Sheets
-- host your polygon data and live map on GitHub Pages
+- upload and geocode address data, and set map options, in Google Sheets
+- host your polygon data and live web map with GitHub Pages
 - responsive web design for both small and large devices
 - built entirely with open-source code, and no usage limits
 
@@ -70,7 +69,7 @@ https://docs.google.com/spreadsheets/d/1BaAENFyC4w78tiLAQ8UU0YD4DJwDiQnpUMTo6Pb_
   - if needed, edit polygon data and join/merge tables of new data with http://mapshaper.org
 
 ## Credits (and licenses)
-Created by [Ilya Ilyankou](https://github.com/ilyankou) and Jack Dougherty, using a Google Sheets template, with these open-source components:
+Created by [Ilya Ilyankou](https://github.com/ilyankou) and Jack Dougherty, using a [Google Sheets](https://www.google.com/sheets/about/) template, with these open-source components:
 - Code for Atlanta mapsfor.us (2016) https://github.com/codeforatlanta/mapsforus (BSD-3-Clause)
 - Leaflet v1.0.1 https://github.com/Leaflet/Leaflet (BSD-2-Clause)
 - jQuery v3.1.0 https://jquery.org (MIT)
