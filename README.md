@@ -49,14 +49,9 @@ https://USERNAME.github.io/leaflet-maps-with-google-sheets/
 - In your GitHub repo home page, click on the [Google Sheet template link]( https://docs.google.com/spreadsheets/d/1ZxvU8eGyuN9M8GxTU9acKVJv70iC3px_m3EVFsOHN9g/edit#gid=0).
 - Make sure that you are logged into your Google Drive account, and select File > Make a Copy. Insert a new name to associate it with your new map data, and save it in a folder where you can find it again later, then click OK.
 - In your new Google Sheet, click File > Publish to the Web. (Leave the drop-downs as "Entire Document" and "Web page"). Click Publish. All data that you enter below will be *public*.
-- Your new Google Sheet has a long web address, which will be *similar* to this one:
-```
-https://docs.google.com/spreadsheets/d/1BaAENFyC4w78tiLAQ8UU0YD4DJwDiQnpUMTo6Pb_pSA/edit#gid=0
-```
-- Copy the Google Sheet ID, which appears between "/d/" and "/edit", *similar* to this:
-```
-1BaAENFyC4w78tiLAQ8UU0YD4DJwDiQnpUMTo6Pb_pSA
-```
+- In your browser address bar, copy the long ID for your new Google Sheet, appears between "/d/" and "/edit...". It will look similar this:
+![tutorial/lmwgs-google-sheet-id.jpg]
+
 - In your GitHub repo home page, click on the file named GoogleDocID.js, and click the pencil symbol to edit it.
 - Replace the default Google Sheet ID by pasting your own from above. Do not erase the quote marks.
 - Scroll down and click the green Commit Changes button to save your edits.
