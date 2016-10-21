@@ -40,6 +40,8 @@ var constants = {
   _bucketPropName: 'Property Labels in Legend',
   _bucketDivisors: 'Property Range Dividers',
 	_colorScheme: 'Property Range Color Palette',
+  _colorOpacity: 'Polygon Color Opacity',
+  _outlineColor: 'Polygon Outline Color',
   _bucketColors: 'Property Range Manual Colors',
   _polygonDisplayImages: 'Display Images When Available',
 };
