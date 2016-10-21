@@ -38,6 +38,8 @@ window.onload = function () {
     };
   }
 
+  var markerColors = [];
+
   // possibly refactor this so you can add points to layers without knowing what all the layers are beforehand
   // run this function after document is loaded but before mapPoints()
   function determineLayers(points) {
@@ -46,6 +48,7 @@ window.onload = function () {
     for (var i in points) {
       var pointLayerNameFromSpreadsheet = points[i].Layer;
       if (layerNamesFromSpreadsheet.indexOf(pointLayerNameFromSpreadsheet) === -1) {
+        markerColors.push(points[i]['Marker Color']);
         layerNamesFromSpreadsheet.push(pointLayerNameFromSpreadsheet);
       }
     }
@@ -375,6 +378,13 @@ window.onload = function () {
     // Show map and hide the loader
     $('#map').css('visibility', 'visible');
     $('.loader').hide();
+
+    // Generate color squares for marker layers control
+    $('.leaflet-control-layers-overlays div span').each(function(i) {
+      $(this).append('&nbsp;<i class="fa fa-map-marker" style="color: '
+        + markerColors[i]
+        + '"></i>');
+    });
   }
 
   var tabletop = Tabletop.init( { key: googleDocID, // from constants.js
