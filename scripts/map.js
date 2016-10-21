@@ -165,7 +165,14 @@ window.onload = function () {
       }
     }
 
-    var legend = L.control({position: decideBetween('_legendPosition', 'bottomright')});
+    var legendPos = decideBetween('_legendPosition', 'off');
+    var legend;
+    if (legendPos == 'off') {
+      legend = L.control({position: 'topleft'});
+    } else {
+      legend = L.control({position: legendPos});
+    }
+
     legend.onAdd = function (map) {
       var content = '<h6>' + documentSettings[constants._legendTitle] + '</h6><form>';
 
@@ -182,16 +189,20 @@ window.onload = function () {
       return div;
     };
     legend.addTo(map);
+
+    if (legendPos == 'off') {
+      $('.legend').hide();
+    }
   }
 
 
-  function style(feature) {
+  function polygonStyle(feature) {
     return {
       weight: 2,
       opacity: 1,
-      color: 'white',
+      color: decideBetween('_outlineColor', 'white'),
       dashArray: '3',
-      fillOpacity: 0.7,
+      fillOpacity: decideBetween('_colorOpacity', '0.7'),
       fillColor: getColor(feature.properties[prop[polygonLayer]])
     };
   }
@@ -245,17 +256,17 @@ window.onload = function () {
       // Load the very first time
       $.getJSON(documentSettings[constants._geojsonURL], function(data) {
         geoJsonLayer = L.geoJson(data, {
-          style: style,
+          style: polygonStyle,
           onEachFeature: onEachFeature
         }).addTo(map);
       });
     } else if (!map.hasLayer(geoJsonLayer)) {
       // Load every time after 'Off'
       geoJsonLayer.addTo(map);
-      geoJsonLayer.setStyle(style);
+      geoJsonLayer.setStyle(polygonStyle);
     } else {
       // Just update colors
-      geoJsonLayer.setStyle(style);
+      geoJsonLayer.setStyle(polygonStyle);
     }
 
     $('.legend-scale').html('');
@@ -274,7 +285,6 @@ window.onload = function () {
 
     $('.legend-scale').html(labels.join('<br>'));
     $('.legend-scale').show();
-
   }
 
 
