@@ -122,7 +122,7 @@ window.onload = function () {
       return;
     }
 
-    divisors = documentSettings[constants._bucketDivisors].split(' ').join('').split(';');
+    divisors = documentSettings[constants._bucketDivisors].split(';');
 
     if (divisors.length != prop.length) {
       alert('Error in Polygons: The number of sets of divisors has to match the number of properties');
@@ -132,7 +132,7 @@ window.onload = function () {
     colors = documentSettings[constants._bucketColors].split(' ').join('').split(';');
 
     for (i = 0; i < divisors.length; i++) {
-      divisors[i] = divisors[i].split(' ').join('').split(',');
+      divisors[i] = divisors[i].split(',');
       if (!colors[i]) {
         colors[i] = [];
       } else {
@@ -158,10 +158,10 @@ window.onload = function () {
 
     // For each set of divisors, decide whether textual or numerical
     for (i = 0; i < divisors.length; i++) {
-      if (!isNaN(parseFloat(divisors[i][0]))) {
+      if (!isNaN(parseFloat(divisors[i][0].trim()))) {
         isNumerical[i] = true;
         for (j = 0; j < divisors[i].length; j++) {
-          divisors[i][j] = parseFloat(divisors[i][j]);
+          divisors[i][j] = parseFloat(divisors[i][j].trim());
         }
       } else {
         isNumerical[i] = false;
