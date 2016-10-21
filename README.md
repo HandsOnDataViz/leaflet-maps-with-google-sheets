@@ -20,7 +20,7 @@ Create Leaflet maps with a linked Google Sheets template.
 - Geocode address data and customize markers in the Points tab
 - Upload/link polygon data and set legend colors in Options tab
 
-See step-by-step tutorial at https://datavizforall.org/leaflet/with-google-sheets/
+See step-by-step tutorial at http://datavizforall.org/leaflet/with-google-sheets/
 
 ## BETA version
 - Report bugs and suggest features in [Issues](https://github.com/JackDougherty/leaflet-maps-with-google-sheets/issues)
