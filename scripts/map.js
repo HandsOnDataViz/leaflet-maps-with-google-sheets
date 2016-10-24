@@ -379,9 +379,9 @@ window.onload = function () {
     $('#map').css('visibility', 'visible');
     $('.loader').hide();
 
-    // Generate color squares for marker layers control
+    // Generate color squares for marker layers control; prepend = before text, append = after text
     $('.leaflet-control-layers-overlays div span').each(function(i) {
-      $(this).append('&nbsp;<i class="fa fa-map-marker" style="color: '
+      $(this).prepend('&nbsp;<i class="fa fa-map-marker" style="color: '
         + markerColors[i]
         + '"></i>');
     });
