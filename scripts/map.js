@@ -393,16 +393,17 @@ window.onload = function () {
 
 
   function addTitle() {
-    var title = documentSettings[constants._pageTitle];
+    var title = '<h3>' + documentSettings[constants._pageTitle] + '</h3>';
+    var subtitle = '<h6>' + documentSettings[constants._subtitle] + '</h6>';
     var dispTitle = documentSettings[constants._displayTitle];
 
     if (dispTitle !== 'off') {
       if (dispTitle == 'on map') {
-        $('div.leaflet-left.leaflet-top').prepend('<h3>' + title + '</h3>');
+        $('div.leaflet-left.leaflet-top').prepend('<div class="mapTitle">' + title + subtitle + '</div>');
       } else if (dispTitle == 'in points box') {
-        $('.leaflet-control-layers-list').prepend('<h3>' + title + '</h3>');
+        $('.leaflet-control-layers-list').prepend(title + subtitle);
       } else if (dispTitle == 'in polygons box') {
-        $('.legend').prepend('<h3>' + title + '</h3>');
+        $('.legend').prepend(title + subtitle);
       }
     }
   }

@@ -9,6 +9,7 @@ var constants = {
   // Options
 	// Map Info
   _pageTitle: 'Page Title',
+  _subtitle: 'Subtitle',
   _displayTitle: 'Display Title',
 	_authorName: 'Author Name',
 	_authorURL: 'Author Email or Website',
