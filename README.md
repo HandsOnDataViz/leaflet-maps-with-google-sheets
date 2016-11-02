@@ -34,7 +34,7 @@ Created by [Ilya Ilyankou](https://github.com/ilyankou) and Jack Dougherty, usin
 - Mapzen leaflet-geocoder (customized version) https://github.com/ilyankou/leaflet-geocoder (based on v1.7.1, with API key) https://github.com/mapzen/leaflet-geocoder (MIT)
 - leaflet-locatecontrol (v0.55.0) https://github.com/domoritz/leaflet-locatecontrol (MIT)
 - Leaflet.markercluster (v1.0.0) https://github.com/Leaflet/Leaflet.markercluster (MIT)
-- Font Awesome (current version via CDN) https://cdn.fontawesome.com (MIT, SIL OFL 1.1)
+- Font Awesome (v4.6.3 via CDN) https://cdn.fontawesome.com (MIT, SIL OFL 1.1)
 - Leaflet.awesome-markers (v2.0.2) https://github.com/lvoogdt/Leaflet.awesome-markers (MIT)
 - Single Element CSS Spinner (31 May 2016) https://github.com/lukehaas/css-loaders (MIT)
 - Tabletop.js, gives spreadsheets legs, by returning Google Sheets data in JSON format (v1.4.3) https://github.com/jsoma/tabletop (MIT)
