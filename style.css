@@ -22,12 +22,17 @@ h3 {
   font-size: 1.5em;
 }
 
-.leaflet-top > h3 {
+.leaflet-top .mapTitle {
   margin: 5px 5px 0 10px;
   padding: 0 5px;
   background-color: #fff;
   opacity: 0.8;
   border-radius: 4px;
+  max-width: 450px;
+}
+
+.mapTitle h6 {
+  font-weight: normal;
 }
 
 .intro-popup .leaflet-popup-tip-container {

@@ -93,10 +93,23 @@ window.onload = function () {
     if (layers === undefined || layers.length === 0) {
       clusterMarkers(group);
     } else {
+      layersPos = documentSettings[constants._layersPos];
+      var pos;
+      
+      if (layersPos == 'off') {
+        pos = 'topleft';
+      } else {
+        pos = layersPos;
+      }
+
       L.control.layers(null, layers, {
         collapsed: false,
-        position: decideBetween('_layersPos', 'topleft')
+        position: pos,
       }).addTo(map);
+
+      if (layersPos == 'off') {
+        $('.leaflet-control-layers').hide();
+      }
     }
 
     $('<h6>' + documentSettings[constants._pointsTitle] + '</h6>').insertBefore('.leaflet-control-layers-base');
@@ -349,7 +362,7 @@ window.onload = function () {
       }
 
       L.control.geocoder('mapzen-VBmxRzC', {
-        focus: true,
+        focus: L.latLng(41.0, -72.0),
         position: decideBetween('_mapSearchPos', 'topright'),
         bounds: (SW && NE) ? L.latLngBounds(SW, NE) : false,
         zoom: decideBetween('_searchZoom', 12),
@@ -387,22 +400,23 @@ window.onload = function () {
     });
   }
 
-  var tabletop = Tabletop.init( { key: googleDocID, // from constants.js
+  var tabletop = Tabletop.init( { key: googleDocURL,
     callback: function(data, tabletop) { onTabletopLoad() }
   });
 
 
   function addTitle() {
-    var title = documentSettings[constants._pageTitle];
+    var title = '<h3>' + documentSettings[constants._pageTitle] + '</h3>';
+    var subtitle = '<h6>' + documentSettings[constants._subtitle] + '</h6>';
     var dispTitle = documentSettings[constants._displayTitle];
 
     if (dispTitle !== 'off') {
       if (dispTitle == 'on map') {
-        $('div.leaflet-left.leaflet-top').prepend('<h3>' + title + '</h3>');
+        $('div.leaflet-left.leaflet-top').prepend('<div class="mapTitle">' + title + subtitle + '</div>');
       } else if (dispTitle == 'in points box') {
-        $('.leaflet-control-layers-list').prepend('<h3>' + title + '</h3>');
+        $('.leaflet-control-layers-list').prepend(title + subtitle);
       } else if (dispTitle == 'in polygons box') {
-        $('.legend').prepend('<h3>' + title + '</h3>');
+        $('.legend').prepend(title + subtitle);
       }
     }
   }
@@ -419,8 +433,7 @@ window.onload = function () {
   function changeAttribution() {
     var attributionHTML = $('.leaflet-control-attribution')[0].innerHTML;
 
-    var credit = 'View <a href="https://docs.google.com/spreadsheets/d/'
-      + googleDocID + '" target="_blank">data</a>';
+    var credit = 'View <a href="' + googleDocURL + '" target="_blank">data</a>';
 
     var name = documentSettings[constants._authorName];
     var url = documentSettings[constants._authorURL];
