@@ -93,10 +93,23 @@ window.onload = function () {
     if (layers === undefined || layers.length === 0) {
       clusterMarkers(group);
     } else {
+      layersPos = documentSettings[constants._layersPos];
+      var pos;
+      
+      if (layersPos == 'off') {
+        pos = 'topleft';
+      } else {
+        pos = layersPos;
+      }
+
       L.control.layers(null, layers, {
         collapsed: false,
-        position: decideBetween('_layersPos', 'topleft')
+        position: pos,
       }).addTo(map);
+
+      if (layersPos == 'off') {
+        $('.leaflet-control-layers').hide();
+      }
     }
 
     $('<h6>' + documentSettings[constants._pointsTitle] + '</h6>').insertBefore('.leaflet-control-layers-base');
@@ -349,7 +362,7 @@ window.onload = function () {
       }
 
       L.control.geocoder('mapzen-VBmxRzC', {
-        focus: true,
+        focus: L.latLng(41.0, -72.0),
         position: decideBetween('_mapSearchPos', 'topright'),
         bounds: (SW && NE) ? L.latLngBounds(SW, NE) : false,
         zoom: decideBetween('_searchZoom', 12),
