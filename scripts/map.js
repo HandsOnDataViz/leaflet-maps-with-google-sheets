@@ -95,7 +95,7 @@ window.onload = function () {
     } else {
       layersPos = documentSettings[constants._layersPos];
       var pos;
-      
+
       if (layersPos == 'off') {
         pos = 'topleft';
       } else {
@@ -146,6 +146,9 @@ window.onload = function () {
 
     for (i = 0; i < divisors.length; i++) {
       divisors[i] = divisors[i].split(',');
+      for (j = 0; j < divisors[i].length; j++) {
+        divisors[i][j] = divisors[i][j].trim();
+      }
       if (!colors[i]) {
         colors[i] = [];
       } else {
