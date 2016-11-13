@@ -1,6 +1,7 @@
 window.onload = function () {
 
   var documentSettings = {};
+  var markerColors = [];
 
   function createMarkerIcon(icon, prefix, markerColor, iconColor) {
     return L.AwesomeMarkers.icon({
@@ -16,9 +17,9 @@ window.onload = function () {
     var mapZoom = 0;
 
     // center and zoom map based on points or to user-specified zoom and center
-    if (documentSettings[constants._initLat] !== '' && documentSettings[constants._initLon] !== '') {
+    if (getSetting('_initLat') !== '' && getSetting('_initLon') !== '') {
       // center and zoom
-      mapCenter = L.latLng(documentSettings[constants._initLat], documentSettings[constants._initLon]);
+      mapCenter = L.latLng(getSetting('_initLat'), getSetting('_initLon'));
       map.setView(mapCenter);
     } else {
       var groupBounds = points.getBounds();
@@ -26,19 +27,18 @@ window.onload = function () {
       mapCenter = groupBounds.getCenter();
     }
 
-    if (documentSettings[constants._initZoom] !== '') {
-      mapZoom = parseInt(documentSettings[constants._initZoom]);
+    if (getSetting('_initZoom') !== '') {
+      mapZoom = parseInt(getSetting('_initZoom'));
     }
 
     map.setView(mapCenter, mapZoom);
 
     // once map is recentered, open popup in center of map
-    if (documentSettings[constants._infoPopupText] !== '') {
-      initInfoPopup(documentSettings[constants._infoPopupText], mapCenter);
+    if (getSetting('_infoPopupText') !== '') {
+      initInfoPopup(getSetting('_infoPopupText'), mapCenter);
     };
   }
 
-  var markerColors = [];
 
   // possibly refactor this so you can add points to layers without knowing what all the layers are beforehand
   // run this function after document is loaded but before mapPoints()
@@ -72,18 +72,21 @@ window.onload = function () {
     // check that map has loaded before adding points to it?
     for (var i in points) {
       var point = points[i];
+
       if (point.Latitude !== '' && point.Longitude !== '') {
         var marker = L.marker([point.Latitude, point.Longitude], {
           icon: createMarkerIcon(point['Marker Icon'],
                 'fa',
                 point['Marker Color'].toLowerCase(),
                 point['Marker Icon Color'])
-        }).bindPopup("<b>" + point['Title'] + '</b><br>' +
+          }).bindPopup("<b>" + point['Title'] + '</b><br>' +
           (point['Image'] ? ('<img src="' + point['Image'] + '"><br>') : '') +
           point['Description']);
+
         if (layers !== undefined && layers.length !== 1) {
           marker.addTo(layers[point.Layer]);
         }
+
         markerArray.push(marker);
       }
     }
@@ -93,7 +96,7 @@ window.onload = function () {
     if (layers === undefined || layers.length === 0) {
       clusterMarkers(group);
     } else {
-      layersPos = documentSettings[constants._layersPos];
+      layersPos = getSetting('_layersPos');
       var pos;
 
       if (layersPos == 'off') {
@@ -112,37 +115,39 @@ window.onload = function () {
       }
     }
 
-    $('<h6>' + documentSettings[constants._pointsTitle] + '</h6>').insertBefore('.leaflet-control-layers-base');
+    $('<h6>' + getSetting('_pointsTitle') + '</h6>').insertBefore('.leaflet-control-layers-base');
     centerAndZoomMap(group);
   }
 
-  // Store bucket info for Polygons
+  /*
+   * Store bucket info for Polygons
+   */
   var prop = [];  // an array of bucket properties
   var propName = [];  // nice human names of prop
   var divisors = [];  // sets of divisors
   var colors = [];  // sets of colors
-  var isNumerical = []; // array of true/false values
+  var isNumerical = []; // array of true/false values for each set
   var geoJsonLayer;
   var polygonLayer; // represents the number of radio button (properties switch)
   var polygons;
 
   function processPolygons(polygons) {
-    prop = documentSettings[constants._bucketProp].split(' ').join('').split(';');
-    propName = documentSettings[constants._bucketPropName].split(';');
+    prop = getSetting('_bucketProp').split(' ').join('').split(';');
+    propName = getSetting('_bucketPropName').split(';');
 
     if (prop.length != propName.length) {
       alert('Error in Polygons: The number of properties and their aliases has to match');
       return;
     }
 
-    divisors = documentSettings[constants._bucketDivisors].split(';');
+    divisors = getSetting('_bucketDivisors').split(';');
 
     if (divisors.length != prop.length) {
       alert('Error in Polygons: The number of sets of divisors has to match the number of properties');
       return;
     }
 
-    colors = documentSettings[constants._bucketColors].split(' ').join('').split(';');
+    colors = getSetting('_bucketColors').split(' ').join('').split(';');
 
     for (i = 0; i < divisors.length; i++) {
       divisors[i] = divisors[i].split(',');
@@ -162,7 +167,7 @@ window.onload = function () {
         return; // Stop here
       } else if (colors[i].length == 0) {
         // If no colors specified, generate the colors
-        colors[i] = palette(decideBetween('_colorScheme', 'tol-sq'), divisors[i].length);
+        colors[i] = palette(trySetting('_colorScheme', 'tol-sq'), divisors[i].length);
         for (j = 0; j < colors[i].length; j++) {
           colors[i][j] = '#' + colors[i][j];
         }
@@ -184,7 +189,7 @@ window.onload = function () {
       }
     }
 
-    var legendPos = decideBetween('_legendPosition', 'off');
+    var legendPos = trySetting('_legendPosition', 'off');
     var legend;
     if (legendPos == 'off') {
       legend = L.control({position: 'topleft'});
@@ -193,7 +198,7 @@ window.onload = function () {
     }
 
     legend.onAdd = function (map) {
-      var content = '<h6>' + documentSettings[constants._legendTitle] + '</h6><form>';
+      var content = '<h6>' + getSetting('_legendTitle') + '</h6><form>';
 
       for (i = 0; i < prop.length; i++) {
         content += '<input type="radio" name="prop" value="';
@@ -214,19 +219,24 @@ window.onload = function () {
     }
   }
 
-
+  /**
+   * Generates CSS for each polygon in polygons
+   */
   function polygonStyle(feature) {
     return {
       weight: 2,
       opacity: 1,
-      color: decideBetween('_outlineColor', 'white'),
+      color: trySetting('_outlineColor', 'white'),
       dashArray: '3',
-      fillOpacity: decideBetween('_colorOpacity', '0.7'),
+      fillOpacity: trySetting('_colorOpacity', '0.7'),
       fillColor: getColor(feature.properties[prop[polygonLayer]])
     };
   }
 
 
+  /**
+   * Returns a color for polygon property with value d
+   */
   function getColor(d) {
     var i;
 
@@ -243,6 +253,9 @@ window.onload = function () {
   }
 
 
+  /**
+   * Generates popup windows for every polygon
+   */
   function onEachFeature(feature, layer) {
     var info = '';
     var imgUrl = '';
@@ -251,7 +264,7 @@ window.onload = function () {
       info += ': <b>' + feature.properties[polygons[i][constants.polygonsProp]] + '</b><br>';
     }
 
-    if (documentSettings[constants._polygonDisplayImages] == 'on') {
+    if (getSetting('_polygonDisplayImages') == 'on') {
       imgUrl = feature.properties[polygons[i]['img']];
       // Attach image if url exists
       if (imgUrl) {
@@ -261,7 +274,9 @@ window.onload = function () {
     layer.bindPopup(info);
   }
 
-
+  /**
+   * Loads polygons from layer p
+   */
   function updatePolygons(p) {
     if (p == '-1') {
       $('.legend-scale').hide();
@@ -273,7 +288,7 @@ window.onload = function () {
 
     if (!geoJsonLayer) {
       // Load the very first time
-      $.getJSON(documentSettings[constants._geojsonURL], function(data) {
+      $.getJSON(getSetting('_geojsonURL'), function(data) {
         geoJsonLayer = L.geoJson(data, {
           style: polygonStyle,
           onEachFeature: onEachFeature
@@ -307,8 +322,10 @@ window.onload = function () {
   }
 
 
-  // reformulate documentSettings as a dictionary, e.g.
-  // {"webpageTitle": "Leaflet Boilerplate", "infoPopupText": "Stuff"}
+  /**
+   * Reformulates documentSettings as a dictionary, e.g.
+   * {"webpageTitle": "Leaflet Boilerplate", "infoPopupText": "Stuff"}
+   */
   function createDocumentSettings(settings) {
     for (var i in settings) {
       var setting = settings[i];
@@ -318,8 +335,7 @@ window.onload = function () {
 
 
   function clusterMarkers(group) {
-    // cluster markers, or don't
-    if (documentSettings[constants._markercluster] === 'on') {
+    if (getSetting('_markercluster') === 'on') {
         var cluster = L.markerClusterGroup({
             polygonOptions: {
                 opacity: 0.3,
@@ -334,18 +350,23 @@ window.onload = function () {
   }
 
 
+  /**
+   * Here all data processing from the spreadsheet happens
+   */
   function onTabletopLoad() {
     createDocumentSettings(tabletop.sheets(constants.optionsSheetName).elements);
-    document.title = documentSettings[constants._pageTitle];
+    document.title = getSetting('_pageTitle');
     addBaseMap();
 
     var points = tabletop.sheets(constants.pointsSheetName).elements;
     polygons = tabletop.sheets(constants.polygonsSheetName).elements;
     var layers = determineLayers(points);
 
+    // Add point markers to the map
     mapPoints(points, layers);
 
-    if (documentSettings[constants._geojsonURL]) {
+    // Add geoJSON layer
+    if (getSetting('_geojsonURL')) {
       processPolygons(polygons);
       $('input:radio[name="prop"]').change(function() {
         updatePolygons($(this).val());
@@ -353,67 +374,57 @@ window.onload = function () {
       $('input:radio[name="prop"][value="0"]').click();
     }
 
-    // Add search
-    if (documentSettings[constants._mapSearch] == 'on') {
-      var b = decideBetween('_searchBounds', '').split(')').join('').split('(').join('');
-      var SW, NE;
-
-      if (b) {
-        b = b.split(',');
-        SW = L.latLng(parseFloat(b[0]), parseFloat(b[1]));
-        NE = L.latLng(parseFloat(b[2]), parseFloat(b[3]));
-      }
-
+    // Add Mapzen search control
+    if (getSetting('_mapSearch') == 'on') {
       L.control.geocoder('mapzen-VBmxRzC', {
-        focus: L.latLng(41.0, -72.0),
-        position: decideBetween('_mapSearchPos', 'topright'),
-        bounds: (SW && NE) ? L.latLngBounds(SW, NE) : false,
-        zoom: decideBetween('_searchZoom', 12),
+        focus: true,
+        position: trySetting('_mapSearchPos', 'topright'),
+        zoom: trySetting('_searchZoom', 12),
         circle: true,
-        circleRadius: decideBetween('_searchCircleRadius', 1),
-        autocomplete: false,
-        searchInsteadAutocomplete: true,
+        circleRadius: trySetting('_searchCircleRadius', 1),
+        autocomplete: true,
       }).addTo(map);
     }
 
     // Add location control
-    if (documentSettings[constants._locateControlPos] !== 'off') {
+    if (getSetting('_locateControlPos') !== 'off') {
       var locationControl = L.control.locate({
         keepCurrentZoomLevel: true,
         returnToPrevBounds: true,
-        position: decideBetween('_locateControlPos', 'topright')
+        position: trySetting('_locateControlPos', 'topright')
       }).addTo(map);
     }
 
     // Add zoom control
-    L.control.zoom({position: decideBetween('_zoomPos', 'topleft')}).addTo(map);
+    L.control.zoom({position: trySetting('_zoomPos', 'topleft')}).addTo(map);
 
     addTitle();
+
+    // Change Map attribution to include author's info + urls
     changeAttribution();
 
-    // Show map and hide the loader
-    $('#map').css('visibility', 'visible');
-    $('.loader').hide();
-
-    // Generate color squares for marker layers control; prepend = before text, append = after text
+    // Generate color squares for marker layers control
     $('.leaflet-control-layers-overlays div span').each(function(i) {
       $(this).prepend('&nbsp;<i class="fa fa-map-marker" style="color: '
         + markerColors[i]
         + '"></i>');
     });
+
+    // All processing has been done, so hide the loader and make the map visible
+    $('#map').css('visibility', 'visible');
+    $('.loader').hide();
   }
 
-  var tabletop = Tabletop.init( { key: googleDocURL,
-    callback: function(data, tabletop) { onTabletopLoad() }
-  });
-
-
+  /**
+   * Adds title and subtitle from the spreadsheet to the map
+   */
   function addTitle() {
-    var title = '<h3>' + documentSettings[constants._pageTitle] + '</h3>';
-    var subtitle = '<h6>' + documentSettings[constants._subtitle] + '</h6>';
-    var dispTitle = documentSettings[constants._displayTitle];
+    var dispTitle = getSetting('_displayTitle');
 
     if (dispTitle !== 'off') {
+      var title = '<h3>' + getSetting('_pageTitle') + '</h3>';
+      var subtitle = '<h6>' + getSetting('_subtitle') + '</h6>';
+
       if (dispTitle == 'on map') {
         $('div.leaflet-left.leaflet-top').prepend('<div class="mapTitle">' + title + subtitle + '</div>');
       } else if (dispTitle == 'in points box') {
@@ -438,8 +449,8 @@ window.onload = function () {
 
     var credit = 'View <a href="' + googleDocURL + '" target="_blank">data</a>';
 
-    var name = documentSettings[constants._authorName];
-    var url = documentSettings[constants._authorURL];
+    var name = getSetting('_authorName');
+    var url = getSetting('_authorURL');
 
     if (name && url) {
       if (url.indexOf('@') > 0) { url = 'mailto:' + url; }
@@ -450,34 +461,51 @@ window.onload = function () {
       credit += ' | ';
     }
 
-    credit += 'View <a href="' + documentSettings[constants._githubRepo] + '">code</a> with ';
+    credit += 'View <a href="' + getSetting('_githubRepo') + '">code</a> with ';
 
     $('.leaflet-control-attribution')[0].innerHTML = credit + attributionHTML;
   }
 
 
+  /**
+   * Loads the basemap and adds it to the map
+   */
   function addBaseMap() {
-    var basemap = decideBetween('_tileProvider', 'Stamen.TonerLite');
-
+    var basemap = trySetting('_tileProvider', 'Stamen.TonerLite');
     L.tileLayer.provider(basemap, {
       maxZoom: 18
     }).addTo(map);
-
     L.control.attribution({
-      position: decideBetween('_attrPos', 'bottomright')
+      position: trySetting('_attrPos', 'bottomright')
     }).addTo(map);
   }
 
-
-  // Returns the value of option named opt from constants.js
-  // or def if option is either not set or does not exist
-  // Both arguments are strings
-  // e.g. decideBetween('_authorName', 'No Author')
-  function decideBetween(opt, def) {
-    if (!documentSettings[constants[opt]] || documentSettings[constants[opt]] === '') {
-      return def;
-    }
-    return documentSettings[constants[opt]];
+  /**
+   * Returns the value of a setting s
+   * getSetting(s) is equivalent to documentSettings[constants.s]
+   */
+  function getSetting(s) {
+    return documentSettings[constants[s]];
   }
+
+  /**
+   * Returns the value of setting named s from constants.js
+   * or def if setting is either not set or does not exist
+   * Both arguments are strings
+   * e.g. trySetting('_authorName', 'No Author')
+   */
+  function trySetting(s, def) {
+    s = getSetting(s);
+    if (!s || s.trim() === '') { return def; }
+    return s;
+  }
+
+  /**
+   * Triggers the load of the spreadsheet and map creation
+   */
+  var tabletop = Tabletop.init({
+    key: googleDocURL,
+    callback: function(data, tabletop) {onTabletopLoad();}
+  });
 
 };
