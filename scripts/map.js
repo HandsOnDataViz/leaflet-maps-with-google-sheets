@@ -119,35 +119,37 @@ window.onload = function () {
     centerAndZoomMap(group);
   }
 
-  /*
+  /**
    * Store bucket info for Polygons
    */
-  var prop = [];  // an array of bucket properties
-  var propName = [];  // nice human names of prop
+  var popupProperties = []; // properties to be shown in popup window
+  var polygonLayers = []; // GeoJSON layers
   var divisors = [];  // sets of divisors
   var colors = [];  // sets of colors
   var isNumerical = []; // array of true/false values for each set
   var geoJsonLayer;
-  var polygonLayer; // represents the number of radio button (properties switch)
-  var polygons;
+  var pLayer; // number representing current layer among layers in legend
 
-  function processPolygons(polygons) {
-    prop = getSetting('_bucketProp').split(' ').join('').split(';');
-    propName = getSetting('_bucketPropName').split(';');
+  function processPolygons() {
+    popupProperties = getSetting('_popupProp').split(';');
+    polygonLayers = getSetting('_polygonLayers').split(';');
 
-    if (prop.length != propName.length) {
-      alert('Error in Polygons: The number of properties and their aliases has to match');
-      return;
+    for (i in popupProperties) {
+      popupProperties[i] = popupProperties[i].split(',');
+    }
+
+    for (i in polygonLayers) {
+      polygonLayers[i] = polygonLayers[i].split(',');
     }
 
     divisors = getSetting('_bucketDivisors').split(';');
 
-    if (divisors.length != prop.length) {
+    if (divisors.length != polygonLayers.length) {
       alert('Error in Polygons: The number of sets of divisors has to match the number of properties');
       return;
     }
 
-    colors = getSetting('_bucketColors').split(' ').join('').split(';');
+    colors = getSetting('_bucketColors').split(';');
 
     for (i = 0; i < divisors.length; i++) {
       divisors[i] = divisors[i].split(',');
@@ -157,7 +159,7 @@ window.onload = function () {
       if (!colors[i]) {
         colors[i] = [];
       } else {
-        colors[i] = colors[i].split(' ').join('').split(',');
+        colors[i] = colors[i].split(',');
       }
     }
 
@@ -169,7 +171,7 @@ window.onload = function () {
         // If no colors specified, generate the colors
         colors[i] = palette(trySetting('_colorScheme', 'tol-sq'), divisors[i].length);
         for (j = 0; j < colors[i].length; j++) {
-          colors[i][j] = '#' + colors[i][j];
+          colors[i][j] = '#' + colors[i][j].trim();
         }
       } else if (divisors[i].length != colors[i].length) {
         alert('Error in Polygons: The number of divisors should match the number of colors');
@@ -197,12 +199,16 @@ window.onload = function () {
       legend = L.control({position: legendPos});
     }
 
-    legend.onAdd = function (map) {
+    legend.onAdd = function(map) {
       var content = '<h6>' + getSetting('_legendTitle') + '</h6><form>';
 
-      for (i = 0; i < prop.length; i++) {
-        content += '<input type="radio" name="prop" value="';
-        content += i + '"> ' + propName[i] + '<br>';
+      for (i in polygonLayers) {
+        var layer = polygonLayers[i][1]
+          ? polygonLayers[i][1].trim()
+          : polygonLayers[i][0].trim();
+
+        content += '<input type="radio" name="prop" value="' + i + '"> ';
+        content += layer + '<br>';
       }
 
       content += '<input type="radio" name="prop" value="-1"> Off</form><div class="legend-scale">';
@@ -229,7 +235,7 @@ window.onload = function () {
       color: trySetting('_outlineColor', 'white'),
       dashArray: '3',
       fillOpacity: trySetting('_colorOpacity', '0.7'),
-      fillColor: getColor(feature.properties[prop[polygonLayer]])
+      fillColor: getColor(feature.properties[polygonLayers[pLayer][0].trim()])
     };
   }
 
@@ -240,16 +246,16 @@ window.onload = function () {
   function getColor(d) {
     var i;
 
-    if (isNumerical[polygonLayer]) {
-      i = colors[polygonLayer].length - 1;
-      while (d < divisors[polygonLayer][i]) i--;
+    if (isNumerical[pLayer]) {
+      i = colors[pLayer].length - 1;
+      while (d < divisors[pLayer][i]) i -= 1;
     } else {
-      for (i = 0; i < colors[polygonLayer].length - 1; i++) {
-        if (d == divisors[polygonLayer][i]) break;
+      for (i = 0; i < colors[pLayer].length - 1; i++) {
+        if (d == divisors[pLayer][i]) break;
       }
     }
 
-    return colors[polygonLayer][i];
+    return colors[pLayer][i].trim();
   }
 
 
@@ -258,17 +264,21 @@ window.onload = function () {
    */
   function onEachFeature(feature, layer) {
     var info = '';
-    var imgUrl = '';
-    for (i in polygons) {
-      info += polygons[i][constants.polygonsPropName];
-      info += ': <b>' + feature.properties[polygons[i][constants.polygonsProp]] + '</b><br>';
+
+    for (i in popupProperties) {
+      if (popupProperties[i] == '') {
+        continue;
+      }
+      info += popupProperties[i][1]
+        ? popupProperties[i][1].trim()
+        : popupProperties[i][0].trim();
+
+      info += ': <b>' + feature.properties[popupProperties[i][0].trim()] + '</b><br>';
     }
 
     if (getSetting('_polygonDisplayImages') == 'on') {
-      imgUrl = feature.properties[polygons[i]['img']];
-      // Attach image if url exists
-      if (imgUrl) {
-        info += '<img src="' + imgUrl + '">';
+      if (feature.properties['img']) {
+        info += '<img src="' + feature.properties['img'] + '">';
       }
     }
     layer.bindPopup(info);
@@ -284,7 +294,7 @@ window.onload = function () {
       return;
     }
 
-    polygonLayer = p;
+    pLayer = p;
 
     if (!geoJsonLayer) {
       // Load the very first time
@@ -322,18 +332,6 @@ window.onload = function () {
   }
 
 
-  /**
-   * Reformulates documentSettings as a dictionary, e.g.
-   * {"webpageTitle": "Leaflet Boilerplate", "infoPopupText": "Stuff"}
-   */
-  function createDocumentSettings(settings) {
-    for (var i in settings) {
-      var setting = settings[i];
-      documentSettings[setting.Setting] = setting.Customize;
-    }
-  }
-
-
   function clusterMarkers(group) {
     if (getSetting('_markercluster') === 'on') {
         var cluster = L.markerClusterGroup({
@@ -354,12 +352,14 @@ window.onload = function () {
    * Here all data processing from the spreadsheet happens
    */
   function onTabletopLoad() {
-    createDocumentSettings(tabletop.sheets(constants.optionsSheetName).elements);
+    var options = tabletop.sheets(constants.optionsSheetName).elements;
+    var polygons = tabletop.sheets(constants.polygonsSheetName).elements;
+    createDocumentSettings(options.concat(polygons));
+
     document.title = getSetting('_pageTitle');
     addBaseMap();
 
     var points = tabletop.sheets(constants.pointsSheetName).elements;
-    polygons = tabletop.sheets(constants.polygonsSheetName).elements;
     var layers = determineLayers(points);
 
     // Add point markers to the map
@@ -367,7 +367,7 @@ window.onload = function () {
 
     // Add geoJSON layer
     if (getSetting('_geojsonURL')) {
-      processPolygons(polygons);
+      processPolygons();
       $('input:radio[name="prop"]').change(function() {
         updatePolygons($(this).val());
       });
@@ -505,7 +505,19 @@ window.onload = function () {
    */
   var tabletop = Tabletop.init({
     key: googleDocURL,
-    callback: function(data, tabletop) {onTabletopLoad();}
+    callback: function(data, tabletop) { onTabletopLoad(); }
   });
+
+
+  /**
+   * Reformulates documentSettings as a dictionary, e.g.
+   * {"webpageTitle": "Leaflet Boilerplate", "infoPopupText": "Stuff"}
+   */
+  function createDocumentSettings(settings) {
+    for (var i in settings) {
+      var setting = settings[i];
+      documentSettings[setting.Setting] = setting.Customize;
+    }
+  }
 
 };
