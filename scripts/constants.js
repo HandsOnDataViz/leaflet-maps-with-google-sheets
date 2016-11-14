@@ -1,9 +1,10 @@
 var constants = {
   // Sheets or Tabs
+  notesSheetName: 'Notes',
 	optionsSheetName: 'Options',
 	pointsSheetName: 'Points',
-  polygonsSheetName: 'Polygons',
-  // Columns
+  polygonsSheetName: 'New Polygons',
+  // Columns2
   polygonsProp: 'Polygon GeoJSON Property',
   polygonsPropName: 'Display Label',
   // Options
@@ -37,8 +38,10 @@ var constants = {
 	_legendTitle: 'Polygon Legend Title',
 	_legendPosition: 'Polygon Legend Position',
   _geojsonURL: 'Polygon GeoJSON URL',
-  _bucketProp: 'GeoJSON Properties',
-  _bucketPropName: 'Property Labels in Legend',
+  //_bucketProp: 'GeoJSON Properties',
+  _popupProp: 'GeoJSON Popup Properties',
+  _polygonLayers: 'GeoJSON Layers',
+  //_bucketPropName: 'Property Labels in Legend',
   _bucketDivisors: 'Property Range Dividers',
 	_colorScheme: 'Property Range Color Palette',
   _colorOpacity: 'Polygon Color Opacity',
