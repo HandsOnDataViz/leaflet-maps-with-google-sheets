@@ -3,7 +3,7 @@ var constants = {
   notesSheetName: 'Notes',
 	optionsSheetName: 'Options',
 	pointsSheetName: 'Points',
-  polygonsSheetName: 'New Polygons',
+  polygonsSheetName: 'Polygons',
   // Columns2
   polygonsProp: 'Polygon GeoJSON Property',
   polygonsPropName: 'Display Label',
@@ -24,6 +24,7 @@ var constants = {
   _initLon: 'Initial Center Longitude',
 	// Map Controls
 	_mapSearch: 'Search Button Display',
+  _mapzenKey: 'Mapzen Search Key',
 	_mapSearchPos: 'Search Button Position',
 	_searchCircleRadius: 'Search Radius',
 	_searchZoom: 'Search Results Zoom Level',

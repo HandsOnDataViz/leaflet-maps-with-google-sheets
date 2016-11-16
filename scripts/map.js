@@ -376,7 +376,7 @@ window.onload = function () {
 
     // Add Mapzen search control
     if (getSetting('_mapSearch') == 'on') {
-      L.control.geocoder('mapzen-VBmxRzC', {
+      L.control.geocoder(trySetting('_mapzenKey', 'mapzen-VBmxRzC'), {
         focus: true,
         position: trySetting('_mapSearchPos', 'topright'),
         zoom: trySetting('_searchZoom', 12),
