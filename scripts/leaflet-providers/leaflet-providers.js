@@ -51,8 +51,13 @@
 			}
 
 			var forceHTTP = window.location.protocol === 'file:' || provider.options.forceHTTP;
-			if (provider.url.indexOf('//') === 0 && forceHTTP) {
-				provider.url = 'http:' + provider.url;
+			if (forceHTTP) {
+        /* Check if there is a back-up basemaps source, url2 */
+        if (providers[providerName].url2 && providers[providerName].url2.indexOf('http:') === 0) {
+          provider.url = providers[providerName].url2;
+        } else if (provider.url.indexOf('//') === 0) {
+          provider.url = 'http:' + provider.url;
+        }
 			}
 
 			// If retina option is set
@@ -495,6 +500,7 @@
 		},
 		CartoDB: {
 			url: 'https://cartodb-basemaps-{s}.global.ssl.fastly.net/{variant}/{z}/{x}/{y}.png',
+      url2: 'http://{s}.basemaps.cartocdn.com/{variant}/{z}/{x}/{y}.png',
 			options: {
 				attribution: '{attribution.OpenStreetMap} &copy; <a href="http://cartodb.com/attributions">CartoDB</a>',
 				subdomains: 'abcd',
