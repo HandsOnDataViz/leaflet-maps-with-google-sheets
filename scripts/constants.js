@@ -18,7 +18,7 @@ var constants = {
 	// Map Settings
 	_tileProvider: 'Basemap Tiles',
 	_markercluster: 'Markercluster',
-  _infoPopupText: 'Intro Popup Text',
+  _introPopupText: 'Intro Popup Text',
   _initZoom: 'Initial Zoom',
   _initLat: 'Initial Center Latitude',
   _initLon: 'Initial Center Longitude',
