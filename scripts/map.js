@@ -303,8 +303,7 @@ window.onload = function () {
 
     if (!geoJsonLayer) {
       // Load the very first time polygons-sample.geojson
-      $.getJSON('polygons-sample.geojson', function(data) {
-      //$.getJSON(getSetting('_geojsonURL'), function(data) {
+      $.getJSON(getSetting('_geojsonURL'), function(data) {
         geoJsonLayer = L.geoJson(data, {
           style: polygonStyle,
           onEachFeature: onEachFeature
