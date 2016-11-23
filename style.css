@@ -140,3 +140,50 @@ h3 {
     height: 5em;
   }
 }
+
+/* Technically there are two map titles, on the left and on the right,
+ * at all times. On a big screen, map title in the right column is not
+ * displayed. On a mobile device, title in the right column is shown with 0
+ * opacity, so that search, locate, and zoom buttons do not overlay the title,
+ * creating an effect as if the title is located on top, and not the left column.
+ */
+.leaflet-right .mapTitle { display: none; }
+@media only screen and (max-width: 760px) {
+  .leaflet-right .mapTitle {
+    display: block;
+    opacity: 0;
+  }
+
+  .leaflet-left .mapTitle {
+    width: 100%;
+  }
+}
+
+#mobile-intro-popup {
+  position: absolute;
+  bottom: 5vh;
+  left: 10vw;
+  width: 70vw;
+  z-index: 1000;
+  background: white;
+  padding: 1vh 5vw;
+  opacity: 0.9;
+  border: 5px #ddd solid;
+  border-radius: 5px;
+  font-family: "Helvetica Neue", Arial;
+}
+
+#mobile-intro-popup p {
+  margin-top: 0px;
+  max-height: 80vh;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+#mobile-intro-popup-close {
+  background: red;
+  color: white;
+  font-size: 1.8em;
+  text-align: center;
+  border-radius: 5px;
+}

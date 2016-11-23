@@ -32,11 +32,6 @@ window.onload = function () {
     }
 
     map.setView(mapCenter, mapZoom);
-
-    // once map is recentered, open popup in center of map
-    if (getSetting('_infoPopupText') !== '') {
-      initInfoPopup(getSetting('_infoPopupText'), mapCenter);
-    };
   }
 
 
@@ -115,7 +110,13 @@ window.onload = function () {
       }
     }
 
-    $('<h6>' + getSetting('_pointsTitle') + '</h6>').insertBefore('.leaflet-control-layers-base');
+    $('<h6>' + getSetting('_pointsTitle') + '</h6>')
+      .insertBefore('.leaflet-control-layers-base')
+      .css({'cursor': 'pointer'})
+      .click(function() {
+        $('.leaflet-control-layers-overlays').toggle();
+      });
+
     centerAndZoomMap(group);
   }
 
@@ -220,6 +221,10 @@ window.onload = function () {
     };
     legend.addTo(map);
 
+    $('.legend h6').css({'cursor': 'pointer'}).click(function() {
+      $(this).siblings().toggle();
+    });
+
     if (legendPos == 'off') {
       $('.legend').hide();
     }
@@ -297,7 +302,7 @@ window.onload = function () {
     pLayer = p;
 
     if (!geoJsonLayer) {
-      // Load the very first time
+      // Load the very first time polygons-sample.geojson
       $.getJSON(getSetting('_geojsonURL'), function(data) {
         geoJsonLayer = L.geoJson(data, {
           style: polygonStyle,
@@ -413,6 +418,11 @@ window.onload = function () {
     // All processing has been done, so hide the loader and make the map visible
     $('#map').css('visibility', 'visible');
     $('.loader').hide();
+
+    // Open intro popup window in the center of the map
+    if (getSetting('_introPopupText') != '') {
+      initIntroPopup(getSetting('_introPopupText'), map.getCenter());
+    };
   }
 
   /**
@@ -426,7 +436,7 @@ window.onload = function () {
       var subtitle = '<h6>' + getSetting('_subtitle') + '</h6>';
 
       if (dispTitle == 'on map') {
-        $('div.leaflet-left.leaflet-top').prepend('<div class="mapTitle">' + title + subtitle + '</div>');
+        $('div.leaflet-top').prepend('<div class="mapTitle">' + title + subtitle + '</div>');
       } else if (dispTitle == 'in points box') {
         $('.leaflet-control-layers-list').prepend(title + subtitle);
       } else if (dispTitle == 'in polygons box') {
@@ -436,7 +446,19 @@ window.onload = function () {
   }
 
 
-  function initInfoPopup(info, coordinates) {
+  function initIntroPopup(info, coordinates) {
+    /* This is a pop-up for mobile device */
+    if (window.matchMedia("only screen and (max-width: 760px)").matches) {
+      $('body').append('<div id="mobile-intro-popup"><p>' + info +
+        '</p><div id="mobile-intro-popup-close">Close</div></div>');
+
+      $('#mobile-intro-popup-close').click(function() {
+        $("#mobile-intro-popup").hide();
+      })
+      return;
+    }
+
+    /* And this is a standard popup for bigger screens */
     L.popup({className: 'intro-popup'})
       .setLatLng(coordinates) // this needs to change
       .setContent(info)
