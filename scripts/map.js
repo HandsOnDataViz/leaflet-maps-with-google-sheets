@@ -41,7 +41,7 @@ window.onload = function () {
     var layerNamesFromSpreadsheet = [];
     var layers = {};
     for (var i in points) {
-      var pointLayerNameFromSpreadsheet = points[i].Layer;
+      var pointLayerNameFromSpreadsheet = points[i].Group;
       if (layerNamesFromSpreadsheet.indexOf(pointLayerNameFromSpreadsheet) === -1) {
         markerColors.push(points[i]['Marker Color']);
         layerNamesFromSpreadsheet.push(pointLayerNameFromSpreadsheet);
@@ -79,7 +79,7 @@ window.onload = function () {
           point['Description']);
 
         if (layers !== undefined && layers.length !== 1) {
-          marker.addTo(layers[point.Layer]);
+          marker.addTo(layers[point.Group]);
         }
 
         markerArray.push(marker);
@@ -222,7 +222,11 @@ window.onload = function () {
     legend.addTo(map);
 
     $('.legend h6').css({'cursor': 'pointer'}).click(function() {
-      $(this).siblings().toggle();
+      if ($('input[name=prop]:checked').val() != '-1') {
+        $(this).siblings().toggle();
+      } else {
+        $('.legend>form').toggle();
+      }
     });
 
     if (legendPos == 'off') {
@@ -286,7 +290,19 @@ window.onload = function () {
         info += '<img src="' + feature.properties['img'] + '">';
       }
     }
+
     layer.bindPopup(info);
+
+    // Add polygon label if needed
+    if (getSetting('_polygonLabel') != '') {
+      var myTextLabel = L.marker(polylabel(layer.feature.geometry.coordinates, 1.0).reverse(), {
+          icon: L.divIcon({
+              className: 'polygon-label',
+              html: feature.properties[getSetting('_polygonLabel')],
+          })
+      });
+      myTextLabel.addTo(map);
+    }
   }
 
   /**
@@ -296,6 +312,7 @@ window.onload = function () {
     if (p == '-1') {
       $('.legend-scale').hide();
       map.removeLayer(geoJsonLayer);
+      $('.polygon-label').hide();
       return;
     }
 
@@ -309,10 +326,12 @@ window.onload = function () {
           onEachFeature: onEachFeature
         }).addTo(map);
       });
+      togglePolygonLabels();
     } else if (!map.hasLayer(geoJsonLayer)) {
       // Load every time after 'Off'
       geoJsonLayer.addTo(map);
       geoJsonLayer.setStyle(polygonStyle);
+      togglePolygonLabels();
     } else {
       // Just update colors
       geoJsonLayer.setStyle(polygonStyle);
@@ -403,6 +422,10 @@ window.onload = function () {
     // Add zoom control
     L.control.zoom({position: trySetting('_zoomPos', 'topleft')}).addTo(map);
 
+    map.on('zoomend', function() {
+      togglePolygonLabels();
+    });
+
     addTitle();
 
     // Change Map attribution to include author's info + urls
@@ -465,12 +488,25 @@ window.onload = function () {
       .openOn(map);
   }
 
+  /**
+   * Turns on and off polygon text labels depending on current map zoom
+   */
+  function togglePolygonLabels() {
+    if (map.getZoom() <= trySetting('_polygonLabelMaxZoom', 9)) {
+      $('.polygon-label').hide();
+    } else {
+      if ($('input[name=prop]:checked').val() != '-1') {
+        $('.polygon-label').show();
+      }
+    }
+  }
 
+  /**
+   * Changes map attribution (author, GitHub repo, email etc.) in bottom-right
+   */
   function changeAttribution() {
     var attributionHTML = $('.leaflet-control-attribution')[0].innerHTML;
-
     var credit = 'View <a href="' + googleDocURL + '" target="_blank">data</a>';
-
     var name = getSetting('_authorName');
     var url = getSetting('_authorURL');
 
@@ -484,7 +520,6 @@ window.onload = function () {
     }
 
     credit += 'View <a href="' + getSetting('_githubRepo') + '">code</a> with ';
-
     $('.leaflet-control-attribution')[0].innerHTML = credit + attributionHTML;
   }
 

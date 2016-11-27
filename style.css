@@ -187,3 +187,12 @@ h3 {
   text-align: center;
   border-radius: 5px;
 }
+
+.polygon-label {
+  color: #444;
+  font-weight: bold;
+  opacity: 0.9;
+  position: absolute;
+  left: -15px;
+  pointer-events: none !important;
+}
