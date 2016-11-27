@@ -1,13 +1,10 @@
 var constants = {
-  // Sheets or Tabs
+  // Tabs in Google Sheet
   notesSheetName: 'Notes',
 	optionsSheetName: 'Options',
 	pointsSheetName: 'Points',
   polygonsSheetName: 'Polygons',
-  // Columns2
-  polygonsProp: 'Polygon GeoJSON Property',
-  polygonsPropName: 'Display Label',
-  // Options
+  /* OPTIONS */
 	// Map Info
   _pageTitle: 'Page Title',
   _subtitle: 'Subtitle',
@@ -33,20 +30,20 @@ var constants = {
 	_locateControlPos: 'Show My Location',
 	_attrPos: 'Credits and Attribution',
 	// Point Map Display
-	_pointsTitle: 'Point Layer Legend Title',
-	_layersPos: 'Point Layer Legend Position',
+	_pointsTitle: 'Point Legend Title',
+	_layersPos: 'Point Legend Position',
 	// Polygon Map Display
 	_legendTitle: 'Polygon Legend Title',
 	_legendPosition: 'Polygon Legend Position',
   _geojsonURL: 'Polygon GeoJSON URL',
-  //_bucketProp: 'GeoJSON Properties',
-  _popupProp: 'GeoJSON Popup Properties',
-  _polygonLayers: 'GeoJSON Layers',
-  //_bucketPropName: 'Property Labels in Legend',
-  _bucketDivisors: 'Property Range Dividers',
+  _popupProp: 'Property Popups, Labels',
+  _polygonLayers: 'Polygon Properties, Labels',
+  _bucketDivisors: 'Property Ranges',
 	_colorScheme: 'Property Range Color Palette',
   _colorOpacity: 'Polygon Color Opacity',
   _outlineColor: 'Polygon Outline Color',
   _bucketColors: 'Property Range Manual Colors',
   _polygonDisplayImages: 'Display Images When Available',
+  _polygonLabel: 'Display Polygon Label',
+  _polygonLabelMaxZoom: 'Maximum Zoom for Polygon Label'
 };
