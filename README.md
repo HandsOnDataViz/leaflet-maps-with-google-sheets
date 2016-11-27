@@ -40,3 +40,4 @@ Created by [Ilya Ilyankou](https://github.com/ilyankou) and Jack Dougherty, usin
 - Tabletop.js, gives spreadsheets legs, by returning Google Sheets data in JSON format (v1.4.3) https://github.com/jsoma/tabletop (MIT)
 - Google Colour Palette Generator (2015) https://github.com/google/palette.js (MIT)
 - Google Sheets Geocoding Macro (2016) https://github.com/nuket/google-sheets-geocoding-macro (no license)
+- ADD MORE DETAILS ON: polylabels.js, which contains two libraries: https://github.com/mapbox/polylabel + TinyQueue (https://github.com/mourner/tinyqueue needed for polylabel to work)
