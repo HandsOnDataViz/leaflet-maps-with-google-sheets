@@ -4,6 +4,7 @@ var constants = {
 	optionsSheetName: 'Options',
 	pointsSheetName: 'Points',
   polygonsSheetName: 'Polygons',
+  polylinesSheetName: 'Polylines',
   /* OPTIONS */
 	// Map Info
   _pageTitle: 'Page Title',
@@ -32,6 +33,10 @@ var constants = {
 	// Point Map Display
 	_pointsTitle: 'Point Legend Title',
 	_layersPos: 'Point Legend Position',
+  // Polyline Map Controls
+  _polylineTitle: 'Polyline Legend Title',
+  _polylinePos: 'Polyline Legend Position',
+  _polylineWeight: 'Polyline Thickness',
 	// Polygon Map Display
 	_legendTitle: 'Polygon Legend Title',
 	_legendPosition: 'Polygon Legend Position',
@@ -44,6 +49,6 @@ var constants = {
   _outlineColor: 'Polygon Outline Color',
   _bucketColors: 'Property Range Manual Colors',
   _polygonDisplayImages: 'Display Images When Available',
-  _polygonLabel: 'Display Polygon Label',
-  _polygonLabelMaxZoom: 'Maximum Zoom for Polygon Label'
+  _polygonLabel: 'Display Polygon Labels at Zoom Level',
+  _polygonLabelMaxZoom: 'Maximum Zoom for Polygon Label',
 };

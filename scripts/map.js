@@ -208,20 +208,21 @@ window.onload = function () {
           ? polygonLayers[i][1].trim()
           : polygonLayers[i][0].trim();
 
-        content += '<input type="radio" name="prop" value="' + i + '"> ';
-        content += layer + '<br>';
+        content += '<label><input type="radio" name="prop" value="' + i + '"> ';
+        content += layer + '</label><br>';
       }
 
-      content += '<input type="radio" name="prop" value="-1"> Off</form><div class="legend-scale">';
+      content += '<label><input type="radio" name="prop" value="-1"> Off</form><div class="legend-scale"></label>';
 
       var div = L.DomUtil.create('div', 'info legend');
       div.innerHTML = content;
       div.innerHTML += '</div>';
       return div;
     };
+
     legend.addTo(map);
 
-    $('.legend h6').css({'cursor': 'pointer'}).click(function() {
+    $('.legend h6').click(function() {
       if ($('input[name=prop]:checked').val() != '-1') {
         $(this).siblings().toggle();
       } else {
@@ -383,13 +384,12 @@ window.onload = function () {
     document.title = getSetting('_pageTitle');
     addBaseMap();
 
+    // Add point markers to the map
     var points = tabletop.sheets(constants.pointsSheetName).elements;
     var layers = determineLayers(points);
-
-    // Add point markers to the map
     mapPoints(points, layers);
 
-    // Add geoJSON layer
+    // Add polygons to the map
     if (getSetting('_geojsonURL')) {
       processPolygons();
       $('input:radio[name="prop"]').change(function() {
@@ -397,6 +397,10 @@ window.onload = function () {
       });
       $('input:radio[name="prop"][value="0"]').click();
     }
+
+    // Add polylines
+    var polylines = tabletop.sheets(constants.polylinesSheetName).elements;
+    processPolylines(polylines);
 
     // Add Mapzen search control
     if (getSetting('_mapSearch') == 'on') {
@@ -469,11 +473,69 @@ window.onload = function () {
   }
 
 
+  /**
+   * Adds polylines to the map
+   */
+  function processPolylines(p) {
+    if (!p || p.length == 0) return;
+
+    var pos = (getSetting('_polylinePos') == 'off')
+      ? 'topleft'
+      : getSetting('_polylinePos');
+
+    var polylinesLegend = L.control.layers(null, null, {
+  	  position: pos,
+  	  collapsed: false,
+  	}).addTo(map);
+
+    for (i = 0; i < p.length; i++) {
+      $.getJSON(p[i]['GeoJSON URL'], function(index) {
+        return function(data) {
+          latlng = data['features'][0].geometry.coordinates;
+
+          // Reverse [lon, lat] to [lat, lon] for each point
+          for (j in latlng) {
+            a = latlng[j][0];
+            b = latlng[j][1];
+            latlng[j] = [b, a];
+          }
+
+          line = L.polyline(latlng, {
+            color: (p[index]['Color'] == '') ? 'grey' : p[index]['Color'],
+            weight: trySetting('_polylineWeight', 2),
+          }).addTo(map);
+
+          if (p[index]['Description'] && p[index]['Description'] != '') {
+            line.bindPopup(p[index]['Description']);
+          }
+
+          polylinesLegend.addOverlay(line, p[index]['Display Name']);
+
+          if (index == 0) {
+            polylinesLegend._container.id = 'polylines-legend';
+            if (getSetting('_polylineTitle') != '') {
+              $('#polylines-legend').prepend('<h6>' + getSetting('_polylineTitle') + '</h6>');
+
+              $('#polylines-legend h6').click(function() {
+                $('#polylines-legend>form').toggle();
+              });
+
+              if (getSetting('_polylinePos') == 'off') {
+                $('#polylines-legend').hide();
+              }
+            }
+          }
+        };
+      }(i));
+    }
+  }
+
+
   function initIntroPopup(info, coordinates) {
-    /* This is a pop-up for mobile device */
+    // This is a pop-up for mobile device
     if (window.matchMedia("only screen and (max-width: 760px)").matches) {
       $('body').append('<div id="mobile-intro-popup"><p>' + info +
-        '</p><div id="mobile-intro-popup-close">Close</div></div>');
+        '</p><div id="mobile-intro-popup-close"><i class="fa fa-times"></i></div></div>');
 
       $('#mobile-intro-popup-close').click(function() {
         $("#mobile-intro-popup").hide();
