@@ -16,14 +16,15 @@ Create Leaflet maps with a linked Google Sheets template.
 - Report bugs and suggest features in [Issues](https://github.com/JackDougherty/leaflet-maps-with-google-sheets/issues)
 
 ## Create your own
-- Fork/copy this GitHub code repo and publish with Settings > GitHub Pages
-- File > Make a Copy and Publish your Google Sheets template
-- Paste your Google Sheets ID into the GoogleDocID.js file
-- Customize your map settings the Google Sheets Options tab
+- Required: free accounts on Google Drive and GitHub
+- Fork/copy this GitHub code repo and publish in your Settings > GitHub Pages
+- File > Make a Copy of Google Sheets template, and File > Publish
+- Paste your Google Sheets URL into the google-url.js file on GitHub
+- Customize your map settings in your Google Sheets Options tab
 - Geocode address data and customize markers in the Points tab
-- Upload/link polygon data and set legend colors in Options tab
+- Upload polygon/polyline GeoJSON data to your GitHub and modify in Google Sheets tabs
 
-See step-by-step tutorial at http://datavizforall.org/leaflet/with-google-sheets/
+Step-by-step illustrated tutorial (in progress) at http://datavizforall.org/leaflet/with-google-sheets/
 
 ## Credits (and licenses)
 Created by [Ilya Ilyankou](https://github.com/ilyankou) and Jack Dougherty, using a [Google Sheets](https://www.google.com/sheets/about/) template, with these open-source components:
