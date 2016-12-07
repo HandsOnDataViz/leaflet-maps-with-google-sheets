@@ -12,8 +12,11 @@ Create Leaflet maps with a linked Google Sheets template.
 - Leaflet Map https://jackdougherty.github.io/leaflet-maps-with-google-sheets/index.html
 - Google Sheet template https://docs.google.com/spreadsheets/d/1ZxvU8eGyuN9M8GxTU9acKVJv70iC3px_m3EVFsOHN9g/edit#gid=0
 
+## BETA version
+- Report bugs and suggest features in [Issues](https://github.com/JackDougherty/leaflet-maps-with-google-sheets/issues)
+
 ## Create your own
-- Fork/copy this code repo and publish with GitHub Pages
+- Fork/copy this GitHub code repo and publish with Settings > GitHub Pages
 - File > Make a Copy and Publish your Google Sheets template
 - Paste your Google Sheets ID into the GoogleDocID.js file
 - Customize your map settings the Google Sheets Options tab
@@ -21,9 +24,6 @@ Create Leaflet maps with a linked Google Sheets template.
 - Upload/link polygon data and set legend colors in Options tab
 
 See step-by-step tutorial at http://datavizforall.org/leaflet/with-google-sheets/
-
-## BETA version
-- Report bugs and suggest features in [Issues](https://github.com/JackDougherty/leaflet-maps-with-google-sheets/issues)
 
 ## Credits (and licenses)
 Created by [Ilya Ilyankou](https://github.com/ilyankou) and Jack Dougherty, using a [Google Sheets](https://www.google.com/sheets/about/) template, with these open-source components:
