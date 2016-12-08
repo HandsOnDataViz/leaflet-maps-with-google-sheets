@@ -22,7 +22,7 @@ Create Leaflet maps with a linked Google Sheets template.
 - Paste your Google Sheets URL into the google-doc-url.js file on GitHub
 - Customize your map settings in your Google Sheets Options tab
 - Geocode address data and customize markers in the Points tab
-- Upload polygon/polyline GeoJSON data to your GitHub and modify in Google Sheets tabs
+- Upload polygon/polyline GeoJSON data to GitHub geometry folder and modify in Sheets tabs
 
 Step-by-step illustrated tutorial (in progress) at http://datavizforall.org/leaflet/with-google-sheets/
 
