@@ -40,13 +40,11 @@ h3 {
   height: 0;
 }
 
-.legend h3,
-#polylines-legend h3 {
+.leaflet-control-container h3 {
   margin-bottom: 5px;
 }
 
-.legend h6,
-#polylines-legend h6 {
+.leaflet-control-container h6 {
   cursor: pointer;
 }
 

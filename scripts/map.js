@@ -91,28 +91,22 @@ window.onload = function () {
     if (layers === undefined || layers.length === 0) {
       clusterMarkers(group);
     } else {
-      layersPos = getSetting('_layersPos');
-      var pos;
-
-      if (layersPos == 'off') {
-        pos = 'topleft';
-      } else {
-        pos = layersPos;
-      }
+      var pos = (getSetting('_layersPos') == 'off')
+        ? 'topleft'
+        : getSetting('_layersPos');
 
       L.control.layers(null, layers, {
         collapsed: false,
         position: pos,
       }).addTo(map);
 
-      if (layersPos == 'off') {
+      if (getSetting('_layersPos') == 'off') {
         $('.leaflet-control-layers').hide();
       }
     }
 
     $('<h6>' + getSetting('_pointsTitle') + '</h6>')
       .insertBefore('.leaflet-control-layers-base')
-      .css({'cursor': 'pointer'})
       .click(function() {
         $('.leaflet-control-layers-overlays').toggle();
       });
@@ -193,12 +187,7 @@ window.onload = function () {
     }
 
     var legendPos = trySetting('_legendPosition', 'off');
-    var legend;
-    if (legendPos == 'off') {
-      legend = L.control({position: 'topleft'});
-    } else {
-      legend = L.control({position: legendPos});
-    }
+    var legend = L.control({position: (legendPos == 'off') ? 'topleft' : legendPos});
 
     legend.onAdd = function(map) {
       var content = '<h6>' + getSetting('_legendTitle') + '</h6><form>';
@@ -333,6 +322,9 @@ window.onload = function () {
       geoJsonLayer.addTo(map);
       geoJsonLayer.setStyle(polygonStyle);
       togglePolygonLabels();
+
+      // Toggle polylines (turn them off and then on) so they remain on top
+      doubleClickPolylines();
     } else {
       // Just update colors
       geoJsonLayer.setStyle(polygonStyle);
@@ -356,6 +348,15 @@ window.onload = function () {
     $('.legend-scale').show();
   }
 
+  /**
+   * Perform double click on polyline legend checkboxes so that they get
+   * redrawn and thus get on top of polygons
+   */
+  function doubleClickPolylines() {
+    $('#polylines-legend form label input').each(function(i) {
+      $(this).click().click();
+    });
+  }
 
   function clusterMarkers(group) {
     if (getSetting('_markercluster') === 'on') {
