@@ -100,10 +100,12 @@ window.onload = function () {
         ? 'topleft'
         : getSetting('_layersPos');
 
-      L.control.layers(null, layers, {
+      var pointsLegend = L.control.layers(null, layers, {
         collapsed: false,
         position: pos,
       }).addTo(map);
+
+      pointsLegend._container.id = 'points-legend';
 
       if (getSetting('_layersPos') == 'off') {
         $('.leaflet-control-layers').hide();
@@ -469,12 +471,16 @@ window.onload = function () {
       var subtitle = '<h6>' + getSetting('_subtitle') + '</h6>';
 
       if (dispTitle == 'on map') {
-        $('div.leaflet-top').prepend('<div class="mapTitle">' + title + subtitle + '</div>');
-      } else if (dispTitle == 'in points box') {
-        $('.leaflet-control-layers-list').prepend(title + subtitle);
-      } else if (dispTitle == 'in polygons box') {
+        $('div.leaflet-top').prepend('<div class="map-title">' + title + subtitle + '</div>');
+      } else if (dispTitle == 'in points legend') {
+        $('#points-legend').prepend(title + subtitle);
+      } else if (dispTitle == 'in polygons legend') {
         $('.legend').prepend(title + subtitle);
       }
+
+      // If set to be displayed in polylines legend, this happens in
+      // processPolylines() as <div> for the legend is created later, after the
+      // first polyline geojson is processed.
     }
   }
 
@@ -521,8 +527,16 @@ window.onload = function () {
 
           if (index == 0) {
             polylinesLegend._container.id = 'polylines-legend';
+
             if (getSetting('_polylineTitle') != '') {
               $('#polylines-legend').prepend('<h6>' + getSetting('_polylineTitle') + '</h6>');
+
+              // Add map title if set to be displayed in polylines legend
+              if (getSetting('_displayTitle') == 'in polylines legend') {
+                var title = '<h3>' + getSetting('_pageTitle') + '</h3>';
+                var subtitle = '<h6>' + getSetting('_subtitle') + '</h6>';
+                $('#polylines-legend').prepend(title + subtitle);
+              }
 
               $('#polylines-legend h6').click(function() {
                 $('#polylines-legend>form').toggle();
