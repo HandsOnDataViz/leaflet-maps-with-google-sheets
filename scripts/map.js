@@ -68,13 +68,18 @@ window.onload = function () {
     for (var i in points) {
       var point = points[i];
 
+      // If icon contains '.', assume it's a path to a custom icon,
+      // otherwise create a Font Awesome icon
+      var icon = (point['Marker Icon'].indexOf('.') > 0)
+        ? L.icon({iconUrl: point['Marker Icon']})
+        : createMarkerIcon(point['Marker Icon'],
+              'fa',
+              point['Marker Color'].toLowerCase(),
+              point['Marker Icon Color']);
+
       if (point.Latitude !== '' && point.Longitude !== '') {
-        var marker = L.marker([point.Latitude, point.Longitude], {
-          icon: createMarkerIcon(point['Marker Icon'],
-                'fa',
-                point['Marker Color'].toLowerCase(),
-                point['Marker Icon Color'])
-          }).bindPopup("<b>" + point['Title'] + '</b><br>' +
+        var marker = L.marker([point.Latitude, point.Longitude], {icon: icon})
+          .bindPopup("<b>" + point['Title'] + '</b><br>' +
           (point['Image'] ? ('<img src="' + point['Image'] + '"><br>') : '') +
           point['Description']);
 
@@ -91,28 +96,22 @@ window.onload = function () {
     if (layers === undefined || layers.length === 0) {
       clusterMarkers(group);
     } else {
-      layersPos = getSetting('_layersPos');
-      var pos;
-
-      if (layersPos == 'off') {
-        pos = 'topleft';
-      } else {
-        pos = layersPos;
-      }
+      var pos = (getSetting('_layersPos') == 'off')
+        ? 'topleft'
+        : getSetting('_layersPos');
 
       L.control.layers(null, layers, {
         collapsed: false,
         position: pos,
       }).addTo(map);
 
-      if (layersPos == 'off') {
+      if (getSetting('_layersPos') == 'off') {
         $('.leaflet-control-layers').hide();
       }
     }
 
     $('<h6>' + getSetting('_pointsTitle') + '</h6>')
       .insertBefore('.leaflet-control-layers-base')
-      .css({'cursor': 'pointer'})
       .click(function() {
         $('.leaflet-control-layers-overlays').toggle();
       });
@@ -193,12 +192,7 @@ window.onload = function () {
     }
 
     var legendPos = trySetting('_legendPosition', 'off');
-    var legend;
-    if (legendPos == 'off') {
-      legend = L.control({position: 'topleft'});
-    } else {
-      legend = L.control({position: legendPos});
-    }
+    var legend = L.control({position: (legendPos == 'off') ? 'topleft' : legendPos});
 
     legend.onAdd = function(map) {
       var content = '<h6>' + getSetting('_legendTitle') + '</h6><form>';
@@ -212,7 +206,7 @@ window.onload = function () {
         content += layer + '</label><br>';
       }
 
-      content += '<label><input type="radio" name="prop" value="-1"> Off</form><div class="legend-scale"></label>';
+      content += '<label><input type="radio" name="prop" value="-1"> Off</label></form><div class="legend-scale">';
 
       var div = L.DomUtil.create('div', 'info legend');
       div.innerHTML = content;
@@ -333,6 +327,9 @@ window.onload = function () {
       geoJsonLayer.addTo(map);
       geoJsonLayer.setStyle(polygonStyle);
       togglePolygonLabels();
+
+      // Toggle polylines (turn them off and then on) so they remain on top
+      doubleClickPolylines();
     } else {
       // Just update colors
       geoJsonLayer.setStyle(polygonStyle);
@@ -356,6 +353,15 @@ window.onload = function () {
     $('.legend-scale').show();
   }
 
+  /**
+   * Perform double click on polyline legend checkboxes so that they get
+   * redrawn and thus get on top of polygons
+   */
+  function doubleClickPolylines() {
+    $('#polylines-legend form label input').each(function(i) {
+      $(this).click().click();
+    });
+  }
 
   function clusterMarkers(group) {
     if (getSetting('_markercluster') === 'on') {
@@ -509,7 +515,9 @@ window.onload = function () {
             line.bindPopup(p[index]['Description']);
           }
 
-          polylinesLegend.addOverlay(line, p[index]['Display Name']);
+          polylinesLegend.addOverlay(line,
+            '<i class="color-line" style="background-color:' + p[index]['Color']
+            + '"></i> ' + p[index]['Display Name']);
 
           if (index == 0) {
             polylinesLegend._container.id = 'polylines-legend';
