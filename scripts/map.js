@@ -201,7 +201,7 @@ window.onload = function () {
         content += layer + '</label><br>';
       }
 
-      content += '<label><input type="radio" name="prop" value="-1"> Off</form><div class="legend-scale"></label>';
+      content += '<label><input type="radio" name="prop" value="-1"> Off</label></form><div class="legend-scale">';
 
       var div = L.DomUtil.create('div', 'info legend');
       div.innerHTML = content;
