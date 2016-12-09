@@ -509,7 +509,9 @@ window.onload = function () {
             line.bindPopup(p[index]['Description']);
           }
 
-          polylinesLegend.addOverlay(line, p[index]['Display Name']);
+          polylinesLegend.addOverlay(line,
+            '<i class="color-line" style="background-color:' + p[index]['Color']
+            + '"></i> ' + p[index]['Display Name']);
 
           if (index == 0) {
             polylinesLegend._container.id = 'polylines-legend';

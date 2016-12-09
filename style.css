@@ -208,3 +208,10 @@ h3 {
   opacity: 0.9;
   pointer-events: none !important;
 }
+
+.color-line {
+  display: inline-block;
+  vertical-align: middle;
+  height: 3px;
+  width: 20px;
+}
