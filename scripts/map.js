@@ -68,13 +68,18 @@ window.onload = function () {
     for (var i in points) {
       var point = points[i];
 
+      // If icon contains '.', assume it's a path to a custom icon,
+      // otherwise create a Font Awesome icon
+      var icon = (point['Marker Icon'].indexOf('.') > 0)
+        ? L.icon({iconUrl: point['Marker Icon']})
+        : createMarkerIcon(point['Marker Icon'],
+              'fa',
+              point['Marker Color'].toLowerCase(),
+              point['Marker Icon Color']);
+
       if (point.Latitude !== '' && point.Longitude !== '') {
-        var marker = L.marker([point.Latitude, point.Longitude], {
-          icon: createMarkerIcon(point['Marker Icon'],
-                'fa',
-                point['Marker Color'].toLowerCase(),
-                point['Marker Icon Color'])
-          }).bindPopup("<b>" + point['Title'] + '</b><br>' +
+        var marker = L.marker([point.Latitude, point.Longitude], {icon: icon})
+          .bindPopup("<b>" + point['Title'] + '</b><br>' +
           (point['Image'] ? ('<img src="' + point['Image'] + '"><br>') : '') +
           point['Description']);
 
