@@ -108,15 +108,14 @@ window.onload = function () {
       pointsLegend._container.id = 'points-legend';
 
       if (getSetting('_layersPos') == 'off') {
-        $('.leaflet-control-layers').hide();
+        $('#pointsLegend').hide();
       }
     }
 
-    $('<h6>' + getSetting('_pointsTitle') + '</h6>')
-      .insertBefore('.leaflet-control-layers-base')
-      .click(function() {
-        $('.leaflet-control-layers-overlays').toggle();
-      });
+    $('#points-legend').prepend('<h6 class="pointer">' + getSetting('_pointsTitle') + '</h6>');
+    $('#points-legend h6').click(function() {
+      $('#points-legend form').toggle();
+    });
 
     centerAndZoomMap(group);
   }
@@ -194,10 +193,10 @@ window.onload = function () {
     }
 
     var legendPos = trySetting('_legendPosition', 'off');
-    var legend = L.control({position: (legendPos == 'off') ? 'topleft' : legendPos});
+    var polygonsLegend = L.control({position: (legendPos == 'off') ? 'topleft' : legendPos});
 
-    legend.onAdd = function(map) {
-      var content = '<h6>' + getSetting('_legendTitle') + '</h6><form>';
+    polygonsLegend.onAdd = function(map) {
+      var content = '<h6 class="pointer">' + getSetting('_legendTitle') + '</h6><form>';
 
       for (i in polygonLayers) {
         var layer = polygonLayers[i][1]
@@ -208,26 +207,26 @@ window.onload = function () {
         content += layer + '</label><br>';
       }
 
-      content += '<label><input type="radio" name="prop" value="-1"> Off</label></form><div class="legend-scale">';
+      content += '<label><input type="radio" name="prop" value="-1"> Off</label></form><div class="polygons-legend-scale">';
 
-      var div = L.DomUtil.create('div', 'info legend');
+      var div = L.DomUtil.create('div', 'leaflet-control leaflet-control-custom leaflet-bar polygons-legend');
       div.innerHTML = content;
       div.innerHTML += '</div>';
       return div;
     };
 
-    legend.addTo(map);
+    polygonsLegend.addTo(map);
 
-    $('.legend h6').click(function() {
+    $('.polygons-legend h6').click(function() {
       if ($('input[name=prop]:checked').val() != '-1') {
         $(this).siblings().toggle();
       } else {
-        $('.legend>form').toggle();
+        $('.polygons-legend>form').toggle();
       }
     });
 
     if (legendPos == 'off') {
-      $('.legend').hide();
+      $('.polygons-legend').hide();
     }
   }
 
@@ -307,7 +306,7 @@ window.onload = function () {
    */
   function updatePolygons(p) {
     if (p == '-1') {
-      $('.legend-scale').hide();
+      $('.polygons-legend-scale').hide();
       map.removeLayer(geoJsonLayer);
       $('.polygon-label').hide();
       return;
@@ -337,7 +336,7 @@ window.onload = function () {
       geoJsonLayer.setStyle(polygonStyle);
     }
 
-    $('.legend-scale').html('');
+    $('.polygons-legend-scale').html('');
 
     var labels = [];
     var from, to;
@@ -347,12 +346,13 @@ window.onload = function () {
       to = divisors[p][i + 1];
 
       labels.push(
-        '<i style="background:' + getColor(from) + '"></i> ' +
+        '<i style="background:' + getColor(from) + '; opacity: '
+        + trySetting('_colorOpacity', '0.7') + '"></i> ' +
         from + ((to && isNumerical[p]) ? '&ndash;' + to : (isNumerical[p]) ? '+' : ''));
     }
 
-    $('.legend-scale').html(labels.join('<br>'));
-    $('.legend-scale').show();
+    $('.polygons-legend-scale').html(labels.join('<br>'));
+    $('.polygons-legend-scale').show();
   }
 
   /**
@@ -467,16 +467,18 @@ window.onload = function () {
     var dispTitle = getSetting('_displayTitle');
 
     if (dispTitle !== 'off') {
-      var title = '<h3>' + getSetting('_pageTitle') + '</h3>';
-      var subtitle = '<h6>' + getSetting('_subtitle') + '</h6>';
+      var title = '<h3 class="pointer">' + getSetting('_pageTitle') + '</h3>';
+      var subtitle = '<h5>' + getSetting('_subtitle') + '</h5>';
 
       if (dispTitle == 'on map') {
-        $('div.leaflet-top').prepend('<div class="map-title">' + title + subtitle + '</div>');
+        $('div.leaflet-top').prepend('<div class="map-title leaflet-bar leaflet-control leaflet-control-custom">' + title + subtitle + '</div>');
       } else if (dispTitle == 'in points legend') {
         $('#points-legend').prepend(title + subtitle);
       } else if (dispTitle == 'in polygons legend') {
-        $('.legend').prepend(title + subtitle);
+        $('.polygons-legend').prepend(title + subtitle);
       }
+
+      $('.map-title h3').click(function() { location.reload(); });
 
       // If set to be displayed in polylines legend, this happens in
       // processPolylines() as <div> for the legend is created later, after the
@@ -529,7 +531,7 @@ window.onload = function () {
             polylinesLegend._container.id = 'polylines-legend';
 
             if (getSetting('_polylineTitle') != '') {
-              $('#polylines-legend').prepend('<h6>' + getSetting('_polylineTitle') + '</h6>');
+              $('#polylines-legend').prepend('<h6 class="pointer">' + getSetting('_polylineTitle') + '</h6>');
 
               // Add map title if set to be displayed in polylines legend
               if (getSetting('_displayTitle') == 'in polylines legend') {
