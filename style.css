@@ -12,27 +12,24 @@ body {
   visibility: hidden;
 }
 
-h6 {
-  margin: 0 0 2px 0;
-  font-size: 1.2em;
-}
-
 h3 {
   margin: 0;
   font-size: 1.5em;
 }
 
-.leaflet-top .map-title {
-  margin: 5px 5px 0 10px;
-  padding: 0 5px;
-  background-color: #fff;
-  opacity: 0.8;
-  border-radius: 4px;
-  max-width: 450px;
+h5 {
+  margin: 0;
+  font-size: 1.25em;
+  font-weight: normal;
 }
 
-.map-title h6 {
-  font-weight: normal;
+h6 {
+  margin: 0;
+  font-size: 1.2em;
+}
+
+.leaflet-top .map-title {
+  max-width: 450px;
 }
 
 .intro-popup .leaflet-popup-tip-container {
@@ -40,35 +37,33 @@ h3 {
   height: 0;
 }
 
-.leaflet-control-container h6 {
+.pointer {
   cursor: pointer;
 }
 
-.info {
+.leaflet-control-custom {
   padding: 6px 8px;
   background: white;
   box-shadow: 0 1px 5px rgba(0,0,0,0.4);
+  color: #333;
   border-radius: 5px;
 }
 
-.legend {
-  text-align: left;
-  line-height: 18px;
-  color: #333;
+form {
+  margin-top: 2px;
 }
 
-.legend i {
+.polygons-legend-scale {
+  margin-top: 4px;
+  padding-top: 7px;
+  border-top: dotted 3px #eee;
+}
+
+.polygons-legend-scale i {
   width: 18px;
   height: 18px;
   float: left;
   margin-right: 8px;
-  opacity: 0.7;
-}
-
-.legend-scale {
-  margin-top: 4px;
-  padding-top: 7px;
-  border-top: dotted 3px #eee;
 }
 
 .leaflet-popup-content {
@@ -157,7 +152,7 @@ h3 {
   }
 
   .leaflet-left .map-title {
-    width: 100%;
+    width: 98%;
   }
 }
 
