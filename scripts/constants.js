@@ -8,10 +8,11 @@ var constants = {
   /* OPTIONS */
 	// Map Info
   _pageTitle: 'Page Title',
-  _subtitle: 'Subtitle',
+  _pageSubtitle: 'Subtitle',
   _displayTitle: 'Display Title',
 	_authorName: 'Author Name',
 	_authorURL: 'Author Email or Website',
+  _codeCredit: 'Code Credit',
 	_githubRepo: 'Author GitHub Repo Link',
 	// Map Settings
 	_tileProvider: 'Basemap Tiles',
@@ -21,7 +22,7 @@ var constants = {
   _initLat: 'Initial Center Latitude',
   _initLon: 'Initial Center Longitude',
 	// Map Controls
-	_mapSearch: 'Search Button Display',
+	_displayMapSearch: 'Search Button Display',
   _mapzenKey: 'Mapzen Search Key',
 	_mapSearchPos: 'Search Button Position',
 	_searchCircleRadius: 'Search Radius',
@@ -31,16 +32,16 @@ var constants = {
 	_locateControlPos: 'Show My Location',
 	_attrPos: 'Credits and Attribution',
 	// Point Map Display
-	_pointsTitle: 'Point Legend Title',
-	_layersPos: 'Point Legend Position',
+	_pointsLegendTitle: 'Point Legend Title',
+	_pointsLegendPos: 'Point Legend Position', // layersPos
   // Polyline Map Controls
-  _polylineTitle: 'Polyline Legend Title',
-  _polylinePos: 'Polyline Legend Position',
-  _polylineWeight: 'Polyline Thickness',
+  _polylinesLegendTitle: 'Polyline Legend Title',
+  _polylinesLegendPos: 'Polyline Legend Position',
+  _polylinesWeight: 'Polyline Thickness',
 	// Polygon Map Display
-	_legendTitle: 'Polygon Legend Title',
-	_legendPosition: 'Polygon Legend Position',
-  _geojsonURL: 'Polygon GeoJSON URL',
+	_polygonsLegendTitle: 'Polygon Legend Title',
+	_polygonsLegendPosition: 'Polygon Legend Position',
+  _polygonsGeojsonURL: 'Polygon GeoJSON URL',
   _popupProp: 'Property Popups, Labels',
   _polygonLayers: 'Polygon Properties, Labels',
   _bucketDivisors: 'Property Ranges',

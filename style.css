@@ -205,3 +205,8 @@ form {
   height: 3px;
   width: 20px;
 }
+
+.markers-legend-icon {
+  height: 12px;
+  vertical-align: middle;
+}
