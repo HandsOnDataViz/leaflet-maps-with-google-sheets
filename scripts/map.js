@@ -477,7 +477,7 @@ window.onload = function () {
       var title = '<h3 class="pointer">' + getSetting('_pageTitle') + '</h3>';
       var subtitle = '<h5>' + getSetting('_pageSubtitle') + '</h5>';
 
-      if (dispTitle == 'on map') {
+      if (dispTitle == 'on') {
         $('div.leaflet-top').prepend('<div class="map-title leaflet-bar leaflet-control leaflet-control-custom">' + title + subtitle + '</div>');
       } else if (dispTitle == 'in points legend') {
         $('#points-legend').prepend(title + subtitle);

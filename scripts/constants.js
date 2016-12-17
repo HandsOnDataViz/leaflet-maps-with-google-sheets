@@ -33,7 +33,7 @@ var constants = {
 	_attrPos: 'Credits and Attribution',
 	// Point Map Display
 	_pointsLegendTitle: 'Point Legend Title',
-	_pointsLegendPos: 'Point Legend Position', // layersPos
+	_pointsLegendPos: 'Point Legend Position',
   // Polyline Map Controls
   _polylinesLegendTitle: 'Polyline Legend Title',
   _polylinesLegendPos: 'Polyline Legend Position',
