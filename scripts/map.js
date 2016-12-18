@@ -43,7 +43,11 @@ window.onload = function () {
     for (var i in points) {
       var pointLayerNameFromSpreadsheet = points[i].Group;
       if (layerNamesFromSpreadsheet.indexOf(pointLayerNameFromSpreadsheet) === -1) {
-        markerColors.push(points[i]['Marker Color']);
+        markerColors.push(
+          points[i]['Marker Icon'].indexOf('.') > 0
+          ? points[i]['Marker Icon']
+          : points[i]['Marker Color']
+        );
         layerNamesFromSpreadsheet.push(pointLayerNameFromSpreadsheet);
       }
     }
@@ -96,9 +100,9 @@ window.onload = function () {
     if (layers === undefined || layers.length === 0) {
       clusterMarkers(group);
     } else {
-      var pos = (getSetting('_layersPos') == 'off')
+      var pos = (getSetting('_pointsLegendPos') == 'off')
         ? 'topleft'
-        : getSetting('_layersPos');
+        : getSetting('_pointsLegendPos');
 
       var pointsLegend = L.control.layers(null, layers, {
         collapsed: false,
@@ -107,12 +111,12 @@ window.onload = function () {
 
       pointsLegend._container.id = 'points-legend';
 
-      if (getSetting('_layersPos') == 'off') {
+      if (getSetting('_pointsLegendPos') == 'off') {
         $('#pointsLegend').hide();
       }
     }
 
-    $('#points-legend').prepend('<h6 class="pointer">' + getSetting('_pointsTitle') + '</h6>');
+    $('#points-legend').prepend('<h6 class="pointer">' + getSetting('_pointsLegendTitle') + '</h6>');
     $('#points-legend h6').click(function() {
       $('#points-legend form').toggle();
     });
@@ -192,11 +196,11 @@ window.onload = function () {
       }
     }
 
-    var legendPos = trySetting('_legendPosition', 'off');
+    var legendPos = trySetting('_polygonsLegendPosition', 'off');
     var polygonsLegend = L.control({position: (legendPos == 'off') ? 'topleft' : legendPos});
 
     polygonsLegend.onAdd = function(map) {
-      var content = '<h6 class="pointer">' + getSetting('_legendTitle') + '</h6><form>';
+      var content = '<h6 class="pointer">' + getSetting('_polygonsLegendTitle') + '</h6><form>';
 
       for (i in polygonLayers) {
         var layer = polygonLayers[i][1]
@@ -316,7 +320,7 @@ window.onload = function () {
 
     if (!geoJsonLayer) {
       // Load the very first time polygons-sample.geojson
-      $.getJSON(getSetting('_geojsonURL'), function(data) {
+      $.getJSON(getSetting('_polygonsGeojsonURL'), function(data) {
         geoJsonLayer = L.geoJson(data, {
           style: polygonStyle,
           onEachFeature: onEachFeature
@@ -398,7 +402,7 @@ window.onload = function () {
     mapPoints(points, layers);
 
     // Add polygons to the map
-    if (getSetting('_geojsonURL')) {
+    if (getSetting('_polygonsGeojsonURL')) {
       processPolygons();
       $('input:radio[name="prop"]').change(function() {
         updatePolygons($(this).val());
@@ -411,7 +415,7 @@ window.onload = function () {
     processPolylines(polylines);
 
     // Add Mapzen search control
-    if (getSetting('_mapSearch') == 'on') {
+    if (getSetting('_displayMapSearch') == 'on') {
       L.control.geocoder(trySetting('_mapzenKey', 'mapzen-VBmxRzC'), {
         focus: true,
         position: trySetting('_mapSearchPos', 'topright'),
@@ -443,11 +447,14 @@ window.onload = function () {
     // Change Map attribution to include author's info + urls
     changeAttribution();
 
-    // Generate color squares for marker layers control
-    $('.leaflet-control-layers-overlays div span').each(function(i) {
-      $(this).prepend('&nbsp;<i class="fa fa-map-marker" style="color: '
-        + markerColors[i]
-        + '"></i>');
+    // Generate icons for markers legend
+    $('#points-legend form label span').each(function(i) {
+      var legendIcon = (markerColors[i].indexOf('.') > 0)
+        ? '<img src="' + markerColors[i] + '" class="markers-legend-icon">'
+        : '&nbsp;<i class="fa fa-map-marker" style="color: '
+          + markerColors[i]
+          + '"></i>';
+      $(this).prepend(legendIcon);
     });
 
     // All processing has been done, so hide the loader and make the map visible
@@ -468,9 +475,9 @@ window.onload = function () {
 
     if (dispTitle !== 'off') {
       var title = '<h3 class="pointer">' + getSetting('_pageTitle') + '</h3>';
-      var subtitle = '<h5>' + getSetting('_subtitle') + '</h5>';
+      var subtitle = '<h5>' + getSetting('_pageSubtitle') + '</h5>';
 
-      if (dispTitle == 'on map') {
+      if (dispTitle == 'on') {
         $('div.leaflet-top').prepend('<div class="map-title leaflet-bar leaflet-control leaflet-control-custom">' + title + subtitle + '</div>');
       } else if (dispTitle == 'in points legend') {
         $('#points-legend').prepend(title + subtitle);
@@ -493,9 +500,9 @@ window.onload = function () {
   function processPolylines(p) {
     if (!p || p.length == 0) return;
 
-    var pos = (getSetting('_polylinePos') == 'off')
+    var pos = (getSetting('_polylinesLegendPos') == 'off')
       ? 'topleft'
-      : getSetting('_polylinePos');
+      : getSetting('_polylinesLegendPos');
 
     var polylinesLegend = L.control.layers(null, null, {
   	  position: pos,
@@ -516,7 +523,7 @@ window.onload = function () {
 
           line = L.polyline(latlng, {
             color: (p[index]['Color'] == '') ? 'grey' : p[index]['Color'],
-            weight: trySetting('_polylineWeight', 2),
+            weight: trySetting('_polylinesWeight', 2),
           }).addTo(map);
 
           if (p[index]['Description'] && p[index]['Description'] != '') {
@@ -530,13 +537,13 @@ window.onload = function () {
           if (index == 0) {
             polylinesLegend._container.id = 'polylines-legend';
 
-            if (getSetting('_polylineTitle') != '') {
-              $('#polylines-legend').prepend('<h6 class="pointer">' + getSetting('_polylineTitle') + '</h6>');
+            if (getSetting('_polylinesLegendTitle') != '') {
+              $('#polylines-legend').prepend('<h6 class="pointer">' + getSetting('_polylinesLegendTitle') + '</h6>');
 
               // Add map title if set to be displayed in polylines legend
               if (getSetting('_displayTitle') == 'in polylines legend') {
                 var title = '<h3>' + getSetting('_pageTitle') + '</h3>';
-                var subtitle = '<h6>' + getSetting('_subtitle') + '</h6>';
+                var subtitle = '<h6>' + getSetting('_pageSubtitle') + '</h6>';
                 $('#polylines-legend').prepend(title + subtitle);
               }
 
@@ -544,7 +551,7 @@ window.onload = function () {
                 $('#polylines-legend>form').toggle();
               });
 
-              if (getSetting('_polylinePos') == 'off') {
+              if (getSetting('_polylinesLegendPos') == 'off') {
                 $('#polylines-legend').hide();
               }
             }
@@ -605,7 +612,9 @@ window.onload = function () {
       credit += ' | ';
     }
 
-    credit += 'View <a href="' + getSetting('_githubRepo') + '">code</a> with ';
+    credit += 'View <a href="' + getSetting('_githubRepo') + '">code</a>';
+    if (getSetting('_codeCredit')) credit += ' by ' + getSetting('_codeCredit');
+    credit += ' with ';
     $('.leaflet-control-attribution')[0].innerHTML = credit + attributionHTML;
   }
 
