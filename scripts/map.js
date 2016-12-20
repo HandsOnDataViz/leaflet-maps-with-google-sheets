@@ -65,7 +65,7 @@ window.onload = function () {
     return layers;
   }
 
-  // only run this after Tabletop has loaded (onTabletopLoad())
+  // only run this after data has loaded (onDataLoad())
   function mapPoints(points, layers) {
     var markerArray = [];
     // check that map has loaded before adding points to it?
@@ -388,16 +388,16 @@ window.onload = function () {
   /**
    * Here all data processing from the spreadsheet happens
    */
-  function onTabletopLoad() {
-    var options = tabletop.sheets(constants.optionsSheetName).elements;
-    var polygons = tabletop.sheets(constants.polygonsSheetName).elements;
+  function onDataLoad() {
+    var options = mapData.sheets(constants.optionsSheetName).elements;
+    var polygons = mapData.sheets(constants.polygonsSheetName).elements;
     createDocumentSettings(options.concat(polygons));
 
     document.title = getSetting('_pageTitle');
     addBaseMap();
 
     // Add point markers to the map
-    var points = tabletop.sheets(constants.pointsSheetName).elements;
+    var points = mapData.sheets(constants.pointsSheetName).elements;
     var layers = determineLayers(points);
     mapPoints(points, layers);
 
@@ -411,7 +411,7 @@ window.onload = function () {
     }
 
     // Add polylines
-    var polylines = tabletop.sheets(constants.polylinesSheetName).elements;
+    var polylines = mapData.sheets(constants.polylinesSheetName).elements;
     processPolylines(polylines);
 
     // Add Mapzen search control
@@ -655,11 +655,27 @@ window.onload = function () {
   /**
    * Triggers the load of the spreadsheet and map creation
    */
-  var tabletop = Tabletop.init({
-    key: googleDocURL,
-    callback: function(data, tabletop) { onTabletopLoad(); }
-  });
+   var mapData;
 
+   $.ajax({
+       url:'csv/Options.csv',
+       type:'HEAD',
+       error: function()
+       {
+         // Options.csv does not exist, so use Tabletop to fetch data from
+         // the Google sheet
+         mapData = Tabletop.init({
+           key: googleDocURL,
+           callback: function(data, mapData) { onDataLoad(); }
+         });
+       },
+       success: function()
+       {
+         // Get all data from .csv files
+         mapData = Procsv;
+         onDataLoad();
+       }
+   });
 
   /**
    * Reformulates documentSettings as a dictionary, e.g.
