@@ -65,7 +65,7 @@ window.onload = function () {
     return layers;
   }
 
-  // only run this after data has loaded (onDataLoad())
+  // only run this after data has loaded (onMapDataLoad())
   function mapPoints(points, layers) {
     var markerArray = [];
     // check that map has loaded before adding points to it?
@@ -388,7 +388,7 @@ window.onload = function () {
   /**
    * Here all data processing from the spreadsheet happens
    */
-  function onDataLoad() {
+  function onMapDataLoad() {
     var options = mapData.sheets(constants.optionsSheetName).elements;
     var polygons = mapData.sheets(constants.polygonsSheetName).elements;
     createDocumentSettings(options.concat(polygons));
@@ -660,20 +660,22 @@ window.onload = function () {
    $.ajax({
        url:'csv/Options.csv',
        type:'HEAD',
-       error: function()
-       {
+       error: function() {
          // Options.csv does not exist, so use Tabletop to fetch data from
          // the Google sheet
          mapData = Tabletop.init({
            key: googleDocURL,
-           callback: function(data, mapData) { onDataLoad(); }
+           callback: function(data, mapData) { onMapDataLoad(); }
          });
        },
-       success: function()
-       {
+       success: function() {
          // Get all data from .csv files
          mapData = Procsv;
-         onDataLoad();
+         mapData.load({
+           self: mapData,
+           tabs: ['Options', 'Points', 'Polygons', 'Polylines'],
+           callback: onMapDataLoad
+         });
        }
    });
 

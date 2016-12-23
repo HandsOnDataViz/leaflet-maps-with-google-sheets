@@ -1,22 +1,32 @@
+/**
+ * Fetches data from .csv files and returns them just like Tabletop
+ */
 var Procsv = {
-  sheets: function(sheet) {
-    var csv = '';
-
-    $.ajax({
-      url: 'csv/' + sheet + '.csv',
-      type: 'get',
-      dataType: 'text',
-      async: false,
-      success: function(data) { csv = data; }
-    });
-
-    if (csv === '') {
-      alert('Could not load ' + sheet + ' sheet.');
-      return;
+  // Recursive function that loads the contents of csv files one after the other,
+  // and calls the callback function when all tabs are loaded
+  load: function load(options) {
+    t = options.tabs.shift();
+    if (!t) {
+      options.callback();
+    } else {
+      $.ajax({
+        url: 'csv/' + t + '.csv',
+        type: 'get',
+        dataType: 'text',
+        success: function(data) {
+          if (!data) {
+            alert('Could not load ' + t + ' sheet.');
+            return;
+          }
+          options.self[t] = $.csv.toObjects(data);
+          load(options);
+        }
+      });
     }
+  },
 
-    csv = $.csv.toObjects(csv);
-
-    return {'elements': csv};
+  // Returns an object with contents of the requested tab (sheet)
+  sheets: function(sheet) {
+    return {'elements': this[sheet]};
   }
 };
