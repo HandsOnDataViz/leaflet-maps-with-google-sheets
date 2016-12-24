@@ -1,5 +1,4 @@
-window.onload = function () {
-
+$(window).on('load', function() {
   var documentSettings = {};
   var markerColors = [];
 
@@ -77,9 +76,9 @@ window.onload = function () {
       var icon = (point['Marker Icon'].indexOf('.') > 0)
         ? L.icon({iconUrl: point['Marker Icon']})
         : createMarkerIcon(point['Marker Icon'],
-              'fa',
-              point['Marker Color'].toLowerCase(),
-              point['Marker Icon Color']);
+          'fa',
+          point['Marker Color'].toLowerCase(),
+          point['Marker Icon Color']);
 
       if (point.Latitude !== '' && point.Longitude !== '') {
         var marker = L.marker([point.Latitude, point.Longitude], {icon: icon})
@@ -296,10 +295,10 @@ window.onload = function () {
     // Add polygon label if needed
     if (getSetting('_polygonLabel') != '') {
       var myTextLabel = L.marker(polylabel(layer.feature.geometry.coordinates, 1.0).reverse(), {
-          icon: L.divIcon({
-              className: 'polygon-label',
-              html: feature.properties[getSetting('_polygonLabel')],
-          })
+        icon: L.divIcon({
+          className: 'polygon-label',
+          html: feature.properties[getSetting('_polygonLabel')],
+        })
       });
       myTextLabel.addTo(map);
     }
@@ -371,16 +370,16 @@ window.onload = function () {
 
   function clusterMarkers(group) {
     if (getSetting('_markercluster') === 'on') {
-        var cluster = L.markerClusterGroup({
-            polygonOptions: {
-                opacity: 0.3,
-                weight: 3
-            }
-        });
-        cluster.addLayer(group);
-        map.addLayer(cluster);
+      var cluster = L.markerClusterGroup({
+        polygonOptions: {
+          opacity: 0.3,
+          weight: 3
+        }
+      });
+      cluster.addLayer(group);
+      map.addLayer(cluster);
     } else {
-        map.addLayer(group);
+      map.addLayer(group);
     }
   }
 
@@ -570,7 +569,7 @@ window.onload = function () {
 
       $('#mobile-intro-popup-close').click(function() {
         $("#mobile-intro-popup").hide();
-      })
+      });
       return;
     }
 
@@ -690,4 +689,4 @@ window.onload = function () {
     }
   }
 
-};
+});
