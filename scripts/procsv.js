@@ -14,12 +14,11 @@ var Procsv = {
         type: 'get',
         dataType: 'text',
         success: function(data) {
-          if (!data) {
-            alert('Could not load ' + t + ' sheet.');
-            return;
-          }
           options.self[t] = $.csv.toObjects(data);
           load(options);
+        },
+        error: function() {
+          alert('Error: Could not load ' + t + ' sheet');
         }
       });
     }
