@@ -1,0 +1,17 @@
+Setting,Customize,Hints,Examples
+Polygon Map Controls,,,
+Polygon Legend Title,Sample polygons,Title to display at top of polygon legend (or leave blank),
+Polygon Legend Position,topleft,,
+Polygon GeoJSON URL,geometry/polygons-sample.geojson,"Polygon file name in your GitHub repo, or external web address (or leave blank if no polygon data)",
+Display Images When Available,off,"When a polygon is clicked, display ""img"" property in geoJSON, if available.",
+Display Polygon Labels at Zoom Level,name,Name of label from GeoJSON (or leave blank for none),
+Maximum Zoom for Polygon Label,9,Labels will appear at this zoom level and above,
+Polygon Data,,,
+"Polygon Properties, Labels","pop2010, Population; density-text, Density; density-number","List properties of GeoJSON layers to be displayed, separated by semicolons. (Leave blank if no polygon data) List labels to display for each property in the order listed above, separated with semicolons, but none at the end. (Leave blank if no polygon data)",
+Property Ranges,"0, 5000, 20000, 50000, 100000; low, medium, high; 0, 1000","List ranges to group data for each property in the order listed above. Use either numbers (which will appear with dashes) or text labels (such as low, medium, high). Separate dividers by commas, and separate each range with a semicolon, but none at end. (Leave blank if no polygon data)",
+"Property Popups, Labels","name, Town; pop2010; density-number, Density",EXPLAIN that terms after commas are aliases...,
+Color Settings,,,
+Property Range Color Palette,cb-Blues,Select a ColorBrewer palette for all property ranges listed above. ,http://colorbrewer.org
+Property Range Manual Colors,";;lightgray,blue","Leave blank to use the automatic Color Pallette above, OR manually list color words (e.g. ""green"") or hex codes (e.g. #EE6A50) to select colors for the divisions in each range above. The number of colors must match the number of dividers in each range. Separate dividers by commas, and separate each range with a semicolon, but none at the end. ",
+Polygon Color Opacity,0.7,Leave blank for default (0.7) or insert number between 0 (transparent) and 1 (opaque).,
+Polygon Outline Color,,"Leave blank for default (white) or insert a color word (such as ""black"") or hex code.",

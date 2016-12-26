@@ -1,0 +1,3 @@
+GeoJSON URL,Display Name,Description,Color
+geometry/polyline-sample1.geojson,West Hartford route,West Hartford 25-mile bike route,orange
+geometry/polyline-sample2.geojson,New Britain route,New Britain 25-mile bike route,red
