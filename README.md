@@ -42,3 +42,4 @@ Created by [Ilya Ilyankou](https://github.com/ilyankou) and Jack Dougherty, usin
 - Google Colour Palette Generator (2015) https://github.com/google/palette.js (MIT)
 - Google Sheets Geocoding Macro (2016) https://github.com/nuket/google-sheets-geocoding-macro (no license)
 - ADD MORE DETAILS ON: polylabels.js, which contains two libraries: https://github.com/mapbox/polylabel + TinyQueue (https://github.com/mourner/tinyqueue needed for polylabel to work)
+- ADD MORE DETAILS ON: jQuery-csv (jQuery Plugin) MIT License, by Evan Plaice. https://github.com/evanplaice/jquery-csv
