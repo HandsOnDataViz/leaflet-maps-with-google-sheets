@@ -392,7 +392,7 @@ $(window).on('load', function() {
     var polygons = mapData.sheets(constants.polygonsSheetName).elements;
     createDocumentSettings(options.concat(polygons));
 
-    document.title = getSetting('_pageTitle');
+    document.title = getSetting('_mapTitle');
     addBaseMap();
 
     // Add point markers to the map
@@ -414,28 +414,30 @@ $(window).on('load', function() {
     processPolylines(polylines);
 
     // Add Mapzen search control
-    if (getSetting('_displayMapSearch') == 'on') {
-      L.control.geocoder(trySetting('_mapzenKey', 'mapzen-VBmxRzC'), {
+    if (getSetting('_mapSearch') !== 'off') {
+      L.control.geocoder(getSetting('_mapSearchKey'), {
         focus: true,
-        position: trySetting('_mapSearchPos', 'topright'),
-        zoom: trySetting('_searchZoom', 12),
+        position: getSetting('_mapSearch'),
+        zoom: trySetting('_mapSearchZoom', 12),
         circle: true,
-        circleRadius: trySetting('_searchCircleRadius', 1),
+        circleRadius: trySetting('_mapSearchCircleRadius', 1),
         autocomplete: true,
       }).addTo(map);
     }
 
     // Add location control
-    if (getSetting('_locateControlPos') !== 'off') {
+    if (getSetting('_mapMyLocation') !== 'off') {
       var locationControl = L.control.locate({
         keepCurrentZoomLevel: true,
         returnToPrevBounds: true,
-        position: trySetting('_locateControlPos', 'topright')
+        position: getSetting('_mapMyLocation')
       }).addTo(map);
     }
 
     // Add zoom control
-    L.control.zoom({position: trySetting('_zoomPos', 'topleft')}).addTo(map);
+    if (getSetting('_mapZoom') !== 'off') {
+      L.control.zoom({position: getSetting('_mapZoom')}).addTo(map);
+    }
 
     map.on('zoomend', function() {
       togglePolygonLabels();
@@ -470,11 +472,11 @@ $(window).on('load', function() {
    * Adds title and subtitle from the spreadsheet to the map
    */
   function addTitle() {
-    var dispTitle = getSetting('_displayTitle');
+    var dispTitle = getSetting('_mapTitleDisplay');
 
     if (dispTitle !== 'off') {
-      var title = '<h3 class="pointer">' + getSetting('_pageTitle') + '</h3>';
-      var subtitle = '<h5>' + getSetting('_pageSubtitle') + '</h5>';
+      var title = '<h3 class="pointer">' + getSetting('_mapTitle') + '</h3>';
+      var subtitle = '<h5>' + getSetting('_mapSubtitle') + '</h5>';
 
       if (dispTitle == 'on') {
         $('div.leaflet-top').prepend('<div class="map-title leaflet-bar leaflet-control leaflet-control-custom">' + title + subtitle + '</div>');
@@ -540,9 +542,9 @@ $(window).on('load', function() {
               $('#polylines-legend').prepend('<h6 class="pointer">' + getSetting('_polylinesLegendTitle') + '</h6>');
 
               // Add map title if set to be displayed in polylines legend
-              if (getSetting('_displayTitle') == 'in polylines legend') {
-                var title = '<h3>' + getSetting('_pageTitle') + '</h3>';
-                var subtitle = '<h6>' + getSetting('_pageSubtitle') + '</h6>';
+              if (getSetting('_mapTitleDisplay') == 'in polylines legend') {
+                var title = '<h3>' + getSetting('_mapTitle') + '</h3>';
+                var subtitle = '<h6>' + getSetting('_mapSubtitle') + '</h6>';
                 $('#polylines-legend').prepend(title + subtitle);
               }
 
@@ -627,7 +629,7 @@ $(window).on('load', function() {
       maxZoom: 18
     }).addTo(map);
     L.control.attribution({
-      position: trySetting('_attrPos', 'bottomright')
+      position: trySetting('_mapAttribution', 'bottomright')
     }).addTo(map);
   }
 
