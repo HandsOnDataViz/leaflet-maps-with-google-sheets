@@ -106,12 +106,11 @@ $(window).on('load', function() {
       var pointsLegend = L.control.layers(null, layers, {
         collapsed: false,
         position: pos,
-      }).addTo(map);
-
-      pointsLegend._container.id = 'points-legend';
-
-      if (getSetting('_pointsLegendPos') == 'off') {
-        $('#pointsLegend').hide();
+      });
+      
+      if (getSetting('_pointsLegendPos') !== 'off') {
+        pointsLegend.addTo(map);
+        pointsLegend._container.id = 'points-legend';
       }
     }
 
@@ -397,8 +396,12 @@ $(window).on('load', function() {
 
     // Add point markers to the map
     var points = mapData.sheets(constants.pointsSheetName).elements;
-    var layers = determineLayers(points);
-    mapPoints(points, layers);
+
+    var layers;
+    if (points.length > 0) {
+      layers = determineLayers(points);
+      mapPoints(points, layers);
+    }
 
     // Add polygons to the map
     if (getSetting('_polygonsGeojsonURL')) {
@@ -411,7 +414,9 @@ $(window).on('load', function() {
 
     // Add polylines
     var polylines = mapData.sheets(constants.polylinesSheetName).elements;
-    processPolylines(polylines);
+    if (polylines.length > 0) {
+      processPolylines(polylines);
+    }
 
     // Add Mapzen search control
     if (getSetting('_mapSearch') !== 'off') {
@@ -506,9 +511,9 @@ $(window).on('load', function() {
       : getSetting('_polylinesLegendPos');
 
     var polylinesLegend = L.control.layers(null, null, {
-  	  position: pos,
-  	  collapsed: false,
-  	}).addTo(map);
+      position: pos,
+      collapsed: false,
+    });
 
     for (i = 0; i < p.length; i++) {
       $.getJSON(p[i]['GeoJSON URL'], function(index) {
@@ -551,14 +556,14 @@ $(window).on('load', function() {
               $('#polylines-legend h6').click(function() {
                 $('#polylines-legend>form').toggle();
               });
-
-              if (getSetting('_polylinesLegendPos') == 'off') {
-                $('#polylines-legend').hide();
-              }
             }
           }
         };
       }(i));
+    }
+
+    if (getSetting('_polylinesLegendPos') !== 'off') {
+      polylinesLegend.addTo(map);
     }
   }
 
