@@ -6,26 +6,22 @@
 <head>
   <title>Loading the map...</title>
 
-  <!-- Leaflet and jQuery-->
-  <link rel="stylesheet" href="scripts/leaflet/leaflet.css" />
-  <!--[if lte IE 8]>
-      <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.ie.css" />
-  <![endif]-->
+  <!-- jQuery-->
   <script src="https://code.jquery.com/jquery-3.1.0.min.js"
     integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s="
     crossorigin="anonymous"></script>
 
-  <script src="scripts/leaflet/leaflet.js"></script>
+  <!-- Leaflet (CSS and JS) -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
 
   <!-- leaflet-providers -->
   <script src="scripts/leaflet-providers/leaflet-providers.js"></script>
 
-  <!-- Tabletop (gives spreadsheets legs) -->
-  <script src="scripts/tabletop.js"></script>
+  <!-- Tabletop -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/tabletop.js/1.5.1/tabletop.js"></script>
 
   <!-- Font Awesome -->
-  <!--
-  <script src="https://use.fontawesome.com/a36da20aef.js"></script> -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
 
   <!-- Leaflet.awesome-markers -->
@@ -38,12 +34,15 @@
   <script type="text/javascript" src="scripts/Leaflet.markercluster/leaflet.markercluster.js"></script>
 
   <!-- Mapzen Search -->
-  <link rel="stylesheet" href="scripts/leaflet-geocoder/leaflet-geocoder-mapzen.css">
-  <script src="scripts/leaflet-geocoder/leaflet-geocoder-mapzen.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet-geocoder-mapzen/1.7.1/leaflet-geocoder-mapzen.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-geocoder-mapzen/1.7.1/leaflet-geocoder-mapzen.js"></script>
 
   <!-- Locate Control -->
-  <link rel="stylesheet" href="scripts/leaflet-locatecontrol/L.Control.Locate.min.css">
-  <script src="scripts/leaflet-locatecontrol/L.Control.Locate.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet-locatecontrol/0.60.0/L.Control.Locate.min.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-locatecontrol/0.60.0/L.Control.Locate.min.js"></script>
+
+  <!-- jQuery-CSV -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-csv/0.71/jquery.csv-0.71.min.js"></script>
 
   <!-- Custom style sheet -->
   <link rel="stylesheet" type="text/css" href="style.css">
@@ -67,7 +66,6 @@
   <script type="text/javascript" src="scripts/constants.js"></script>
   <script type="text/javascript" src="scripts/palette.js"></script>
   <script type="text/javascript" src="scripts/polylabel.js"></script>
-  <script type="text/javascript" src="scripts/jquery.csv.js"></script>
   <script type="text/javascript" src="scripts/procsv.js"></script>
   <script type="text/javascript" src="scripts/map.js"></script>
 
