@@ -11,26 +11,39 @@ $(window).on('load', function() {
     });
   }
 
-  function centerAndZoomMap(points) {
-    var mapCenter = L.latLng();
-    var mapZoom = 0;
 
-    // center and zoom map based on points or to user-specified zoom and center
-    if (getSetting('_initLat') !== '' && getSetting('_initLon') !== '') {
-      // center and zoom
-      mapCenter = L.latLng(getSetting('_initLat'), getSetting('_initLon'));
-      map.setView(mapCenter);
-    } else {
-      var groupBounds = points.getBounds();
-      mapZoom = map.getBoundsZoom(groupBounds);
-      mapCenter = groupBounds.getCenter();
+  function centerAndZoomMap(points) {
+    var lat = map.getCenter().lat, latSet = false;
+    var lon = map.getCenter().lng, lonSet = false;
+    var zoom = 12, zoomSet = false;
+    var center;
+
+    if (getSetting('_initLat') !== '') {
+      lat = getSetting('_initLat');
+      latSet = true;
+    }
+
+    if (getSetting('_initLon') !== '') {
+      lon = getSetting('_initLon');
+      lonSet = true;
     }
 
     if (getSetting('_initZoom') !== '') {
-      mapZoom = parseInt(getSetting('_initZoom'));
+      zoom = parseInt(getSetting('_initZoom'));
+      zoomSet = true;
     }
 
-    map.setView(mapCenter, mapZoom);
+    if ((latSet && lonSet) || !points) {
+      center = L.latLng(lat, lon);
+    } else {
+      center = points.getBounds().getCenter();
+    }
+
+    if (!zoomSet && points) {
+      zoom = map.getBoundsZoom(points.getBounds());
+    }
+
+    map.setView(center, zoom);
   }
 
 
@@ -107,7 +120,7 @@ $(window).on('load', function() {
         collapsed: false,
         position: pos,
       });
-      
+
       if (getSetting('_pointsLegendPos') !== 'off') {
         pointsLegend.addTo(map);
         pointsLegend._container.id = 'points-legend';
@@ -119,7 +132,7 @@ $(window).on('load', function() {
       $('#points-legend form').toggle();
     });
 
-    centerAndZoomMap(group);
+    return group; //centerAndZoomMap(group);
   }
 
   /**
@@ -398,10 +411,13 @@ $(window).on('load', function() {
     var points = mapData.sheets(constants.pointsSheetName).elements;
 
     var layers;
+    var group = '';
     if (points.length > 0) {
       layers = determineLayers(points);
-      mapPoints(points, layers);
+      group = mapPoints(points, layers);
     }
+
+    centerAndZoomMap(group);
 
     // Add polygons to the map
     if (getSetting('_polygonsGeojsonURL')) {
@@ -410,6 +426,7 @@ $(window).on('load', function() {
         updatePolygons($(this).val());
       });
       $('input:radio[name="prop"][value="0"]').click();
+      togglePolygonLabels();
     }
 
     // Add polylines
@@ -471,6 +488,8 @@ $(window).on('load', function() {
     if (getSetting('_introPopupText') != '') {
       initIntroPopup(getSetting('_introPopupText'), map.getCenter());
     };
+
+    togglePolygonLabels();
   }
 
   /**
