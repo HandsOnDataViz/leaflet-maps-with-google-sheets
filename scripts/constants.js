@@ -12,8 +12,8 @@ var constants = {
   _mapTitleDisplay: 'Display Title',
 	_authorName: 'Author Name',
 	_authorURL: 'Author Email or Website',
-  _codeCredit: 'Code Credit',
-	_githubRepo: 'Author GitHub Repo Link',
+  _codeCredit: 'Author Code Credit',
+	_githubRepo: 'Author Code Repo',
 	// Map Settings
 	_tileProvider: 'Basemap Tiles',
 	_markercluster: 'Cluster Markers',
