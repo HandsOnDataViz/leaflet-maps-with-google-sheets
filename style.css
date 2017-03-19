@@ -190,6 +190,10 @@ form {
   opacity: 0.8;
 }
 
+#polygonSelect {
+  width: 100%;
+}
+
 .polygon-label {
   position: absolute;
   left: -15px;
@@ -209,4 +213,29 @@ form {
 .markers-legend-icon {
   height: 12px;
   vertical-align: middle;
+}
+
+
+/* Map Table */
+div.dataTables_scrollBody {
+  border: 0 !important;
+}
+
+div.dataTables_scrollHead {
+  color: #eee !important;
+}
+
+.dataTable * {
+  font-family: "Helvetica Neue", Arial;
+  border: 0 !important;
+}
+
+div.dataTables_scrollHead table.display {
+  background-color: #444;
+  color: #eee;
+}
+
+select {
+  font-size: 1.2em;
+  font-weight: bold;
 }
