@@ -467,7 +467,6 @@ $(window).on('load', function() {
         })
       });
       textLabels.push(myTextLabel);
-      //myTextLabel.addTo(map);
     }
   }
 
@@ -498,17 +497,18 @@ $(window).on('load', function() {
         textLabelsLayer = L.featureGroup(textLabels);
         textLabelsLayer.addTo(map);
         togglePolygonLabels();
+        doubleClickPolylines();
       });
     } else if (!map.hasLayer(geoJsonLayer)) {
       // Load every time after 'Off'
       geoJsonLayer.addTo(map);
       geoJsonLayer.setStyle(polygonStyle);
       togglePolygonLabels();
-      // Toggle polylines (turn them off and then on) so they remain on top
       doubleClickPolylines();
     } else {
       // Just update colors
       geoJsonLayer.setStyle(polygonStyle);
+      doubleClickPolylines();
     }
 
     $('.polygons-legend-scale').html('');
