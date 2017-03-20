@@ -28,6 +28,6 @@ Developed by [Ilya Ilyankou](https://github.com/ilyankou) and [Jack Dougherty](h
 - jQuery-CSV (v0.71) https://github.com/evanplaice/jquery-csv (MIT)
 - DataTables (v1.10.13) by SpryMedia Ltd. https://datatables.net (MIT)
 
-## Pull requests to Dev Repo 
+## Please submit any pull requests to our DEV repo 
 - Leaflet Map FOR DEVELOPMENT https://jackdougherty.github.io/leaflet-maps-with-google-sheets-dev/index.html
 - Google Sheet FOR DEVELOPMENT https://docs.google.com/spreadsheets/d/1_xjrH3gSImzRKqIkhRAqpAAMjH387yaBWfGbidkKtqM/
