@@ -1,11 +1,15 @@
 $(window).on('load', function() {
   var documentSettings = {};
-  var     markerColors = [];
+  var markerColors = [];
 
   var polygonSettings = [];
   var polygonSheets = 1;
   var currentPolygonSheet = 0;
   var polygonsLegend;
+
+  var completePoints = false;
+  var completePolygons = false;
+  var completePolylines = false;
 
   /**
    * Returns an Awesome marker with specified parameters
@@ -251,10 +255,9 @@ $(window).on('load', function() {
         searching: false,
         columns: generateColumnsArray(),
       });
-
-      updateTable();
     }
 
+    completePoints = true;
     return group;
   }
 
@@ -397,6 +400,8 @@ $(window).on('load', function() {
     if (legendPos == 'off') {
       $('.polygons-legend').hide();
     }
+
+    completePolygons = true;
   }
 
   /**
@@ -565,6 +570,8 @@ $(window).on('load', function() {
     if (points.length > 0) {
       layers = determineLayers(points);
       group = mapPoints(points, layers);
+    } else {
+      completePoints = true;
     }
 
     centerAndZoomMap(group);
@@ -573,11 +580,15 @@ $(window).on('load', function() {
     var polylines = mapData.sheets(constants.polylinesSheetName).elements;
     if (polylines.length > 0) {
       processPolylines(polylines);
+    } else {
+      completePolylines = true;
     }
 
     // Add polygons
     if (getPolygonSetting(0, '_polygonsGeojsonURL')) {
       processPolygons();
+    } else {
+      completePolygons = true;
     }
 
     // Add Mapzen search control
@@ -615,7 +626,7 @@ $(window).on('load', function() {
     // Change Map attribution to include author's info + urls
     changeAttribution();
 
-    // Generate icons for markers legend
+    // Append icons to categories in markers legend
     $('#points-legend form label span').each(function(i) {
       var legendIcon = (markerColors[i].indexOf('.') > 0)
         ? '<img src="' + markerColors[i] + '" class="markers-legend-icon">'
@@ -625,16 +636,24 @@ $(window).on('load', function() {
       $(this).prepend(legendIcon);
     });
 
-    // All processing has been done, so hide the loader and make the map visible
-    $('#map').css('visibility', 'visible');
-    $('.loader').hide();
+    // When all processing is done, hide the loader and make the map visible
+    showMap();
 
-    // Open intro popup window in the center of the map
-    if (getSetting('_introPopupText') != '') {
-      initIntroPopup(getSetting('_introPopupText'), map.getCenter());
-    };
+    function showMap() {
+      if (completePoints && completePolylines && completePolygons) {
+        $('#map').css('visibility', 'visible');
+        $('.loader').hide();
 
-    togglePolygonLabels();
+        // Open intro popup window in the center of the map
+        if (getSetting('_introPopupText') != '') {
+          initIntroPopup(getSetting('_introPopupText'), map.getCenter());
+        };
+
+        togglePolygonLabels();
+      } else {
+        setTimeout(showMap, 50);
+      }
+    }
   }
 
   /**
@@ -729,6 +748,10 @@ $(window).on('load', function() {
                 $('#polylines-legend>form').toggle();
               });
             }
+          }
+
+          if (p.length == index + 1) {
+            completePolylines = true;
           }
         };
       }(i));
