@@ -398,24 +398,6 @@ $(window).on('load', function() {
       polygonsLegend.addTo(map);
       allPolygonLegends.push(polygonsLegend);
 
-      // This is triggered when user changes the radio button
-      $('.polygons-legend' + p + ' input:radio[name="prop"]').change(function() {
-        polygon = parseInt($(this).val().split(';')[0]);
-        layer = parseInt($(this).val().split(';')[1]);
-
-        if (layer == -1) {
-          $('.polygons-legend' + polygon).find('.polygons-legend-scale').hide();
-          if (map.hasLayer(allGeojsons[polygon])) {
-            map.removeLayer(allGeojsons[polygon]);
-            if (map.hasLayer(allTextLabelsLayers[polygon])) {
-              map.removeLayer(allTextLabelsLayers[polygon]);
-            }
-          }
-        } else {
-          updatePolygons();
-        }
-      });
-
       p++;
     }
 
@@ -423,9 +405,25 @@ $(window).on('load', function() {
     for (i in allTextLabels) {
       var g = L.featureGroup(allTextLabels[i]);
       allTextLabelsLayers.push(g);
-      g.addTo(map);
     }
-    togglePolygonLabels();
+
+    // This is triggered when user changes the radio button
+    $('.ladder input:radio[name="prop"]').change(function() {
+      polygon = parseInt($(this).val().split(';')[0]);
+      layer = parseInt($(this).val().split(';')[1]);
+
+      if (layer == -1) {
+        $('.polygons-legend' + polygon).find('.polygons-legend-scale').hide();
+        if (map.hasLayer(allGeojsons[polygon])) {
+          map.removeLayer(allGeojsons[polygon]);
+          if (map.hasLayer(allTextLabelsLayers[polygon])) {
+            map.removeLayer(allTextLabelsLayers[polygon]);
+          }
+        }
+      } else {
+        updatePolygons();
+      }
+    });
 
     for (t = 0; t < p; t++) {
       if (getPolygonSetting(t, '_polygonShowOnStart') == 'on') {
@@ -433,7 +431,6 @@ $(window).on('load', function() {
       } else {
         $('.ladder input:radio[name="prop"][value="' + t + ';-1"]').click();
       }
-
     }
 
     $('.polygons-legend-merged h6').eq(0).click().click();
