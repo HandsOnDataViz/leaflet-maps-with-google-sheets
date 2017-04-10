@@ -28,10 +28,6 @@ h6 {
   font-size: 1.2em;
 }
 
-.leaflet-top .map-title {
-  max-width: 450px;
-}
-
 .intro-popup .leaflet-popup-tip-container {
   width: 0;
   height: 0;
@@ -75,6 +71,9 @@ form {
   margin: 5px 0 5px 0;
 }
 
+.geojson-point-marker {
+  radius: 3;
+}
 
 .loader,
 .loader:before,
@@ -215,6 +214,15 @@ form {
   vertical-align: middle;
 }
 
+.map-title {
+  margin-top: 0 !important;
+  margin-bottom: 10px;
+  max-width: 450px;
+}
+
+.leaflet-top.leaflet-left {
+  padding-top: 10px;
+}
 
 /* Map Table */
 div.dataTables_scrollBody {
@@ -238,4 +246,40 @@ div.dataTables_scrollHead table.display {
 select {
   font-size: 1.2em;
   font-weight: bold;
+}
+
+.div-center {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  padding-top: 10px;
+}
+
+span.legend-arrow {
+  color: rgb(238, 238, 238);
+  position: absolute;
+  right: 8px;
+  top: 5px;
+}
+
+span.legend-icon {
+  color: #bbb;
+  margin-right: 5px;
+}
+
+.ladder {
+  width: 180px;
+  margin-top: 0 !important;
+  overflow: hidden;
+}
+
+.ladder h6.minimize ~ div,
+.ladder h6.minimize ~ form {
+  display: none !important;
+}
+
+.ladder form, .ladder div {
+  display: block;
 }
