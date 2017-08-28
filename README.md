@@ -1,46 +1,33 @@
 # Leaflet Maps with Google Sheets
-Create Leaflet maps with a linked Google Sheets template.
-- friendly and easy-to-learn searchable map tool with flexibility for advanced users
-- clickable point data layers with custom marker icons and pop-up images
-- color-coded polygon data layers with numeric or text legends
-- upload and geocode addresses, and set map options, in the Google Sheet template
-- host your live web map and polygon data with GitHub Pages
-- responsive web design for both small and large devices
-- built entirely with open-source code, and no usage limits
+Customize Leaflet maps with a linked Google Sheets template and GeoJSON data on GitHub
 
-## Demo
+## Live links (replace with your own)
 - Leaflet Map https://jackdougherty.github.io/leaflet-maps-with-google-sheets/index.html
-- Google Sheet template https://docs.google.com/spreadsheets/d/1ZxvU8eGyuN9M8GxTU9acKVJv70iC3px_m3EVFsOHN9g/edit#gid=0
-
-## BETA version
-- Report bugs and suggest features in [Issues](https://github.com/JackDougherty/leaflet-maps-with-google-sheets/issues)
+- Google Sheets template https://docs.google.com/spreadsheets/d/1ZxvU8eGyuN9M8GxTU9acKVJv70iC3px_m3EVFsOHN9g/edit#gid=0
 
 ## Create your own
-- Requires: sign up for free accounts on Google Drive and GitHub
-- Fork/copy this GitHub code repo and publish in your Settings > GitHub Pages
-- File > Make a Copy of Google Sheets template, and File > Publish
-- Paste your Google Sheets URL into the google-doc-url.js file on GitHub
-- Customize your map settings in your Google Sheets Options tab
-- Geocode address data and customize markers in the Points tab
-- Upload polygon/polyline GeoJSON data to GitHub geometry folder and modify in Sheets tabs
-
-Step-by-step illustrated tutorial (in progress) at http://datavizforall.org/leaflet/with-google-sheets/
+- See video with step-by-step tutorial in *Data Visualization for All* http://www.datavizforall.org/leaflet/with-google-sheets/
 
 ## Credits (and licenses)
-Created by [Ilya Ilyankou](https://github.com/ilyankou) and Jack Dougherty, using a [Google Sheets](https://www.google.com/sheets/about/) template, with these open-source components:
-- Code for Atlanta mapsfor.us (2016) https://github.com/codeforatlanta/mapsforus (BSD-3-Clause)
-- Leaflet v1.0.3 https://github.com/Leaflet/Leaflet (BSD-2-Clause)
-- jQuery v3.1.0 https://jquery.org (MIT)
-- leaflet-providers (v1.1.15, manually updated Carto https) https://github.com/leaflet-extras/leaflet-providers (BSD-2-Clause)
-- Mapzen Search geocoding plugin (v1.7.1) https://github.com/mapzen/leaflet-geocoder (MIT)
+Developed by [Ilya Ilyankou](https://github.com/ilyankou) and [Jack Dougherty](https://github.com/jackdougherty) with support from Trinity College CT, using a [Google Sheets](https://www.google.com/sheets/about/) template, with these open-source components:
+- Inspired by: Code for Atlanta mapsfor.us (2016) https://github.com/codeforatlanta/mapsforus (BSD-3-Clause)
+- Leaflet v1.0.3 https://leafletjs.com (BSD-2-Clause)
+- jQuery v3.2.0 https://code.jquery.com (MIT)
+- leaflet-providers (v1.1.15, manually updated for Carto https) https://github.com/leaflet-extras/leaflet-providers (BSD-2-Clause)
+- Mapzen Search geocoding plugin (v1.8.1, customized to display a blue circle around the search result) https://github.com/mapzen/leaflet-geocoder (MIT)
 - leaflet-locatecontrol (v0.60.0) https://github.com/domoritz/leaflet-locatecontrol (MIT)
-- Leaflet.markercluster (v1.0.0) https://github.com/Leaflet/Leaflet.markercluster (MIT)
-- Font Awesome (v4.6.3 via CDN) https://cdn.fontawesome.com (MIT, SIL OFL 1.1)
-- Leaflet.awesome-markers (v2.0.2) https://github.com/lvoogdt/Leaflet.awesome-markers (MIT)
+- Leaflet.markercluster (v1.0.4) https://github.com/Leaflet/Leaflet.markercluster (MIT)
+- Leaflet.MarkerCluster.LayerSupport (v.1.0.3) https://github.com/ghybs/Leaflet.MarkerCluster.LayerSupport (MIT)
+- Font Awesome (v4.7) https://cdn.fontawesome.com (MIT, SIL OFL 1.1)
+- Leaflet.awesome-markers (v2.0.4) https://github.com/sigma-geosistemas/Leaflet.awesome-markers (MIT)
 - Single Element CSS Spinner (31 May 2016) https://github.com/lukehaas/css-loaders (MIT)
-- Tabletop.js, gives spreadsheets legs, by returning Google Sheets data in JSON format (v1.4.3) https://github.com/jsoma/tabletop (MIT)
+- Tabletop.js gives spreadsheets legs, by returning Google Sheets data in JSON format (v1.5.1) https://github.com/jsoma/tabletop (MIT)
 - Google Colour Palette Generator (2015) https://github.com/google/palette.js (MIT)
-- Google Sheets Geocoding Macro (2016) https://github.com/nuket/google-sheets-geocoding-macro (no license)
-- polylabel (Dec. 2016, https://github.com/mapbox/polylabel) is used for optimal placement of a text label on a polygon
-- TinyQueue (v1.1.0) (https://github.com/mourner/tinyqueue), polylabel's dependency
-- jQuery-CSV (v0.71) MIT License, by Evan Plaice. https://github.com/evanplaice/jquery-csv
+- Google Sheets Geocoder (v1.0) by Ilya Ilyankou and Jack Dougherty https://github.com/jackdougherty/google-sheets-geocoder (no license)
+- polylabel (Dec. 2016 customized) https://github.com/mapbox/polylabel to optimally place text labels in a polygon (ISC), with TinyQueue (v1.1.0) (https://github.com/mourner/tinyqueue), polylabel's dependency (ISC)
+- jQuery-CSV (v0.71) https://github.com/evanplaice/jquery-csv (MIT)
+- DataTables (v1.10.13) by SpryMedia Ltd. https://datatables.net (MIT)
+
+## Please submit any pull requests to our DEV repo
+- Leaflet Map FOR DEVELOPMENT https://jackdougherty.github.io/leaflet-maps-with-google-sheets-dev/index.html
+- Google Sheet FOR DEVELOPMENT https://docs.google.com/spreadsheets/d/1_xjrH3gSImzRKqIkhRAqpAAMjH387yaBWfGbidkKtqM/
