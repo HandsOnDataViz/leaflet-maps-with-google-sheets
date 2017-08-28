@@ -613,12 +613,12 @@ $(window).on('load', function() {
     addBaseMap();
 
     // Add point markers to the map
-    var points = mapData.sheets(constants.pointsSheetName).elements;
+    var points = mapData.sheets(constants.pointsSheetName);
     var layers;
     var group = '';
-    if (points.length > 0) {
-      layers = determineLayers(points);
-      group = mapPoints(points, layers);
+    if (points && points.elements.length > 0) {
+      layers = determineLayers(points.elements);
+      group = mapPoints(points.elements, layers);
     } else {
       completePoints = true;
     }
@@ -626,9 +626,9 @@ $(window).on('load', function() {
     centerAndZoomMap(group);
 
     // Add polylines
-    var polylines = mapData.sheets(constants.polylinesSheetName).elements;
-    if (polylines.length > 0) {
-      processPolylines(polylines);
+    var polylines = mapData.sheets(constants.polylinesSheetName);
+    if (polylines && polylines.elements.length > 0) {
+      processPolylines(polylines.elements);
     } else {
       completePolylines = true;
     }
