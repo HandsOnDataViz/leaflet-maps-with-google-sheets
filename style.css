@@ -45,6 +45,10 @@ h6 {
   border-radius: 5px;
 }
 
+.leaflet-control-geocoder {
+  z-index: 9999;
+}
+
 form {
   margin-top: 2px;
 }

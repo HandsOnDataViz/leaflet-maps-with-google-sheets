@@ -16,7 +16,6 @@ Developed by [Ilya Ilyankou](https://github.com/ilyankou) and [Jack Dougherty](h
 - Leaflet v1.0.3 https://leafletjs.com (BSD-2-Clause)
 - jQuery v3.2.0 https://code.jquery.com (MIT)
 - leaflet-providers (v1.1.15, manually updated for Carto https) https://github.com/leaflet-extras/leaflet-providers (BSD-2-Clause)
-- Mapzen Search geocoding plugin (v1.8.1, customized to display a blue circle around the search result) https://github.com/mapzen/leaflet-geocoder (MIT)
 - leaflet-locatecontrol (v0.60.0) https://github.com/domoritz/leaflet-locatecontrol (MIT)
 - Leaflet.markercluster (v1.0.4) https://github.com/Leaflet/Leaflet.markercluster (MIT)
 - Leaflet.MarkerCluster.LayerSupport (v.1.0.3) https://github.com/ghybs/Leaflet.MarkerCluster.LayerSupport (MIT)
@@ -29,6 +28,7 @@ Developed by [Ilya Ilyankou](https://github.com/ilyankou) and [Jack Dougherty](h
 - polylabel (Dec. 2016 customized) https://github.com/mapbox/polylabel to optimally place text labels in a polygon (ISC), with TinyQueue (v1.1.0) (https://github.com/mourner/tinyqueue), polylabel's dependency (ISC)
 - jQuery-CSV (v0.71) https://github.com/evanplaice/jquery-csv (MIT)
 - DataTables (v1.10.13) by SpryMedia Ltd. https://datatables.net (MIT)
+- [Leaflet Control Geocoder](https://github.com/perliedman/leaflet-control-geocoder) by @perliedman (BSD 2-Clause)
 
 ## Please submit any pull requests to our DEV repo
 - Leaflet Map FOR DEVELOPMENT https://jackdougherty.github.io/leaflet-maps-with-google-sheets-dev/index.html
