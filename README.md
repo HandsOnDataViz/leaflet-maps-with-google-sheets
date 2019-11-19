@@ -4,7 +4,7 @@ Customize Leaflet maps with a linked Google Sheets template and GeoJSON data on 
 ![Preview](preview.jpg)
 
 ## Live links (replace with your own)
-- Leaflet Map https://weiktoh.github.io/leaflet-maps-with-google-sheets/
+- Leaflet Map https://weiktoh.github.io/Live-Map-Google-Sheets/
 - Google Sheets template https://docs.google.com/spreadsheets/d/1B4yoRku9j8t-U6DrAFVUGN3-ON8eXAtanYK69xxo8gU/edit#gid=0
 
 ## Create your own
