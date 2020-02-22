@@ -2,7 +2,7 @@ version: 0.2
 phases:
  install:
    commands:
-     - echo "install step"
+     - echo "install step 1"
  pre_build:
    commands:
      - echo "pre_build step"
