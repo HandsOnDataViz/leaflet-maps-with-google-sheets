@@ -8,7 +8,7 @@ phases:
      - echo "pre_build step"
  build:
    commands:
-     - aws s3 sync --delete . "s3://koebel-matzke-service-map"
+     - echo "build step"
  post_build:
    commands:
      - echo "post_build step"
