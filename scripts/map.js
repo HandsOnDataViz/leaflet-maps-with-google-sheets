@@ -648,21 +648,21 @@ $(window).on('load', function() {
       var geocoder = L.Control.geocoder({
         expand: 'click',
         position: getSetting('_mapSearch'),
-        geocoder: new L.Control.Geocoder.Nominatim({
+        
+        geocoder: L.Control.Geocoder.nominatim({
           geocodingQueryParams: {
-            viewbox: [],  // by default, viewbox is empty
-            bounded: 0,
+            viewbox: '',  // by default, viewbox is empty
+            bounded: 1,
           }
         }),
       }).addTo(map);
 
       function updateGeocoderBounds() {
         var bounds = map.getBounds();
-        var mapBounds = [
-          bounds._southWest.lat, bounds._northEast.lat,
-          bounds._southWest.lng, bounds._northEast.lng,
-        ];
-        geocoder.options.geocoder.options.geocodingQueryParams.viewbox = mapBounds;
+        geocoder.options.geocoder.options.geocodingQueryParams.viewbox = [
+            bounds._southWest.lng, bounds._southWest.lat,
+            bounds._northEast.lng, bounds._northEast.lat
+          ].join(',');
       }
 
       // Update search viewbox coordinates every time the map moves
