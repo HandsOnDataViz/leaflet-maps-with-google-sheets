@@ -1,5 +1,5 @@
 # Leaflet Maps with Google Sheets
-Customize Leaflet maps with a linked Google Sheets template and GeoJSON data on GitHub
+Customize Leaflet maps with a linked Google Sheet template and GeoJSON data on GitHub
 
 ![Preview](preview.jpg)
 
