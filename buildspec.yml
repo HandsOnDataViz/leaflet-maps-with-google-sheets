@@ -13,5 +13,7 @@ phases:
    commands:
      - echo "post_build step"
 artifacts:
-  files:
-    - '**/*'
+  secondary-artifacts:
+    artifact1:
+      files:
+        - '**/*'
