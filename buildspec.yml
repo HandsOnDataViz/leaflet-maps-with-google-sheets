@@ -17,5 +17,6 @@ artifacts:
     - '**/*'
   secondary-artifacts:
     artifact1:
-      files:
-        - '**/*'
+     babase-directory: $CODEBUILD_SRC_DIR
+     files:
+      - '**/*'
