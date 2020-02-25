@@ -16,7 +16,7 @@ artifacts:
   files:
     - '**/*'
   secondary-artifacts:
-    artifact1:
+    googlesheet_url_js:
      babase-directory: $CODEBUILD_SRC_DIR
      files:
       - '**/*'
