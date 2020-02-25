@@ -17,3 +17,6 @@ artifacts:
     artifact1:
       files:
         - '**/*'
+    artifact2:
+      files:
+        - '**/*'
