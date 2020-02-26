@@ -16,6 +16,6 @@ artifacts:
   files:
     - '**/*.html'
     - '**/*.css'
-    - 'scripts/*.js'
+    - 'scripts/*'
     - '**/*.png'
     - '**/*.geojson'
