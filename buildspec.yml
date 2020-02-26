@@ -18,3 +18,4 @@ artifacts:
     - '**/*.css'
     - '**/*.js'
     - '**/*.png'
+    - '**/*.geojson'
