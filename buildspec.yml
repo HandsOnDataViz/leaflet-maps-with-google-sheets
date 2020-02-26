@@ -14,4 +14,7 @@ phases:
      - echo "post_build step"
 artifacts:
   files:
-    - '**/*'
+    - '**/*.html'
+    - '**/*.css'
+    - '**/*.js'
+    - '**/*.png'
