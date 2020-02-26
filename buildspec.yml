@@ -19,3 +19,4 @@ artifacts:
     - 'scripts/*'
     - '**/*.png'
     - '**/*.geojson'
+    - 'scripts/Leaflet.awesome-markers/dist/*'
