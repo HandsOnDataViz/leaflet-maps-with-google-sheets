@@ -15,6 +15,7 @@ phases:
 artifacts:
   files:
     - '**/*.html'
+    - '**/*.ico'
     - '**/*.css'
     - 'scripts/*'
     - '**/*.png'
