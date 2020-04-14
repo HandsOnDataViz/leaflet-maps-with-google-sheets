@@ -1,17 +1,14 @@
 $(window).on('load', function() {
   var documentSettings = {};
   var markerColors = [];
-  var markerLayersShowOnStart = [];
 
   var polygonSettings = [];
-  var polygonSheets = 0;
+  var polygonSheets = 1;
   var polygonsLegend;
 
   var completePoints = false;
   var completePolygons = false;
   var completePolylines = false;
-
-  var legendOrder = {};
 
   /**
    * Returns an Awesome marker with specified parameters
@@ -30,7 +27,7 @@ $(window).on('load', function() {
    * Sets the map view so that all markers are visible, or
    * to specified (lat, lon) and zoom if all three are specified
    */
-  function centerAndZoomMap(bounds) {
+  function centerAndZoomMap(points) {
     var lat = map.getCenter().lat, latSet = false;
     var lon = map.getCenter().lng, lonSet = false;
     var zoom = 12, zoomSet = false;
@@ -51,14 +48,14 @@ $(window).on('load', function() {
       zoomSet = true;
     }
 
-    if ((latSet && lonSet) || !bounds) {
+    if ((latSet && lonSet) || !points) {
       center = L.latLng(lat, lon);
     } else {
-      center = bounds.getCenter();
+      center = points.getBounds().getCenter();
     }
 
-    if (!zoomSet && bounds) {
-      zoom = map.getBoundsZoom(bounds);
+    if (!zoomSet && points) {
+      zoom = map.getBoundsZoom(points.getBounds());
     }
 
     map.setView(center, zoom);
@@ -80,13 +77,12 @@ $(window).on('load', function() {
           ? points[i]['Marker Icon']
           : points[i]['Marker Color']
         );
-        markerLayersShowOnStart.push(points[i]['Show on Start'] === 'off' ? false : true);
         layerNamesFromSpreadsheet.push(pointLayerNameFromSpreadsheet);
       }
     }
 
-    // If none of the points have named layers, return undefined
-    if (layerNamesFromSpreadsheet.length === 0) {
+    // if none of the points have named layers or if there was only one name, return no layers
+    if (layerNamesFromSpreadsheet.length === 1) {
       layers = undefined;
     } else {
       for (var i in layerNamesFromSpreadsheet) {
@@ -101,9 +97,9 @@ $(window).on('load', function() {
   /**
    * Assigns points to appropriate layers and clusters them if needed
    */
-  function mapPoints(points, layers, index, legendTitle, legendIcon) {
+  function mapPoints(points, layers) {
     var markerArray = [];
-
+    // check that map has loaded before adding points to it?
     for (var i in points) {
       var point = points[i];
 
@@ -111,8 +107,8 @@ $(window).on('load', function() {
       // otherwise create a Font Awesome icon
       var iconSize = point['Custom Size'];
       var size = (iconSize.indexOf('x') > 0)
-        ? [parseInt(iconSize.split('x')[0]), parseInt(iconSize.split('x')[1])]
-        : [32, 32];
+      ? [parseInt(iconSize.split('x')[0]), parseInt(iconSize.split('x')[1])]
+      : [32, 32];
 
       var anchor = [size[0] / 2, size[1]];
 
@@ -174,18 +170,17 @@ $(window).on('load', function() {
       });
 
       if (getSetting('_pointsLegendPos') !== 'off') {
+        //console.log(pointsLegend)
         pointsLegend.addTo(map);
-        pointsLegend._container.id = 'points-legend' + index;
-        pointsLegend._container.className += ' ladder points-legend';
+        pointsLegend._container.id = 'points-legend';
+        pointsLegend._container.className += ' ladder';
       }
     }
 
-    legendOrder[legendTitle] = index;
-
-    $('#points-legend' + index).prepend('<h6 class="pointer">' + legendTitle + '</h6>');
-    if (legendIcon) {
-      $('#points-legend' + index + ' h6').prepend('<span class="legend-icon"><i class="fa '
-        + legendIcon + '"></i></span>');
+    $('#points-legend').prepend('<h6 class="pointer">' + getSetting('_pointsLegendTitle') + '</h6>');
+    if (getSetting('_pointsLegendIcon') != '') {
+      $('#points-legend h6').prepend('<span class="legend-icon"><i class="fa '
+        + getSetting('_pointsLegendIcon') + '"></i></span>');
     }
 
     var displayTable = getSetting('_displayTable') == 'on' ? true : false;
@@ -397,12 +392,13 @@ $(window).on('load', function() {
         var div = L.DomUtil.create('div', 'leaflet-control leaflet-control-custom leaflet-bar ladder polygons-legend' + p);
         div.innerHTML = content;
         div.innerHTML += '</div>';
-
-        legendOrder[getPolygonSetting(p, '_polygonsLegendTitle')] = p;
         return div;
       };
 
       polygonsLegend.addTo(map);
+      if (getPolygonSetting(p, '_polygonsLegendPosition') == 'off') {
+        $('.polygons-legend' + p).css('display', 'none');
+      }
       allPolygonLegends.push(polygonsLegend);
 
       p++;
@@ -412,6 +408,32 @@ $(window).on('load', function() {
     for (i in allTextLabels) {
       var g = L.featureGroup(allTextLabels[i]);
       allTextLabelsLayers.push(g);
+    }
+
+    // This is triggered when user changes the radio button
+    $('.ladder input:radio[name="prop"]').change(function() {
+      polygon = parseInt($(this).val().split(';')[0]);
+      layer = parseInt($(this).val().split(';')[1]);
+
+      if (layer == -1) {
+        $('.polygons-legend' + polygon).find('.polygons-legend-scale').hide();
+        if (map.hasLayer(allGeojsons[polygon])) {
+          map.removeLayer(allGeojsons[polygon]);
+          if (map.hasLayer(allTextLabelsLayers[polygon])) {
+            map.removeLayer(allTextLabelsLayers[polygon]);
+          }
+        }
+      } else {
+        updatePolygons();
+      }
+    });
+
+    for (t = 0; t < p; t++) {
+      if (getPolygonSetting(t, '_polygonShowOnStart') == 'on') {
+        $('.ladder input:radio[name="prop"][value="' + t + ';0"]').click();
+      } else {
+        $('.ladder input:radio[name="prop"][value="' + t + ';-1"]').click();
+      }
     }
 
     $('.polygons-legend-merged h6').eq(0).click().click();
@@ -570,13 +592,10 @@ $(window).on('load', function() {
    * redrawn and thus get on top of polygons
    */
   function doubleClickPolylines() {
-    $('.polylines-legend form label input').each(function(i) {
+    $('#polylines-legend form label input').each(function(i) {
       $(this).click().click();
     });
   }
-
-  polylineLegendTitles = [];
-  polylineLegendIcons = [];
 
   /**
    * Here all data processing from the spreadsheet happens
@@ -585,60 +604,37 @@ $(window).on('load', function() {
     var options = mapData.sheets(constants.optionsSheetName).elements;
     createDocumentSettings(options);
 
+    createPolygonSettings(mapData.sheets(constants.polygonsSheetName).elements);
+    i = 1;
+    while (mapData.sheets(constants.polygonsSheetName + i)) {
+      createPolygonSettings(mapData.sheets(constants.polygonsSheetName + i).elements);
+      i++;
+      polygonSheets++;
+    }
+
     document.title = getSetting('_mapTitle');
     addBaseMap();
 
     // Add point markers to the map
-    var bounds = L.latLngBounds();
-    var index = 0;
-
-    // Going through all tabs in the Google Sheet
-    for (sheet in mapData.sheets()) {
-      s = processTabName(sheet);
-      /*
-      var icon = '';
-      var title = sheet;
-      // Regex for Font Awesome icon name in paranthesis: (fa-icon-o)
-      if (sheet.match(/\(fa\-[0-9a-z\-]*\)/)) {
-        icon = sheet.match(/\(fa\-[0-9a-z\-]*\)/)[0].slice(1, -1);
-        title = sheet.split(')')[1];
-      }
-
-      var kind = title.split('-').pop();
-
-      title = title.split('-').slice(0, -1).join('-');
-      if (title == '') { title = kind; } */
-
-      switch (s.kind) {
-        case constants.polygonsSheetName:
-          createPolygonSettings(mapData.sheets(sheet).elements);
-          setPolygonSetting(polygonSheets, '_polygonsLegendTitle', s.title);
-          setPolygonSetting(polygonSheets, '_polygonsLegendIcon', s.icon);
-          polygonSheets++;
-          break;
-        case constants.pointsSheetName:
-          var points = mapData.sheets(sheet).elements;
-          if (points.length > 0) {
-            layers = determineLayers(points);
-            group = mapPoints(points, layers, index++, s.title, s.icon);
-            bounds = bounds.extend(group.getBounds());
-          }
-          break;
-        case constants.polylinesSheetName:
-          polylineLegendTitles.push(s.title);
-          polylineLegendIcons.push(s.icon);
-          var polylines = mapData.sheets(sheet).elements;
-          if (polylines.length > 0) {
-            processPolylines(polylines, s.title);
-          }
-          break;
-      }
+    var points = mapData.sheets(constants.pointsSheetName);
+    var layers;
+    var group = '';
+    if (points && points.elements.length > 0) {
+      layers = determineLayers(points.elements);
+      group = mapPoints(points.elements, layers);
+    } else {
+      completePoints = true;
     }
 
-    completePoints = true;    // neither does this.
-    completePolylines = true; // This does not really indicate that polylines are complete because geojsons are loaded asynchronously
+    centerAndZoomMap(group);
 
-    centerAndZoomMap(bounds);
+    // Add polylines
+    var polylines = mapData.sheets(constants.polylinesSheetName);
+    if (polylines && polylines.elements.length > 0) {
+      processPolylines(polylines.elements);
+    } else {
+      completePolylines = true;
+    }
 
     // Add polygons
     if (getPolygonSetting(0, '_polygonsGeojsonURL')) {
@@ -647,16 +643,30 @@ $(window).on('load', function() {
       completePolygons = true;
     }
 
-    // Add Mapzen search control
+    // Add Nominatim Search control
     if (getSetting('_mapSearch') !== 'off') {
-      L.control.geocoder(getSetting('_mapSearchKey'), {
-        focus: true,
+      var geocoder = L.Control.geocoder({
+        expand: 'click',
         position: getSetting('_mapSearch'),
-        zoom: trySetting('_mapSearchZoom', 12),
-        circle: true,
-        circleRadius: trySetting('_mapSearchCircleRadius', 1),
-        autocomplete: true,
+        geocoder: new L.Control.Geocoder.Nominatim({
+          geocodingQueryParams: {
+            viewbox: [],  // by default, viewbox is empty
+            bounded: 0,
+          }
+        }),
       }).addTo(map);
+
+      function updateGeocoderBounds() {
+        var bounds = map.getBounds();
+        var mapBounds = [
+          bounds._southWest.lat, bounds._northEast.lat,
+          bounds._southWest.lng, bounds._northEast.lng,
+        ];
+        geocoder.options.geocoder.options.geocodingQueryParams.viewbox = mapBounds;
+      }
+
+      // Update search viewbox coordinates every time the map moves
+      map.on('moveend', updateGeocoderBounds);
     }
 
     // Add location control
@@ -683,7 +693,7 @@ $(window).on('load', function() {
     changeAttribution();
 
     // Append icons to categories in markers legend
-    $('.ladder.points-legend form label span').each(function(i) {
+    $('#points-legend form label span').each(function(i) {
       var legendIcon = (markerColors[i].indexOf('.') > 0)
         ? '<img src="' + markerColors[i] + '" class="markers-legend-icon">'
         : '&nbsp;<i class="fa fa-map-marker" style="color: '
@@ -697,22 +707,8 @@ $(window).on('load', function() {
 
     function showMap() {
       if (completePoints && completePolylines && completePolygons) {
-        // Add titles + icons to polyline legends
-        for (i in polylineLegendTitles) {
-          $('.polylines-legend' + i).prepend('<h6 class="pointer">' + polylineLegendTitles[i] + '</h6>');
-          $('.polylines-legend' + i + ' h6').prepend('<span class="legend-icon"><i class="fa ' + polylineLegendIcons[i] + '"></i></span>')
-        }
-
-        // Add Font-Awesome down arrows to the right of each legend title
         $('.ladder h6').append('<span class="legend-arrow"><i class="fa fa-chevron-down"></i></span>');
         $('.ladder h6').addClass('minimize');
-
-        // Turn off point layers which should be hidden from start
-        for (i in markerLayersShowOnStart) {
-          if (!markerLayersShowOnStart[i]) {
-            $('.points-legend input[type=checkbox]').get(i).click();
-          }
-        }
 
         for (i in allPolygonLegends) {
           if (getPolygonSetting(i, '_polygonsLegendIcon') != '') {
@@ -721,10 +717,26 @@ $(window).on('load', function() {
           }
         }
 
-        rearrangeLadder();
+        $('.ladder h6').click(function() {
+          if ($(this).hasClass('minimize')) {
+            $('.ladder h6').addClass('minimize');
+            $('.legend-arrow i').removeClass('fa-chevron-up').addClass('fa-chevron-down');
+            $(this).removeClass('minimize')
+              .parent().find('.legend-arrow i')
+              .removeClass('fa-chevron-down')
+              .addClass('fa-chevron-up');
+          } else {
+            $(this).addClass('minimize');
+            $(this).parent().find('.legend-arrow i')
+              .removeClass('fa-chevron-up')
+              .addClass('fa-chevron-down');
+          }
+        });
+
+        $('.ladder h6').get(0).click();
+
         $('#map').css('visibility', 'visible');
         $('.loader').hide();
-
 
         // Open intro popup window in the center of the map
         if (getSetting('_introPopupText') != '') {
@@ -735,107 +747,6 @@ $(window).on('load', function() {
       } else {
         setTimeout(showMap, 50);
       }
-    }
-  }
-
-  function rearrangeLadder() {
-    var ladder = $('.ladder');
-    $('.ladder').remove();
-
-    for (sheet in mapData.foundSheetNames) {
-      s = processTabName(mapData.foundSheetNames[sheet]);
-
-      for (l = 0; l < ladder.length; l++) {
-        var klass = '';
-        switch (s.kind) {
-          case 'Points':
-            klass = 'points';
-            break;
-          case 'Polygons':
-            klass = 'polygons';
-            break;
-          case 'Polylines':
-            klass = 'polylines';
-            break;
-        }
-
-        klass += '-legend' + legendOrder[s.title];
-
-        if (ladder.eq(l).hasClass(klass) || ladder.eq(l).attr('id') == klass) {
-          $('.leaflet-left.leaflet-top').append(ladder.eq(l));
-          ladder[l] = '';
-          break;
-        }
-      }
-    }
-
-    addLadderInteraction();
-  }
-
-  function addLadderInteraction() {
-    $('.ladder h6').click(function() {
-      if ($(this).hasClass('minimize')) {
-        $('.ladder h6').addClass('minimize');
-        $('.legend-arrow i').removeClass('fa-chevron-up').addClass('fa-chevron-down');
-        $(this).removeClass('minimize')
-          .parent().find('.legend-arrow i')
-          .removeClass('fa-chevron-down')
-          .addClass('fa-chevron-up');
-      } else {
-        $(this).addClass('minimize');
-        $(this).parent().find('.legend-arrow i')
-          .removeClass('fa-chevron-up')
-          .addClass('fa-chevron-down');
-      }
-    });
-
-    // This is triggered when user changes the radio button
-    $('.ladder input:radio[name="prop"]').change(function() {
-      polygon = parseInt($(this).val().split(';')[0]);
-      layer = parseInt($(this).val().split(';')[1]);
-
-      if (layer == -1) {
-        $('.polygons-legend' + polygon).find('.polygons-legend-scale').hide();
-        if (map.hasLayer(allGeojsons[polygon])) {
-          map.removeLayer(allGeojsons[polygon]);
-          if (map.hasLayer(allTextLabelsLayers[polygon])) {
-            map.removeLayer(allTextLabelsLayers[polygon]);
-          }
-        }
-      } else {
-        updatePolygons();
-      }
-    });
-
-    for (t = 0; t < allGeojsons.length; t++) {
-      if (getPolygonSetting(t, '_polygonShowOnStart') == 'on') {
-        $('.ladder input:radio[name="prop"][value="' + t + ';0"]').click();
-      } else {
-        $('.ladder input:radio[name="prop"][value="' + t + ';-1"]').click();
-      }
-    }
-
-    $('.ladder h6').get(0).click();
-  }
-
-  function processTabName(sheet) {
-    var icon = '';
-    var title = sheet;
-    // Regex for Font Awesome icon name in paranthesis: (fa-icon-o)
-    if (sheet.match(/\(fa\-[0-9a-z\-]*\)/)) {
-      icon = sheet.match(/\(fa\-[0-9a-z\-]*\)/)[0].slice(1, -1);
-      title = sheet.split(')')[1];
-    }
-
-    var kind = title.split('-').pop();
-
-    title = title.split('-').slice(0, -1).join('-');
-    if (title == '') { title = kind; }
-
-    return {
-      icon: icon,
-      title: title,
-      kind: kind
     }
   }
 
@@ -860,16 +771,19 @@ $(window).on('load', function() {
     }
   }
 
-  currentPolylineLegend = 0;  // keeps track of the current polyline legend
 
   /**
    * Adds polylines to the map
    */
-  function processPolylines(p, tt) {
+  function processPolylines(p) {
     if (!p || p.length == 0) return;
 
+    var pos = (getSetting('_polylinesLegendPos') == 'off')
+      ? 'topleft'
+      : getSetting('_polylinesLegendPos');
+
     var polylinesLegend = L.control.layers(null, null, {
-      position: 'topleft',
+      position: pos,
       collapsed: false,
     });
 
@@ -907,9 +821,29 @@ $(window).on('load', function() {
             + '"></i> ' + p[index]['Display Name']);
 
           if (index == 0) {
-            //polylinesLegend._container.id = 'polylines-legend';
-            polylinesLegend._container.className += ' ladder polylines-legend polylines-legend' + currentPolylineLegend++;
-            legendOrder[tt] = currentPolylineLegend - 1;
+            if (polylinesLegend._container) {
+              polylinesLegend._container.id = 'polylines-legend';
+              polylinesLegend._container.className += ' ladder';
+            }
+
+            if (getSetting('_polylinesLegendTitle') != '') {
+              $('#polylines-legend').prepend('<h6 class="pointer">' + getSetting('_polylinesLegendTitle') + '</h6>');
+              if (getSetting('_polylinesLegendIcon') != '') {
+                $('#polylines-legend h6').prepend('<span class="legend-icon"><i class="fa '
+                  + getSetting('_polylinesLegendIcon') + '"></i></span>');
+              }
+
+              // Add map title if set to be displayed in polylines legend
+              if (getSetting('_mapTitleDisplay') == 'in polylines legend') {
+                var title = '<h3>' + getSetting('_mapTitle') + '</h3>';
+                var subtitle = '<h6>' + getSetting('_mapSubtitle') + '</h6>';
+                $('#polylines-legend').prepend(title + subtitle);
+              }
+            }
+          }
+
+          if (p.length == index + 1) {
+            completePolylines = true;
           }
         };
       }(i));
@@ -1007,16 +941,6 @@ $(window).on('load', function() {
    */
   function getPolygonSetting(p, s) {
     return polygonSettings[p][constants[s]];
-  }
-
-  function setPolygonSetting(p, s, v) {
-    if (polygonSettings[p]) {
-      if (typeof constants[s] !== 'undefined') {
-        polygonSettings[p][constants[s]] = v;
-      } else {
-        polygonSettings[p][s] = v;
-      }
-    }
   }
 
   /**
