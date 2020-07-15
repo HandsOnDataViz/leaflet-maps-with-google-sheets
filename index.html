@@ -73,6 +73,13 @@
       zoomControl: false,
       scrollWheelZoom: false
     }).setView([41.76,-72.69], 11); // default center is overridden by Google Sheet options and points
+    
+    
+        L.tileLayer( 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+            subdomains: ['a','b','c']
+        }).addTo( map );
+    
   </script>
 
   <script type="text/javascript" src="google-doc-url.js"></script>
