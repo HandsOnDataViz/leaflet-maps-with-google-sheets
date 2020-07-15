@@ -6,11 +6,6 @@
 <head>
   <title>Loading the map...</title>
   
-              <link rel="stylesheet" type="text/css" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css" />
-
-              <script type='text/javascript' src='//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js'></script>
-              <script type='text/javascript' src='http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js'></script>
-
   <!-- jQuery-->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
@@ -76,11 +71,19 @@
     var map = L.map('map', {
       attributionControl: false,
       zoomControl: false,
-      scrollWheelZoom: false
+      scrollWheelZoom: true
     }).setView([41.76,-72.69], 11); // default center is overridden by Google Sheet options and points
     
-    
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png?{foo}', {foo: 'bar', attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>'}).addTo(map);
+          /* Carto light-gray basemap tiles with labels */
+          var light = L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>, &copy; <a href="https://carto.com/attribution">CARTO</a>'
+          }); // EDIT - insert or remove ".addTo(map)" before last semicolon to display by default
+          // controlLayers.addBaseLayer(light, 'Carto Light basemap');
+          /* Stamen colored terrain basemap tiles with labels */
+          var terrain = L.tileLayer('https://stamen-tiles.a.ssl.fastly.net/terrain/{z}/{x}/{y}.png', {
+            attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, under <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under <a href="http://www.openstreetmap.org/copyright">ODbL</a>.'
+          }).addTo(map); // EDIT - insert or remove ".addTo(map)" before last semicolon to display by default
+          // controlLayers.addBaseLayer(terrain, 'Stamen Terrain basemap');    
     
   </script>
 
