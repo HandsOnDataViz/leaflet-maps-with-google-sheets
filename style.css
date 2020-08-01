@@ -280,7 +280,8 @@ span.legend-icon {
 }
 
 .ladder h6.minimize ~ div,
-.ladder h6.minimize ~ form {
+.ladder h6.minimize ~ form,
+.ladder h6.minimize ~ section {
   display: none !important;
 }
 

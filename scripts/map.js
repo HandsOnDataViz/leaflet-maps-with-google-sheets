@@ -3,7 +3,6 @@ $(window).on('load', function() {
   var markerColors = [];
 
   var polygonSettings = [];
-  var polygonSheets = 1;
   var polygonsLegend;
 
   var completePoints = false;
@@ -405,7 +404,7 @@ $(window).on('load', function() {
     }
 
     // Generate polygon labels layers
-    for (i in allTextLabels) {
+    for (var i in allTextLabels) {
       var g = L.featureGroup(allTextLabels[i]);
       allTextLabelsLayers.push(g);
     }
@@ -459,7 +458,9 @@ $(window).on('load', function() {
     // If no scale exists: hide the legend. Ugly temporary fix.
     // Can't use 'hide' because it is later toggled
     if (allDivisors[p][z] == '') {
-      $('.polygons-legend' + p).find('.polygons-legend-scale').css({'margin': '0px', 'padding': '0px', 'border': '0px solid'});
+      $('.polygons-legend' + p).find('.polygons-legend-scale').css(
+        {'margin': '0px', 'padding': '0px', 'border': '0px solid'}
+      );
       return;
     }
 
@@ -469,11 +470,11 @@ $(window).on('load', function() {
     var from, to, isNum, color;
 
     for (var i = 0; i < allDivisors[p][z].length; i++) {
-      isNum = allIsNumerical[p][z];
-      from = allDivisors[p][z][i];
-      to = allDivisors[p][z][i+1];
+      var isNum = allIsNumerical[p][z];
+      var from = allDivisors[p][z][i];
+      var to = allDivisors[p][z][i+1];
 
-      color = getColor(from);
+      var color = getColor(from);
       from = from ? comma(from) : from;
       to = to ? comma(to) : to;
 
@@ -494,8 +495,6 @@ $(window).on('load', function() {
    */
   function polygonStyle(feature) {
     var value = feature.properties[allPolygonLayers[polygon][layer][0].trim()];
-
-    var style = {};
 
     if (feature.geometry.type == 'Point') {
       return {  // Point style
@@ -573,16 +572,17 @@ $(window).on('load', function() {
 
     layer.bindPopup(info);
 
+    
     // Add polygon label if needed
-    if (getPolygonSetting(polygon, '_polygonLabel') != '') {
+    if (!allTextLabels[polygon]) { allTextLabels.push([]) }
+
+    if (getPolygonSetting(polygon, '_polygonLabel') !== '') {
       var myTextLabel = L.marker(polylabel(layer.feature.geometry.coordinates, 1.0).reverse(), {
         icon: L.divIcon({
           className: 'polygon-label' + polygon + ' polygon-label',
           html: feature.properties[getPolygonSetting(polygon, '_polygonLabel')],
         })
       });
-
-      if (!allTextLabels[polygon]) {allTextLabels.push([]);}
       allTextLabels[polygon].push(myTextLabel);
     }
   }
@@ -600,28 +600,28 @@ $(window).on('load', function() {
   /**
    * Here all data processing from the spreadsheet happens
    */
-  function onMapDataLoad() {
-    var options = mapData.sheets(constants.optionsSheetName).elements;
-    createDocumentSettings(options);
+  function onMapDataLoad(options, points, polylines) {
 
+    //var options = mapData.sheets(constants.optionsSheetName).elements;
+    createDocumentSettings(options);
+/*
     createPolygonSettings(mapData.sheets(constants.polygonsSheetName).elements);
     i = 1;
     while (mapData.sheets(constants.polygonsSheetName + i)) {
       createPolygonSettings(mapData.sheets(constants.polygonsSheetName + i).elements);
       i++;
-      polygonSheets++;
     }
-
+*/
     document.title = getSetting('_mapTitle');
     addBaseMap();
 
     // Add point markers to the map
-    var points = mapData.sheets(constants.pointsSheetName);
+    //var points = mapData.sheets(constants.pointsSheetName);
     var layers;
     var group = '';
-    if (points && points.elements.length > 0) {
-      layers = determineLayers(points.elements);
-      group = mapPoints(points.elements, layers);
+    if (points && points.length > 0) {
+      layers = determineLayers(points);
+      group = mapPoints(points, layers);
     } else {
       completePoints = true;
     }
@@ -629,9 +629,8 @@ $(window).on('load', function() {
     centerAndZoomMap(group);
 
     // Add polylines
-    var polylines = mapData.sheets(constants.polylinesSheetName);
-    if (polylines && polylines.elements.length > 0) {
-      processPolylines(polylines.elements);
+    if (polylines && polylines.length > 0) {
+      processPolylines(polylines);
     } else {
       completePolylines = true;
     }
@@ -810,6 +809,7 @@ $(window).on('load', function() {
           line = L.polyline(latlng, {
             color: (p[index]['Color'] == '') ? 'grey' : p[index]['Color'],
             weight: trySetting('_polylinesWeight', 2),
+            pane: 'shadowPane'
           }).addTo(map);
 
           if (p[index]['Description'] && p[index]['Description'] != '') {
@@ -940,7 +940,10 @@ $(window).on('load', function() {
    * getSetting(s) is equivalent to documentSettings[constants.s]
    */
   function getPolygonSetting(p, s) {
-    return polygonSettings[p][constants[s]];
+    if (polygonSettings[p]) {
+      return polygonSettings[p][constants[s]];
+    }
+    return false;
   }
 
   /**
@@ -972,10 +975,71 @@ $(window).on('load', function() {
        error: function() {
          // Options.csv does not exist, so use Tabletop to fetch data from
          // the Google sheet
-         mapData = Tabletop.init({
-           key: googleDocURL,
-           callback: function(data, mapData) { onMapDataLoad(); }
-         });
+
+         if (typeof googleApiKey !== 'undefined' && googleApiKey) {
+
+          var parse = function(res) {
+            return Papa.parse(Papa.unparse(res[0].values), {header: true} ).data;
+          }
+
+          var apiUrl = 'https://sheets.googleapis.com/v4/spreadsheets/'
+          var spreadsheetId = googleDocURL.indexOf('/d/') > 0
+            ? googleDocURL.split('/d/')[1].split('/')[0]
+            : googleDocURL
+
+          $.getJSON(
+            apiUrl + spreadsheetId + '?key=' + googleApiKey
+          ).then(function(data) {
+              var sheets = data.sheets.map(function(o) { return o.properties.title })
+
+              if (sheets.length === 0 || !sheets.includes('Options')) {
+                'Could not load data from the Google Sheet'
+              }
+
+              // First, read 3 sheets: Options, Points, and Polylines
+              $.when(
+                $.getJSON(apiUrl + spreadsheetId + '/values/Options?key=' + googleApiKey),
+                $.getJSON(apiUrl + spreadsheetId + '/values/Points?key=' + googleApiKey),
+                $.getJSON(apiUrl + spreadsheetId + '/values/Polylines?key=' + googleApiKey)
+              ).done(function(options, points, polylines) {
+
+                // Which sheet names contain polygon data?
+                var polygonSheets = sheets.filter(function(name) { return name.indexOf('Polygons') === 0})
+
+                // Define a recursive function to fetch data from a polygon sheet
+                var fetchPolygonsSheet = function(polygonSheets) {
+
+                  // Load map once all polygon sheets have been loaded (if any)
+                  if (polygonSheets.length === 0) {
+                    onMapDataLoad(
+                      parse(options),
+                      parse(points),
+                      parse(polylines)
+                    )
+                  } else {
+                    
+                    // Fetch another polygons sheet
+                    $.getJSON(apiUrl + spreadsheetId + '/values/' + polygonSheets.shift() + '?key=' + googleApiKey, function(data) {
+                      createPolygonSettings( parse([data]) )
+                      fetchPolygonsSheet(polygonSheets)
+                    })
+
+                  }
+
+                }
+
+                // Start recursive function
+                fetchPolygonsSheet( polygonSheets )
+
+              })
+              
+            }
+          )
+
+         } else {
+          alert('You load data from a Google Sheet, you need to add a free Google API key')
+         }
+
        },
        success: function() {
          // Get all data from .csv files
@@ -1004,7 +1068,7 @@ $(window).on('load', function() {
    * {"webpageTitle": "Leaflet Boilerplate", "infoPopupText": "Stuff"}
    */
   function createPolygonSettings(settings) {
-    p = {};
+    var p = {};
     for (var i in settings) {
       var setting = settings[i];
       p[setting.Setting] = setting.Customize;

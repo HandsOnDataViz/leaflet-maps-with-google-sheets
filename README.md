@@ -13,7 +13,7 @@ Customize Leaflet maps with a linked Google Sheets template and GeoJSON data on 
 ## Credits (and licenses)
 Developed by [Ilya Ilyankou](https://github.com/ilyankou) and [Jack Dougherty](https://github.com/jackdougherty) with support from Trinity College CT, using a [Google Sheets](https://www.google.com/sheets/about/) template, with these open-source components:
 - Inspired by: Code for Atlanta mapsfor.us (2016) https://github.com/codeforatlanta/mapsforus (BSD-3-Clause)
-- Leaflet v1.0.3 https://leafletjs.com (BSD-2-Clause)
+- Leaflet v1.6.0 https://leafletjs.com (BSD-2-Clause)
 - jQuery v3.2.0 https://code.jquery.com (MIT)
 - leaflet-providers (v1.1.15, manually updated for Carto https) https://github.com/leaflet-extras/leaflet-providers (BSD-2-Clause)
 - leaflet-locatecontrol (v0.60.0) https://github.com/domoritz/leaflet-locatecontrol (MIT)
