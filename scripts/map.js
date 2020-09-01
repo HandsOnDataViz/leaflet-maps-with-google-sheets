@@ -81,7 +81,7 @@ $(window).on('load', function() {
     }
 
     // if none of the points have named layers or if there was only one name, return no layers
-    if (layerNamesFromSpreadsheet.length === 1) {
+    if (layerNamesFromSpreadsheet.length === 0) {
       layers = undefined;
     } else {
       for (var i in layerNamesFromSpreadsheet) {
@@ -106,8 +106,8 @@ $(window).on('load', function() {
       // otherwise create a Font Awesome icon
       var iconSize = point['Custom Size'];
       var size = (iconSize.indexOf('x') > 0)
-      ? [parseInt(iconSize.split('x')[0]), parseInt(iconSize.split('x')[1])]
-      : [32, 32];
+        ? [parseInt(iconSize.split('x')[0]), parseInt(iconSize.split('x')[1])]
+        : [32, 32];
 
       var anchor = [size[0] / 2, size[1]];
 
@@ -169,7 +169,6 @@ $(window).on('load', function() {
       });
 
       if (getSetting('_pointsLegendPos') !== 'off') {
-        //console.log(pointsLegend)
         pointsLegend.addTo(map);
         pointsLegend._container.id = 'points-legend';
         pointsLegend._container.className += ' ladder';
@@ -279,7 +278,7 @@ $(window).on('load', function() {
   allTextLabels = [];
 
   function loadAllGeojsons(p) {
-    if (p < polygonSettings.length && getPolygonSetting(p, '_polygonsGeojsonURL')) {
+    if (p < polygonSettings.length && getPolygonSetting(p, '_polygonsGeojsonURL').trim()) {
       // Pre-process popup properties to be used in onEachFeature below
       polygon = p;
       var popupProperties = getPolygonSetting(p, '_popupProp').split(';');
@@ -287,7 +286,7 @@ $(window).on('load', function() {
       allPopupProperties.push(popupProperties);
 
       // Load geojson
-      $.getJSON(getPolygonSetting(p, '_polygonsGeojsonURL'), function(data) {
+      $.getJSON(getPolygonSetting(p, '_polygonsGeojsonURL').trim(), function(data) {
           geoJsonLayer = L.geoJson(data, {
             onEachFeature: onEachFeature,
             pointToLayer: function(feature, latlng) {
@@ -307,7 +306,7 @@ $(window).on('load', function() {
   function processAllPolygons() {
     var p = 0;  // polygon sheet
 
-    while (p < polygonSettings.length && getPolygonSetting(p, '_polygonsGeojsonURL')) {
+    while (p < polygonSettings.length && getPolygonSetting(p, '_polygonsGeojsonURL').trim()) {
       isNumerical = [];
       divisors = [];
       colors = [];
@@ -636,7 +635,7 @@ $(window).on('load', function() {
     }
 
     // Add polygons
-    if (getPolygonSetting(0, '_polygonsGeojsonURL')) {
+    if (getPolygonSetting(0, '_polygonsGeojsonURL').trim()) {
       loadAllGeojsons(0);
     } else {
       completePolygons = true;
@@ -692,7 +691,7 @@ $(window).on('load', function() {
     changeAttribution();
 
     // Append icons to categories in markers legend
-    $('#points-legend form label span').each(function(i) {
+    $('#points-legend label span').each(function(i) {
       var legendIcon = (markerColors[i].indexOf('.') > 0)
         ? '<img src="' + markerColors[i] + '" class="markers-legend-icon">'
         : '&nbsp;<i class="fa fa-map-marker" style="color: '
@@ -970,10 +969,10 @@ $(window).on('load', function() {
    var mapData;
 
    $.ajax({
-       url:'csv/Options.csv',
+       url:'./Options.csv',
        type:'HEAD',
        error: function() {
-         // Options.csv does not exist, so use Tabletop to fetch data from
+         // Options.csv does not exist in the root level, so use Tabletop to fetch data from
          // the Google sheet
 
          if (typeof googleApiKey !== 'undefined' && googleApiKey) {
