@@ -731,7 +731,7 @@ $(window).on('load', function() {
           }
         });
 
-        $('.ladder h6').get(0).click();
+        $('.ladder h6').first().click();
 
         $('#map').css('visibility', 'visible');
         $('.loader').hide();
