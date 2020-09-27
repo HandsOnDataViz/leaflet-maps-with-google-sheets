@@ -27,9 +27,9 @@ Google Sheets changed its API from version 3 to version 4 in September 2020, whi
 
 Option A: Use your existing code and pull your data from CSV files rather than a linked Google Sheet.
 
-1. Go to your linked Google Sheet, download each sheet as a CSV file (with names such as Options.csv, Points.csv, etc.).
+1. Go to your linked Google Sheet, download each tab as a CSV file, and rename them in this format: Options.csv, Points.csv, etc.
 2. Log into the web interface of your GitHub map repo.
-3. Go to `add file > create a file` and type in `csv/` to create a subfolder by that name.
+3. Go to *add file > create a file* and type in `csv/` to create a subfolder by that name.
 4. Upload each CSV file you created into this new subfolder in GitHub. The code automatically searches for CSV files before searching for a linked Google Sheet, which means your Google Sheet is no longer needed. Note: Only create a csv subfolder for our pre-Sept 2020 code. Post-Sept 2020 code looks for csv files at the root or main level of your repo, not in a subfolder.
 
 OR
