@@ -1050,7 +1050,7 @@ $(window).on('load', function() {
       
           function loadPolygonCsv(n) {
       
-            $.get('../csv/Polygons' + (n === 0 ? '' : n) + '.csv', function(data) {
+            $.get('./csv/Polygons' + (n === 0 ? '' : n) + '.csv', function(data) {
               createPolygonSettings( parse([data]) )
               loadPolygonCsv(n+1)
             }).fail(function() { 
