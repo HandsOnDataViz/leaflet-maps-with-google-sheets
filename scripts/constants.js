@@ -23,7 +23,6 @@ var constants = {
   _initLon: 'Initial Center Longitude',
 	// Map Controls
 	_mapSearch: 'Search Button',
-  _mapSearchKey: 'Mapzen Search Key',
 	_mapSearchCircleRadius: 'Search Radius',
 	_mapSearchZoom: 'Search Results Zoom Level',
 	_mapZoom: 'Zoom Controls',
