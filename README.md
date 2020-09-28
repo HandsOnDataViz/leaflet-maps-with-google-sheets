@@ -23,21 +23,22 @@ To geocode (find latitude and longitude coordinates), we recommend installing th
 See Steps G or H in the tutorial https://handsondataviz.org/leaflet-maps-with-google-sheets.html
 
 #### Problem: The map I created here before September 2020 is not working
-Google Sheets changed its API from version 3 to version 4 in September 2020, which breaks prior versions of the map, so we made several updates to the code. To make your pre-Sept 2020 maps work again, here are two options, A and B:
+Google Sheets changed its API from version 3 to version 4 in September 2020, which breaks prior versions of the map, so we made several updates to the code. To make your pre-Sept 2020 maps work again, here are three options, A-B-C:
 
 Option A: Use your existing code and pull your data from CSV files rather than a linked Google Sheet.
 
-1. Go to your linked Google Sheet, download each tab as a CSV file, and rename them in this format: Options.csv, Points.csv, etc.
+1. Go to your linked Google Sheet, and for each tab, *File > Download* in CSV format, and rename them this way: Options.csv, Points.csv, etc.
 2. Log into the web interface of your GitHub map repo.
-3. Go to *add file > create a file* and type in `csv/` to create a subfolder by that name.
-4. Upload each CSV file you created into this new subfolder in GitHub. The code automatically searches for CSV files before searching for a linked Google Sheet, which means your Google Sheet is no longer needed. Note: Only create a csv subfolder for our pre-Sept 2020 code. Post-Sept 2020 code looks for csv files at the root or main level of your repo, not in a subfolder.
+3. Create a new subfolder named `csv` in your GitHub repo. Go to *Add file > Create a file* and type in `csv/`. The forward slash indicates it is a folder, not a file). 
+4. Upload each CSV file you created into this new `csv` subfolder in GitHub. The code automatically searches for CSV files before searching for a linked Google Sheet, which means your Google Sheet is no longer needed.
 
 OR
 
-Option B: Use our new code.
+Option B: Make a copy of our newer code by clicking the green 'Use template' button. Migrate any media or geodata content from your old repo to your new repo. Reconnect your Google Sheet to your new repo. 
 
-- Make a GitHub pull request to pull our new code into your repo, and relink it to your Google Sheet.
-- Or make a brand-new copy of our code template, and link it to your Google Sheet.
+OR
+
+Option C: Use GitHub Desktop to move copies of the newer code (index.html, scripts folder, etc.) into your repo via your local computer. 
 
 ## Credits (and licenses)
 Developed by [Ilya Ilyankou](https://github.com/ilyankou) and [Jack Dougherty](https://github.com/jackdougherty) with support from Trinity College CT, and inspired by Code for Atlanta mapsfor.us (2016) https://github.com/codeforatlanta/mapsforus (BSD-3-Clause)
