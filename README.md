@@ -29,19 +29,19 @@ Option A: Use your existing code and pull your data from CSV files rather than a
 
 1. Go to your linked Google Sheet, and for each tab, *File > Download* in CSV format, and rename them this way: Options.csv, Points.csv, etc.
 2. Log into the web interface of your GitHub map repo.
-3. Create a new subfolder named `csv` in your GitHub repo. Go to *Add file > Create a file* and type in `csv/`. The forward slash indicates it is a folder, not a file). 
+3. Create a new subfolder named `csv` in your GitHub repo. Go to *Add file > Create a file* and type in `csv/`. The forward slash indicates it is a folder, not a file.
 4. Upload each CSV file you created into this new `csv` subfolder in GitHub. The code automatically searches for CSV files before searching for a linked Google Sheet, which means your Google Sheet is no longer needed.
 
 OR
 
-Option B: Make a copy of our newer code by clicking the green 'Use template' button. Migrate any media or geodata content from your old repo to your new repo. Reconnect your Google Sheet to your new repo. 
+Option B: Make a copy of our newer code by clicking the green 'Use template' button. Migrate any media or geodata content from your old repo to your new repo. Reconnect your Google Sheet to your new repo.
 
 OR
 
-Option C: Use GitHub Desktop to move copies of the newer code (index.html, scripts folder, etc.) into your repo via your local computer. 
+Option C: Use GitHub Desktop to move copies of the newer code (index.html, scripts folder, etc.) into your repo via your local computer.
 
 ## Credits (and licenses)
-Developed by [Ilya Ilyankou](https://github.com/ilyankou) and [Jack Dougherty](https://github.com/jackdougherty) with support from Trinity College CT, and inspired by Code for Atlanta mapsfor.us (2016) https://github.com/codeforatlanta/mapsforus (BSD-3-Clause)
+Developed by [Ilya Ilyankou](https://github.com/ilyankou) and [Jack Dougherty](https://github.com/jackdougherty) with support from Trinity College CT. Inspired by Code for Atlanta mapsfor.us (2016) https://github.com/codeforatlanta/mapsforus (BSD-3-Clause)
 
 We use [Google Sheets API version 4](https://developers.google.com/sheets/api), with these open-source components:
 
