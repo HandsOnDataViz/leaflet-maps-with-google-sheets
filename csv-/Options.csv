@@ -1,0 +1,38 @@
+Setting,Customize,Hints,Examples
+Map Info,,"For help, see tutorial in HandsOnDataViz.org  -->",https://handsondataviz.org/leaflet-maps-with-google-sheets.html
+Map Title,Demo: Leaflet Maps with Google Sheets v. 1.1.2,Insert your map title. Always appears in browser tab,
+Map Subtitle,"higher ed, transportation, and density in Hartford area",Add context (or leave blank),
+Display Title,topleft,"Select position to display map title, or off",
+Author Name,HandsOnDataViz,"Appears in credits as ""View data by..."" (or leave blank)",
+Author Email or Website,HandsOnDataViz@gmail.com,Insert your email or web address to appear as link in Author Name (or leave blank),
+Author Code Credit,"<a href=""https://handsondataviz.org"">HandsOnDataViz</a>","Appears in credits as ""View code by..."" (or leave blank)",
+Author Code Repo,https://github.com/HandsOnDataViz/leaflet-maps-with-google-sheets,"Insert your code repo URL to appear as link in ""View code by..."" (or leave blank)",
+Map Settings,,"For help, see tutorial in HandsOnDataViz.org -->",https://handsondataviz.org/leaflet-maps-with-google-sheets.html
+Basemap Tiles,CartoDB.PositronNoLabels,Select basemap background from drop-down menu,https://leaflet-extras.github.io/leaflet-providers/preview/
+Cluster Markers,off,"Display tightly-packed groups of markers as numbers, until zoomed in to view details.",
+Intro Popup Text,,Show intro text pop-up on startup (or leave blank),
+Initial Zoom,,Leave blank to auto-zoom to display all markers (or insert number between 1 [zoomed out] and 18 [zoomed in]),
+Initial Center Latitude,,Leave blank to auto-center for all markers (or insert initial latitude),
+Initial Center Longitude,,Leave blank to auto-center for all markers (or insert initial longitude),
+Map Controls,,,
+Search Button,topright,Display the search box (magnifying glass),
+Mapzen Search Key,search-jBPBt5y,Mapzen Search box requires free API key. Please insert your own,https://mapzen.com/dashboard
+Search Radius,5 miles,Select radius for results from Mapzen search,
+Search Results Zoom Level,12,Select zoom level to display search results (larger = zoom in more),
+Show My Location,topright,Display the Show My Location button (black marker),
+Zoom Controls,topright,Display the Zoom Controls,
+Credits and Attribution,bottomright,Display the credits,
+Point Map Controls,,"For help, see tutorial in HandsOnDataViz.org -->",https://handsondataviz.org/leaflet-maps-with-google-sheets.html
+Point Legend Title,Sample points,Show title at top of Points legend (or leave blank),
+Point Legend Position,topleft,Display the Points legend,
+Point Legend Icon,fa-map-pin,Insert a Font Awesome icon (example: fa-map-pin) or leave blank,http://fontawesome.io/icons/
+Table Controls,,"For help, see tutorial in HandsOnDataViz.org -->",https://handsondataviz.org/leaflet-maps-with-google-sheets.html
+Display Table,off,Display Table of all Points shown in current map ,
+Table Height,40,Height of table (as percentage of map; 40 percent is default),
+Table Columns,"Name,Location,Description",Columns from Points sheet to display in Table (or leave blank),
+Table Header Color,,"Background color of table header (default is black). If desired, insert a comma and specify table text color (default is black).",
+Polyline Map Controls,,"For help, see tutorial in HandsOnDataViz.org -->",https://handsondataviz.org/leaflet-maps-with-google-sheets.html
+Polyline Legend Title,Sample polylines,Show title at top of Polyline legend (or leave blank),
+Polyline Legend Position,topleft,Display Polyline legend,
+Polyline Legend Icon,fa-bus,Insert a Font Awesome icon (example: fa-bus) or leave blank,http://fontawesome.io/icons/
+Polyline Thickness,2,Select thickness of all Polylines (in pixels),

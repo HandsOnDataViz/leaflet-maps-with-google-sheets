@@ -601,21 +601,12 @@ $(window).on('load', function() {
    */
   function onMapDataLoad(options, points, polylines) {
 
-    //var options = mapData.sheets(constants.optionsSheetName).elements;
     createDocumentSettings(options);
-/*
-    createPolygonSettings(mapData.sheets(constants.polygonsSheetName).elements);
-    i = 1;
-    while (mapData.sheets(constants.polygonsSheetName + i)) {
-      createPolygonSettings(mapData.sheets(constants.polygonsSheetName + i).elements);
-      i++;
-    }
-*/
+
     document.title = getSetting('_mapTitle');
     addBaseMap();
 
     // Add point markers to the map
-    //var points = mapData.sheets(constants.pointsSheetName);
     var layers;
     var group = '';
     if (points && points.length > 0) {
@@ -635,7 +626,8 @@ $(window).on('load', function() {
     }
 
     // Add polygons
-    if (getPolygonSetting(0, '_polygonsGeojsonURL').trim()) {
+    if (getPolygonSetting(0, '_polygonsGeojsonURL')
+      && getPolygonSetting(0, '_polygonsGeojsonURL').trim()) {
       loadAllGeojsons(0);
     } else {
       completePolygons = true;
@@ -969,7 +961,7 @@ $(window).on('load', function() {
    var mapData;
 
    $.ajax({
-       url:'./Options.csv',
+       url:'./csv/Options.csv',
        type:'HEAD',
        error: function() {
          // Options.csv does not exist in the root level, so use Tabletop to fetch data from
@@ -1040,14 +1032,38 @@ $(window).on('load', function() {
          }
 
        },
+
+       /*
+       Loading data from CSV files.
+       */
        success: function() {
-         // Get all data from .csv files
-         mapData = Procsv;
-         mapData.load({
-           self: mapData,
-           tabs: ['Options', 'Points', 'Polygons', 'Polylines'],
-           callback: onMapDataLoad
-         });
+
+        var parse = function(s) {
+          return Papa.parse(s[0], {header: true}).data
+        }
+      
+        $.when(
+          $.get('./csv/Options.csv'),
+          $.get('./csv/Points.csv'),
+          $.get('./csv/Polylines.csv')
+        ).done(function(options, points, polylines) {
+      
+          function loadPolygonCsv(n) {
+      
+            $.get('../csv/Polygons' + (n === 0 ? '' : n) + '.csv', function(data) {
+              createPolygonSettings( parse([data]) )
+              loadPolygonCsv(n+1)
+            }).fail(function() { 
+              // No more sheets to load, initialize the map  
+              onMapDataLoad( parse(options), parse(points), parse(polylines) )
+            })
+      
+          }
+      
+          loadPolygonCsv(0)
+      
+        })
+
        }
    });
 
