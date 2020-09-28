@@ -1,0 +1,19 @@
+Setting,Customize,Hints,Examples
+Polygon Map Controls,,"For help, see tutorial in HandsOnDataViz.org      --->",https://handsondataviz.org/leaflet-maps-with-google-sheets.html
+Polygon Legend Title,More sample polygons,Show title at top of Polygon legend (or leave blank),
+Polygon Legend Position,topleft,Display Polygon legend,
+Polygon Legend Icon,,Insert a Font Awesome icon (or leave blank),http://fontawesome.io/icons/
+Polygon GeoJSON URL,geometry/polygons-hartford-parks.geojson,"Polygon file pathname in your GitHub repo, or external web address (or blank if no polygon data)",
+Show Images When Available,off,"When a polygon is clicked, display ""img"" property in geoJSON, if available.",
+Show Polygon Labels,,Show a polygon property label at zoom levels listed below (or leave blank for none),
+Show Polygon Labels at Zoom Level,9,Polygon property label will appear at this zoom level and above,
+Show Polygon Data on Start,off,"Select 'on' to display polygon data on map startup, or 'off'",
+Polygon Data,,"For help, see tutorial in HandsOnDataViz.org      --->",https://handsondataviz.org/leaflet-maps-with-google-sheets.html
+"Polygon Properties, Labels","type, Park type","List each polygon Property-Label pair, separated by a comma, to appear in the colored map. The Property is the column header in the GeoJSON file, and the Label is the wording you wish to display in the legend (example: pop2010, Population 2010). To show multiple Property-Label pairs, separate them with a semicolon, but none at the end. ",
+Property Ranges,"park, playground, cemetery, monument, other","List the range of dividers (separated by commas) for each Property-Label pair above. Use numerical dividers (example: 0, 50, 100), which will appear in your legend with dashes (0-50, 50-100, 100+). Or use text dividers (example: low, medium, high) if these values appear in your polygon data. Use no more than 9 dividers per range. Insert one range for each Property-Label pair shown above. Separate multiple ranges with a semicolon, but none at the end.",
+"Property Popups, Labels","name, Name; type, Type","List each Property-Label pair to display as pop-up text when the polygon is clicked. Separate multiple pairs with a semicolon, but none at the end.",
+Color Settings,,"For help, see tutorial in HandsOnDataViz.org      --->",https://handsondataviz.org/leaflet-maps-with-google-sheets.html
+Property Range Color Palette,cb-Greens,Select a ColorBrewer palette to automatically color each Property Range listed above (and/or select colors manually below).,http://colorbrewer.org
+Property Range Manual Colors,"darkgreen, lightgreen, darkblue, lightblue, yellow","Leave blank to use the automatic Color Palette above, OR manually insert a color, followed by a comma, for each divider in each Range above. Use either color words (example: lightgray, lightblue, blue) or hex codes (example: #efedf5, #bcbddc, #756bb1). The number of colors must match the number of dividers in each range. Separate multiple ranges with a semicolon, but none at the end.",
+Polygon Color Opacity,,"Insert number between 0 (transparent) and 1 (opaque), or leave blank for default (0.7).",
+Polygon Outline Color,,"Insert a color word (example: black) or hex code, or leavel blank for default (white).",
