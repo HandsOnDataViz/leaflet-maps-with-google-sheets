@@ -738,6 +738,20 @@ $(window).on('load', function() {
         setTimeout(showMap, 50);
       }
     }
+
+    // Add Google Analytics if the ID exists
+    var ga = getSetting('_googleAnalytics');
+    console.log(ga)
+    if ( ga && ga.length >= 10 ) {
+      var gaScript = document.createElement('script');
+      gaScript.setAttribute('src','https://www.googletagmanager.com/gtag/js?id=' + ga);
+      document.head.appendChild(gaScript);
+  
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', ga);
+    }
   }
 
   /**

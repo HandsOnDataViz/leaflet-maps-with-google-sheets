@@ -14,6 +14,7 @@ var constants = {
 	_authorURL: 'Author Email or Website',
   _codeCredit: 'Author Code Credit',
 	_githubRepo: 'Author Code Repo',
+	_googleAnalytics: 'Google Analytics Tracking ID',
 	// Map Settings
 	_tileProvider: 'Basemap Tiles',
 	_markercluster: 'Cluster Markers',
