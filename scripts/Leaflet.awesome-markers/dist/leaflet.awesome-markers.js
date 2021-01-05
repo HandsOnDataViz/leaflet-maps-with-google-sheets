@@ -37,8 +37,7 @@
             var svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
             var path = document.createElementNS('http://www.w3.org/2000/svg', "path");
             var backgroundCircle = document.createElementNS('http://www.w3.org/2000/svg', "circle");
-            var icongroup = document.createElementNS('http://www.w3.org/2000/svg', "g");
-            var icon = document.createElementNS('http://www.w3.org/2000/svg', "text");
+
 
             svg.setAttribute('width', '31');
             svg.setAttribute('height', '42');
@@ -55,37 +54,38 @@
             path.setAttribute('stroke', 'white');
             path.setAttribute('style', 'fill:' + options.markerColor)
 
-            icon.textContent = options.icon;
-            icon.setAttribute('x', '7');
-            icon.setAttribute('y', '23');
-            icon.setAttribute('class', 'material-icons');
-            icon.setAttribute('fill', options.iconColor);
-            icon.setAttribute('font-family', 'Material Icons');
+            if (options.icon && options.icon.indexOf('fa-') === 0) {
+              var icongroup = document.createElementNS('http://www.w3.org/2000/svg', "foreignObject");
+              var icon = document.createElement('i');
 
-            svg.appendChild(path);
-            svg.appendChild(backgroundCircle);
-            icongroup.appendChild(icon);
-            svg.appendChild(icongroup);
+              icongroup.setAttribute('height', '42');
+              icongroup.setAttribute('width', '31');
+
+              icon.setAttribute('class', 'fas ' + options.icon);
+              icon.style.color = options.iconColor;
+
+              svg.appendChild(path);
+              svg.appendChild(backgroundCircle);
+              icongroup.appendChild(icon);
+              svg.appendChild(icongroup);
+              
+            } else {
+              var icongroup = document.createElementNS('http://www.w3.org/2000/svg', "g");
+              var icon = document.createElementNS('http://www.w3.org/2000/svg', "text");
+              icon.textContent = options.icon;
+              icon.setAttribute('x', '7');
+              icon.setAttribute('y', '23');
+              icon.setAttribute('class', 'material-icons');
+              icon.setAttribute('fill', options.iconColor);
+              icon.setAttribute('font-family', 'Material Icons');
+
+              svg.appendChild(path);
+              svg.appendChild(backgroundCircle);
+              icongroup.appendChild(icon);
+              svg.appendChild(icongroup);
+            }
 
             return svg;
-        },
-
-        _createInner: function() {
-            var iconClass, iconSpinClass = "", iconColorClass = "", iconColorStyle = "", options = this.options;
-
-            if (options.spin && typeof options.spinClass === "string") {
-                iconSpinClass = options.spinClass;
-            }
-
-            if (options.iconColor) {
-                if (options.iconColor === 'white' || options.iconColor === 'black') {
-                    iconColorClass = "icon-" + options.iconColor;
-                } else {
-                    iconColorStyle = "style='color: " + options.iconColor + "' ";
-                }
-            }
-            //return "<i " + iconColorStyle + "class='" + options.extraClasses + " " + options.prefix + " " + iconClass + " " + iconSpinClass + " " + iconColorClass + "'></i>"
-            return options.extraClasses + " " + iconClass + " " + iconSpinClass + " " + iconColorClass;
         },
 
         _setIconStyles: function (img, name) {

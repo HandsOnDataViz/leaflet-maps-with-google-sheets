@@ -177,7 +177,7 @@ $(window).on('load', function() {
 
     $('#points-legend').prepend('<h6 class="pointer">' + getSetting('_pointsLegendTitle') + '</h6>');
     if (getSetting('_pointsLegendIcon') != '') {
-      $('#points-legend h6').prepend('<span class="legend-icon"><i class="fa '
+      $('#points-legend h6').prepend('<span class="legend-icon"><i class="fas '
         + getSetting('_pointsLegendIcon') + '"></i></span>');
     }
 
@@ -686,7 +686,7 @@ $(window).on('load', function() {
     $('#points-legend label span').each(function(i) {
       var legendIcon = (markerColors[i].indexOf('.') > 0)
         ? '<img src="' + markerColors[i] + '" class="markers-legend-icon">'
-        : '&nbsp;<i class="fa fa-map-marker" style="color: '
+        : '&nbsp;<i class="fas fa-map-marker" style="color: '
           + markerColors[i]
           + '"></i>';
       $(this).prepend(legendIcon);
@@ -697,13 +697,13 @@ $(window).on('load', function() {
 
     function showMap() {
       if (completePoints && completePolylines && completePolygons) {
-        $('.ladder h6').append('<span class="legend-arrow"><i class="fa fa-chevron-down"></i></span>');
+        $('.ladder h6').append('<span class="legend-arrow"><i class="fas fa-chevron-down"></i></span>');
         $('.ladder h6').addClass('minimize');
 
         for (i in allPolygonLegends) {
           if (getPolygonSetting(i, '_polygonsLegendIcon') != '') {
             $('.polygons-legend' + i + ' h6').prepend(
-              '<span class="legend-icon"><i class="fa ' + getPolygonSetting(i, '_polygonsLegendIcon') + '"></i></span>');
+              '<span class="legend-icon"><i class="fas ' + getPolygonSetting(i, '_polygonsLegendIcon') + '"></i></span>');
           }
         }
 
@@ -834,7 +834,7 @@ $(window).on('load', function() {
             if (getSetting('_polylinesLegendTitle') != '') {
               $('#polylines-legend').prepend('<h6 class="pointer">' + getSetting('_polylinesLegendTitle') + '</h6>');
               if (getSetting('_polylinesLegendIcon') != '') {
-                $('#polylines-legend h6').prepend('<span class="legend-icon"><i class="fa '
+                $('#polylines-legend h6').prepend('<span class="legend-icon"><i class="fas '
                   + getSetting('_polylinesLegendIcon') + '"></i></span>');
               }
 
@@ -864,7 +864,7 @@ $(window).on('load', function() {
     // This is a pop-up for mobile device
     if (window.matchMedia("only screen and (max-width: 760px)").matches) {
       $('body').append('<div id="mobile-intro-popup"><p>' + info +
-        '</p><div id="mobile-intro-popup-close"><i class="fa fa-times"></i></div></div>');
+        '</p><div id="mobile-intro-popup-close"><i class="fas fa-times"></i></div></div>');
 
       $('#mobile-intro-popup-close').click(function() {
         $("#mobile-intro-popup").hide();
