@@ -1,6 +1,6 @@
 $(window).on('load', function() {
   var documentSettings = {};
-  var markerColors = [];
+  var group2color = {};
 
   var polygonSettings = [];
   var polygonsLegend;
@@ -66,28 +66,30 @@ $(window).on('load', function() {
    * column in the spreadsheet.
    */
   function determineLayers(points) {
-    var layerNamesFromSpreadsheet = [];
+    var groups = [];
     var layers = {};
+
     for (var i in points) {
-      var pointLayerNameFromSpreadsheet = points[i].Group;
-      if (layerNamesFromSpreadsheet.indexOf(pointLayerNameFromSpreadsheet) === -1) {
-        markerColors.push(
-          points[i]['Marker Icon'].indexOf('.') > 0
+      var group = points[i].Group;
+      if (group && groups.indexOf(group) === -1) {
+        // Add group to groups
+        groups.push(group);
+
+        // Add color to the crosswalk
+        group2color[ group ] = points[i]['Marker Icon'].indexOf('.') > 0
           ? points[i]['Marker Icon']
-          : points[i]['Marker Color']
-        );
-        layerNamesFromSpreadsheet.push(pointLayerNameFromSpreadsheet);
+          : points[i]['Marker Color'];
       }
     }
 
-    // if none of the points have named layers or if there was only one name, return no layers
-    if (layerNamesFromSpreadsheet.length === 0) {
+    // if none of the points have named layers, return no layers
+    if (groups.length === 0) {
       layers = undefined;
     } else {
-      for (var i in layerNamesFromSpreadsheet) {
-        var layerNameFromSpreadsheet = layerNamesFromSpreadsheet[i];
-        layers[layerNameFromSpreadsheet] = L.layerGroup();
-        layers[layerNameFromSpreadsheet].addTo(map);
+      for (var i in groups) {
+        var name = groups[i];
+        layers[name] = L.layerGroup();
+        layers[name].addTo(map);
       }
     }
     return layers;
@@ -684,10 +686,11 @@ $(window).on('load', function() {
 
     // Append icons to categories in markers legend
     $('#points-legend label span').each(function(i) {
-      var legendIcon = (markerColors[i].indexOf('.') > 0)
-        ? '<img src="' + markerColors[i] + '" class="markers-legend-icon">'
+      var g = $(this).text().trim();
+      var legendIcon = (group2color[ g ].indexOf('.') > 0)
+        ? '<img src="' + group2color[ g ] + '" class="markers-legend-icon">'
         : '&nbsp;<i class="fas fa-map-marker" style="color: '
-          + markerColors[i]
+          + group2color[ g ]
           + '"></i>';
       $(this).prepend(legendIcon);
     });
