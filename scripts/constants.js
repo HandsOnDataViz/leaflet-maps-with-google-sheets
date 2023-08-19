@@ -17,6 +17,7 @@ var constants = {
 	_googleAnalytics: 'Google Analytics Tracking ID',
 	// Map Settings
 	_tileProvider: 'Basemap Tiles',
+  _tileProviderApiKey: 'Basemap Tiles API Key',
 	_markercluster: 'Cluster Markers',
   _introPopupText: 'Intro Popup Text',
   _initZoom: 'Initial Zoom',
