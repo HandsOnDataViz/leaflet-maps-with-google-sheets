@@ -60,10 +60,11 @@ form {
 }
 
 .polygons-legend-scale i {
-  width: 18px;
-  height: 18px;
+  width: 16px;
+  height: 16px;
   float: left;
   margin-right: 8px;
+  border-bottom: 1px solid rgba(0,0,0,0);
 }
 
 .leaflet-popup-content {
