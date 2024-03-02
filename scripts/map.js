@@ -685,7 +685,7 @@ $(window).on('load', function() {
     changeAttribution();
 
     // Append icons to categories in markers legend
-    $('#points-legend label span').each(function(i) {
+    $('#points-legend input+span').each(function(i) { // add to <span> that follows <input>
       var g = $(this).text().trim();
       var legendIcon = (group2color[ g ].indexOf('.') > 0)
         ? '<img src="' + group2color[ g ] + '" class="markers-legend-icon">'
