@@ -783,6 +783,9 @@ $(window).on('load', function() {
    * Adds polylines to the map
    */
   function processPolylines(p) {
+
+    var lines = Array(p.length); // array to keep track of loaded geojson polylines
+
     if (!p || p.length == 0) return;
 
     var pos = (getSetting('_polylinesLegendPos') == 'off')
@@ -814,19 +817,18 @@ $(window).on('load', function() {
             }
           }
 
-          line = L.polyline(latlng, {
+          var line = L.polyline(latlng, {
             color: (p[index]['Color'] == '') ? 'grey' : p[index]['Color'],
             weight: trySetting('_polylinesWeight', 2),
             pane: 'shadowPane'
-          }).addTo(map);
+          })
+          
+          lines[index] = line;
+          line.addTo(map);
 
           if (p[index]['Description'] && p[index]['Description'] != '') {
             line.bindPopup(p[index]['Description']);
           }
-
-          polylinesLegend.addOverlay(line,
-            '<i class="color-line" style="background-color:' + p[index]['Color']
-            + '"></i> ' + p[index]['Display Name']);
 
           if (index == 0) {
             if (polylinesLegend._container) {
@@ -850,8 +852,15 @@ $(window).on('load', function() {
             }
           }
 
-          if (p.length == index + 1) {
+          if ( lines.filter(Boolean).length == p.length ) { // only if all polylines loaded
             completePolylines = true;
+
+            // Add polylines to the legend - we do this after all lines are loaded
+            for (let j = 0; j < p.length; j++) {
+              polylinesLegend.addOverlay(lines[j],
+                '<i class="color-line" style="background-color:' + p[j]['Color']
+                + '"></i> ' + p[j]['Display Name']);
+            }
           }
         };
       }(i));
