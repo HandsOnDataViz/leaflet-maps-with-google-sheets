@@ -22,6 +22,9 @@ To geocode (find latitude and longitude coordinates), we recommend installing th
 
 See Steps G or H in the tutorial https://handsondataviz.org/leaflet-maps-with-google-sheets.html
 
+## Update your code to address CARTO API KEY issues after September 2026
+If you used our code to create a map prior to September 2026, you may need to update your version to address a CARTO API KEY MISSING issue that prevents basemap tiles from displaying. See details in the [Get Your CARTO Basemaps API Key](https://handsondataviz.org/carto-basemaps-api-key.html) section of our book.
+
 ## Update your code for any pre-October 2020 maps before January 2021
 If you used our code to create a map prior to October 2020, you will need to update your version before January 26, 2021 for it to continue to work. Google announced that it will [migrate from Google Sheets API v3 to v4 in Jan 2021](https://developers.google.com/sheets/api/v3), and we updated our code to v1.2 on September 29th to address Google's changes.
 
@@ -36,7 +39,7 @@ Option A: Use your existing code and pull your data from CSV files rather than a
 5. In your Github repo, open the `google-doc-url.js` file, scroll to the bottom of the page, and delete it.
 Now the code automatically searches for data in your CSV folder, rather than your Google Sheet. If desired, you can continue to use the Google Sheet to edit your map content and upload those changes to the CSV folder each time, or edit the CSV files directly.
 
-OR 
+OR
 
 Option B: If you understand (or are willing to learn about) [GitHub Desktop](https://handsondataviz.org/github-desktop-atom.html), use it to move copies of the newer code (index.html, scripts folder, style.css, etc.) into your repo via your local computer. In the `google-doc-url.js` file, copy and paste the Google Sheets API key that appears in the lower half of our code, but keep your own Google Sheets ID that appears in the upper-half of your code.
 
@@ -62,7 +65,7 @@ We use [Google Sheets API version 4](https://developers.google.com/sheets/api), 
 - jQuery v3.5.1 https://code.jquery.com (MIT)
 - PapaParse v5.3.0 to parse CSV with JavaScript (MIT)
 - Font Awesome (v4.7) https://cdn.fontawesome.com (MIT, SIL OFL 1.1)
-- leaflet-providers (v1.10.2) https://github.com/leaflet-extras/leaflet-providers (BSD-2-Clause)
+- leaflet-providers (v4.0.0) https://github.com/leaflet-extras/leaflet-providers (BSD-2-Clause)
 - Leaflet.awesome-markers (v2.0.4), manually updated to svg to allow hex and material icons https://github.com/sigma-geosistemas/Leaflet.awesome-markers (MIT)
 - Leaflet.markercluster (v1.4.1) https://github.com/Leaflet/Leaflet.markercluster (MIT)
 - Leaflet.MarkerCluster.LayerSupport (v.2.0.1) https://github.com/ghybs/Leaflet.MarkerCluster.LayerSupport (MIT)
